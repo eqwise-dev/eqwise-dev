@@ -237,7 +237,7 @@ def run_agent():
 
     messages = []
 
-    print("=== Logo Design Agent ===")
+    print("=== EQwise Logo Design Agent ===")
     print("Describe the logo you want. Type quit or exit to stop.\n")
 
     while True:
