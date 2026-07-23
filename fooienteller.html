@@ -136,6 +136,17 @@
     font-size: 14.5px;
   }
 
+  .notice{
+    margin: -8px 0 22px;
+    padding: 10px 14px;
+    background: var(--surface-sunken);
+    border: 1px solid var(--warn);
+    border-left-width: 4px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
   .layout{
     display: grid;
     grid-template-columns: 340px 1fr;
@@ -167,7 +178,7 @@
     letter-spacing: 0.01em;
   }
 
-  form{ display: flex; flex-direction: column; gap: 13px; }
+  #tip-form{ display: flex; flex-direction: column; gap: 13px; }
   .field{ display: flex; flex-direction: column; gap: 5px; }
   .field label{
     font-size: 11.5px;
@@ -344,10 +355,16 @@
       <p class="tagline">Noteer elke fooi zodra hij binnenkomt en zie meteen het totaal per dag en per medewerker.</p>
     </header>
 
+    <p class="notice" id="storage-notice" hidden>
+      Deze preview kan geen gegevens bewaren in de browser. Alles wat je hier invoert blijft zichtbaar tot je de
+      pagina herlaadt — gebruik <strong>Exporteer JSON</strong> om je fooien te bewaren, of open dit bestand
+      rechtstreeks in je browser voor blijvende opslag.
+    </p>
+
     <main class="layout">
       <section class="panel panel--form" aria-labelledby="form-title">
         <h2 id="form-title">Nieuwe fooi</h2>
-        <form id="tip-form" novalidate>
+        <div id="tip-form">
           <div class="field">
             <label for="f-bedrag">Bedrag</label>
             <div class="amount-field">
@@ -374,8 +391,8 @@
             <label for="f-notitie">Notitie</label>
             <input type="text" id="f-notitie" name="notitie" placeholder="Optioneel">
           </div>
-          <button type="submit" class="btn btn--primary">Fooi noteren</button>
-        </form>
+          <button type="button" class="btn btn--primary" id="btn-add">Fooi noteren</button>
+        </div>
         <div class="io-actions">
           <button type="button" class="btn btn--ghost" id="btn-export">Exporteer JSON</button>
           <button type="button" class="btn btn--ghost" id="btn-import">Importeer JSON</button>
@@ -437,7 +454,20 @@
   var records = [];
   var toastTimer = null;
 
+  function storageAvailable(){
+    try{
+      var testKey = "__fooienteller_test__";
+      window.localStorage.setItem(testKey, "1");
+      window.localStorage.removeItem(testKey);
+      return true;
+    }catch(e){
+      return false;
+    }
+  }
+  var canPersist = storageAvailable();
+
   function loadRecords(){
+    if (!canPersist){ records = []; return; }
     try{
       var raw = window.localStorage.getItem(STORAGE_KEY);
       records = raw ? JSON.parse(raw) : [];
@@ -446,7 +476,12 @@
     }
   }
   function saveRecords(){
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+    if (!canPersist) return;
+    try{
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+    }catch(e){
+      canPersist = false;
+    }
   }
   function nextId(){
     return records.reduce(function(max, r){ return Math.max(max, r.id); }, 0) + 1;
@@ -470,7 +505,8 @@
     });
   }
 
-  var form = document.getElementById("tip-form");
+  var tipForm = document.getElementById("tip-form");
+  var btnAdd = document.getElementById("btn-add");
   var fBedrag = document.getElementById("f-bedrag");
   var fMedewerker = document.getElementById("f-medewerker");
   var fTafel = document.getElementById("f-tafel");
@@ -600,8 +636,7 @@
     toastTimer = setTimeout(function(){ toast.hidden = true; }, 5000);
   }
 
-  form.addEventListener("submit", function(e){
-    e.preventDefault();
+  function addTip(){
     var bedrag = parseFloat(fBedrag.value);
     if (!bedrag || bedrag <= 0){
       fBedrag.focus();
@@ -629,6 +664,14 @@
     fNotitie.value = "";
     fDatum.value = todayISO();
     fBedrag.focus();
+  }
+
+  btnAdd.addEventListener("click", addTip);
+  tipForm.addEventListener("keydown", function(e){
+    if (e.key === "Enter"){
+      e.preventDefault();
+      addTip();
+    }
   });
 
   ticketList.addEventListener("click", function(e){
@@ -670,15 +713,19 @@
   });
 
   btnExport.addEventListener("click", function(){
-    var blob = new Blob([JSON.stringify(records, null, 2)], { type: "application/json" });
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement("a");
-    a.href = url;
-    a.download = "fooien_data.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    try{
+      var blob = new Blob([JSON.stringify(records, null, 2)], { type: "application/json" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = "fooien_data.json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }catch(e){
+      showToast("Downloaden is hier niet toegestaan. Open fooienteller.html rechtstreeks in je browser om te exporteren.");
+    }
   });
 
   btnImport.addEventListener("click", function(){ importFile.click(); });
@@ -702,6 +749,9 @@
     reader.readAsText(file);
     importFile.value = "";
   });
+
+  var storageNotice = document.getElementById("storage-notice");
+  storageNotice.hidden = canPersist;
 
   loadRecords();
   updateMedewerkerLijst();
