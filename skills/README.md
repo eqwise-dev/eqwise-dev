@@ -28,3 +28,16 @@ De persoonlijke secretaresse van Martin. Bestanden:
 - Het bestaande tabblad Taken in de sheet "EQwise Secretariaat". Er is geen nieuw tabblad en geen
   wijziging in de Apps Script-verzendbrug nodig: besluiten zijn taken met `Besluit:` voor de tekst.
 - Filter in de sheet op de kolom Taak met `Besluit:` om het besluitenregister te zien.
+
+### Versienummers
+
+Skills krijgen vanaf nu een `version` in de frontmatter. `vera` staat op 1.1.0 en is voorlopig de
+enige; de overige skills in de omgeving dragen nog geen nummer. Derde cijfer bij een verduidelijking
+in de tekst, tweede bij nieuw gedrag, eerste bij een andere werkwijze.
+
+### Agentboom
+
+Vera houdt het overzicht op https://claude.ai/code/artifact/ba4925e2-2518-4439-9d6f-b50837188d98
+bij: agents en skills met hun versienummer, wie wat aanstuurt, en de status. Publiceren gaat altijd
+naar diezelfde URL. Gemeten gegevens van de geheugenwacht en wat Vera zelf toevoegt staan er met een
+eigen bronregel, zodat de herkomst per blok zichtbaar blijft.
