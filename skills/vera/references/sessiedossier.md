@@ -77,7 +77,7 @@ Regels bij het startblok:
 
 ## 3. Wegschrijven van een besluit
 
-Regel voor het tabblad Taken, via de verzendbrug uit deel 7 van de skill:
+Regel voor het tabblad Taken, via de verzendbrug uit deel 8 van de skill:
 
 ```bash
 curl -sL -X POST "$SECRETARIAAT_URL" \
@@ -111,3 +111,25 @@ curl -sL -X POST "$SECRETARIAAT_URL" \
 
 Ligt de brug eruit, dan lever je de rij als tab-gescheiden regel in de chat, zodat Martin hem zelf
 kan plakken. Een besluit blijft nooit onvastgelegd omdat de techniek hapert.
+
+## 4. Het verbruiklogboek
+
+Hoort bij werkproces E. Eén document in Drive, `EQwise/Secretariaat/Verbruik`, tenzij er een tabblad
+Verbruik in de sheet staat. Nieuwste meting bovenaan.
+
+```markdown
+# Verbruik Claude
+
+Abonnement: <naam of ONBEKEND>
+Vensters: sessievenster rolt vanaf het eerste bericht, weekvenster reset <dag en tijd, of ONBEKEND>
+
+| Tijd | Sessie | Week | Reset sessie | Reset week | Model | Wat liep er | Bron |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-09-12 09:10 | 18% | 64% | 13:40 | zo 03:00 | opus | dagstart | /usage |
+```
+
+In de kolom Bron staat waar het getal vandaan komt: `/usage`, `instellingen`, of `plak van Martin`.
+Een regel zonder bron schrijf je niet weg.
+
+Bij het advies noem je altijd het tijdstip van de meting, dus "week stond om 09:10 op 64 procent",
+nooit "de week zit op 64 procent" alsof het nu gemeten is.
