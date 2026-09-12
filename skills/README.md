@@ -31,9 +31,17 @@ De persoonlijke secretaresse van Martin. Bestanden:
 
 ### Versienummers
 
-Skills krijgen vanaf nu een `version` in de frontmatter. `vera` staat op 1.1.0 en is voorlopig de
-enige; de overige skills in de omgeving dragen nog geen nummer. Derde cijfer bij een verduidelijking
-in de tekst, tweede bij nieuw gedrag, eerste bij een andere werkwijze.
+Skills krijgen vanaf nu een versienummer, en dat hoort onder `metadata` in de frontmatter:
+
+```yaml
+metadata:
+  version: "1.2.0"
+```
+
+Een losse `version`-sleutel op het hoogste niveau wordt door de validatie geweigerd; toegestaan zijn
+alleen `name`, `description`, `license`, `allowed-tools`, `metadata` en `compatibility`. `vera` staat
+op 1.2.0 en is voorlopig de enige met een nummer. Derde cijfer bij een verduidelijking in de tekst,
+tweede bij nieuw gedrag, eerste bij een andere werkwijze.
 
 ### Agentboom
 
