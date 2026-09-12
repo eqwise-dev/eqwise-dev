@@ -43,7 +43,12 @@ Eén regel, één concrete handeling. Niet een doel, maar de eerste handeling.
 ```
 
 Bijwerken doe je op drie momenten: als er een besluit open komt te staan, als een deelstap af is, en
-als de sessie stopt. Wat afgerond is haal je uit Stand van zaken zodra het in de taken of in een
+als de sessie stopt.
+
+Let op bij het schrijven naar Drive: platte tekst wordt onderweg als markdown gelezen, waardoor een
+regel die met een streepje of een cijfer met punt begint terugkomt met een backslash ervoor. Begin
+een opsommingsregel daarom met een liggend streepje midden in de zin of met een woord, en zet geen
+lage streepjes of hekjes aan het begin van een regel. Wat afgerond is haal je uit Stand van zaken zodra het in de taken of in een
 verslag staat, zodat het dossier kort blijft.
 
 ## 2. Het startblok
