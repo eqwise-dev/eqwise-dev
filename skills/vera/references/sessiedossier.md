@@ -141,13 +141,19 @@ Sessies op Martins eigen machine dragen in het sessieoverzicht geen tokenwaarde,
 zelden volledig. In de kolom Overage staat `nee` of `ja`. Staat er `ja`, dan is dat de eerste regel
 van je melding, want dat is het moment waarop verbruik een rekening wordt.
 
-Een dagstaat ziet er zo uit, en langer wordt hij niet:
+Een dagstaat ziet er zo uit, en langer wordt hij niet. Eerst per leverancier, dan de zwaarste taken
+binnen de grootste:
 
 ```text
-Tokenwaarde vandaag: $12,40 over 3 van de 9 sessies, overage nee.
-Zwaarst: Divi 5 OmniHealth, $8,10. Weekvenster stond om 09:10 op 64 procent.
+Anthropic, abonnement: tokenwaarde $12,40 over 3 van de 9 sessies, overage nee.
+  Divi 5 OmniHealth $8,10 | eqwise-blocks i18n $3,20 | ONBEKEND $1,10
+Ideogram, per gebruik: kosten ONBEKEND, niet afleesbaar vanuit dit kanaal.
+Weekvenster stond om 09:10 op 64 procent.
 Loopt door uit gisteren: eqwise-blocks i18n, $21,30 over twee dagen samen.
 ```
+
+De regel met `ONBEKEND` laat je staan en je verdeelt hem niet over de andere taken. Dat gat is de
+informatie: het zegt hoeveel er niet toe te wijzen viel.
 
 Bij het advies noem je altijd het tijdstip van de meting, dus "week stond om 09:10 op 64 procent",
 nooit "de week zit op 64 procent" alsof het nu gemeten is.
