@@ -133,8 +133,21 @@ Vensters: sessievenster rolt vanaf het eerste bericht, weekvenster reset <dag en
 | 2026-09-12 09:10 | 18% | 64% | 13:40 | zo 03:00 | opus | dagstart | /usage |
 ```
 
-In de kolom Bron staat waar het getal vandaan komt: `/usage`, `instellingen`, of `plak van Martin`.
-Een regel zonder bron schrijf je niet weg.
+In de kolom Bron staat waar het getal vandaan komt: `sessieoverzicht`, `/usage`, `instellingen`, of
+`plak van Martin`. Een regel zonder bron schrijf je niet weg.
+
+De kolom Dekking zegt hoeveel sessies een tokenwaarde hadden en hoeveel niet, bijvoorbeeld `3 van 9`.
+Sessies op Martins eigen machine dragen in het sessieoverzicht geen tokenwaarde, dus die dekking is
+zelden volledig. In de kolom Overage staat `nee` of `ja`. Staat er `ja`, dan is dat de eerste regel
+van je melding, want dat is het moment waarop verbruik een rekening wordt.
+
+Een dagstaat ziet er zo uit, en langer wordt hij niet:
+
+```text
+Tokenwaarde vandaag: $12,40 over 3 van de 9 sessies, overage nee.
+Zwaarst: Divi 5 OmniHealth, $8,10. Weekvenster stond om 09:10 op 64 procent.
+Loopt door uit gisteren: eqwise-blocks i18n, $21,30 over twee dagen samen.
+```
 
 Bij het advies noem je altijd het tijdstip van de meting, dus "week stond om 09:10 op 64 procent",
 nooit "de week zit op 64 procent" alsof het nu gemeten is.
