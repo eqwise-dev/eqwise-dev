@@ -1,0 +1,5 @@
+qwen_local/.venv/
+qwen_local/sample_*.aiff
+qwen_local/sample_*.wav
+__pycache__/
+.env
