@@ -105,6 +105,58 @@ else
   fi
 fi
 
+# ── Laag 2b: mappen en documenten ───────────────────────────────────────────
+kop "Laag 2b — Mappen en documenten"
+
+# Is de huidige map te breed om een sessie in te starten?
+HUIDIG=$(pwd -P)
+HOMEP=$(cd "$HOME" 2>/dev/null && pwd -P) || HOMEP="$HOME"
+te_breed=0
+for m in "$HOMEP" "$HOMEP/Documents" "$HOMEP/Desktop" "$HOMEP/Downloads" \
+         "$HOMEP/Library" "$HOMEP/Pictures" "/" "/Volumes" "/Users"; do
+  [[ "$HUIDIG" == "$m" ]] && te_breed=1
+done
+if [[ "$te_breed" -eq 1 ]]; then
+  bad "Je staat nu in ${HUIDIG} — te breed als werkmap voor een sessie."
+  info "Start Claude Code vanuit een projectmap. Zie security/claude-veilig-starten.sh."
+else
+  ok "Huidige map is geen te brede werkmap."
+fi
+
+if [[ -f "$SETTINGS" ]]; then
+  # Per gevoelige map: staat er een deny-regel voor in het gebruikersbestand?
+  while IFS='|' read -r patroon naam; do
+    if grep -qF "$patroon" "$SETTINGS"; then
+      ok "${naam} is afgeschermd."
+    else
+      bad "${naam} is leesbaar zodra een sessie daar in de buurt start."
+    fi
+  done <<'MAPPEN'
+Read(~/Documents/|~/Documents
+Read(~/Desktop/|~/Desktop
+Read(~/Downloads/|~/Downloads
+Read(~/Library/Mobile Documents/|iCloud Drive
+Read(~/Pictures/|~/Pictures
+Read(~/Library/Containers/|App-gegevens (Notities, WhatsApp)
+Read(//Volumes/|Gekoppelde volumes en back-ups
+MAPPEN
+
+  # Mappen die permanent zijn toegevoegd, tellen als open.
+  n_extra=$(jget "$SETTINGS" permissions.additionalDirectories || echo 0)
+  if [[ "${n_extra:-0}" -gt 0 ]]; then
+    warn "${n_extra} map(pen) staan permanent open via additionalDirectories."
+  else
+    ok "Geen permanent toegevoegde mappen."
+  fi
+
+  # Is /cd aan een allowlist gebonden?
+  if grep -q '"Cd(' "$SETTINGS"; then
+    ok "/cd is aan regels gebonden."
+  else
+    info "/cd kan de sessie naar elke map verplaatsen (zie mappen-en-documenten.md, regel 5)."
+  fi
+fi
+
 # ── Laag 3: sandbox ─────────────────────────────────────────────────────────
 kop "Laag 3 — Sandbox"
 

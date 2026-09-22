@@ -124,6 +124,11 @@ Hiermee weigeren Claude's bestandstools élk pad buiten je werkmap en je
 meer bijhouden: alles buiten het project is dicht tenzij je de map expliciet
 toevoegt met `/add-dir`.
 
+Welke mappen dat in de praktijk zijn, welke je daarnaast expliciet dichtzet
+(Documents, Desktop, Downloads, iCloud, gekoppelde schijven) en hoe je voorkomt
+dat je per ongeluk in je thuismap start: zie
+[`mappen-en-documenten.md`](./mappen-en-documenten.md).
+
 ### 2.4 Sluit de ontsnappingsluiken
 
 ```json
@@ -259,11 +264,14 @@ In deze volgorde, want elke stap staat los van de volgende:
 
 1. Volledige schijftoegang van je terminal/editor afhalen. *(5 min, laag 1)*
 2. `security/claude-settings-user.json` naar `~/.claude/settings.json`. *(5 min, laag 2)*
-3. `/sandbox` aanzetten, een dag werken, domeinen goedkeuren die je echt nodig hebt. *(10 min + gewenning, laag 3)*
-4. Je MCP-lijst doorlopen en weghalen wat je niet gebruikt. *(10 min, laag 5)*
-5. `security/check-llm-toegang.sh` draaien en de uitkomst bewaren als nulmeting.
+3. Nooit meer een sessie starten in je thuismap: `security/claude-veilig-starten.sh` in je `~/.zshrc`. *(2 min, zie mappenbeleid)*
+4. `/sandbox` aanzetten, een dag werken, domeinen goedkeuren die je echt nodig hebt. *(10 min + gewenning, laag 3)*
+5. Je MCP-lijst doorlopen en weghalen wat je niet gebruikt. *(10 min, laag 5)*
+6. `security/check-llm-toegang.sh` draaien en de uitkomst bewaren als nulmeting.
 
-Daarna, als je meer wilt: apart macOS-account (1.2) en `strictAllowlist` (3.1).
+Daarna, als je meer wilt: je klantprojecten samenbrengen onder één `~/Werk`-boom
+en `/cd` daaraan binden (zie het mappenbeleid), een apart macOS-account (1.2) en
+`strictAllowlist` (3.1).
 
 ---
 
