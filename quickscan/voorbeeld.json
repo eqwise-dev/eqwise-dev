@@ -1,0 +1,154 @@
+{
+  "rapport": {
+    "soort": "EAA-quickscan digitale toegankelijkheid",
+    "datum": "11 oktober 2026",
+    "norm": "WCAG 2.2, niveau A en AA (EN 301 549)",
+    "kenmerk": "QS-2026-001"
+  },
+  "klant": {
+    "naam": "Voorbeeldshop B.V.",
+    "contactpersoon": "mevrouw J. Jansen",
+    "website": "https://www.voorbeeldshop.example",
+    "website_kort": "voorbeeldshop.example",
+    "sector": "Webwinkel",
+    "platform": "WooCommerce"
+  },
+  "eaa": {
+    "valt_onder": "ja",
+    "toelichting": "Voorbeeldshop verkoopt online aan consumenten en heeft meer dan 10 medewerkers. De webwinkel valt daarmee onder de EAA en moet voldoen aan WCAG 2.1 AA, zoals vastgelegd in EN 301 549."
+  },
+  "oordeel": {
+    "niveau": "rood",
+    "kop": "Afrekenen is voor een deel van uw klanten niet mogelijk",
+    "samenvatting": "De website ziet er verzorgd uit, maar bezoekers die alleen een toetsenbord of een schermlezer gebruiken, lopen vast in de cookiemelding en in het afrekenformulier. Daardoor kunnen zij geen bestelling plaatsen. De meeste problemen zitten in een paar sjablonen en zijn goed op te lossen."
+  },
+  "scope": {
+    "paginas": [
+      { "naam": "Homepage", "url": "https://www.voorbeeldshop.example/" },
+      { "naam": "Categoriepagina", "url": "https://www.voorbeeldshop.example/schoenen/" },
+      { "naam": "Productpagina", "url": "https://www.voorbeeldshop.example/schoenen/wandelschoen-x/" },
+      { "naam": "Winkelwagen", "url": "https://www.voorbeeldshop.example/winkelwagen/" },
+      { "naam": "Afrekenen", "url": "https://www.voorbeeldshop.example/afrekenen/" }
+    ],
+    "flow": "Een product zoeken, in de winkelwagen leggen en afrekenen tot aan de betaalpagina.",
+    "methoden": [
+      "geautomatiseerde toetsing met axe-core",
+      "AI-ondersteunde analyse van broncode en schermafbeeldingen",
+      "handmatige controle met alleen het toetsenbord",
+      "handmatige controle met de schermlezer NVDA in Firefox",
+      "controle op 200% zoom en een schermbreedte van 320 pixels"
+    ],
+    "niet_onderzocht": [
+      "de externe betaalomgeving",
+      "pdf-documenten",
+      "het klantaccount na inloggen"
+    ]
+  },
+  "bevindingen": [
+    {
+      "titel": "Cookiemelding is niet met het toetsenbord te sluiten",
+      "ernst": "hoog",
+      "wcag": [
+        { "nummer": "2.1.1", "naam": "Toetsenbord", "niveau": "A" },
+        { "nummer": "2.1.2", "naam": "Geen toetsenbordval", "niveau": "A" }
+      ],
+      "wie": "Mensen die geen muis kunnen gebruiken, onder wie veel schermlezergebruikers en mensen met een motorische beperking.",
+      "waar": "Alle pagina's, bij het eerste bezoek.",
+      "wat_we_zagen": "De knoppen 'Accepteren' en 'Weigeren' zijn opgemaakte div-elementen en krijgen geen toetsenbordfocus. Met de Tab-toets kom je niet in de melding en de rest van de pagina blijft geblokkeerd.",
+      "oplossing": "Gebruik echte button-elementen, zet de focus bij openen in de melding en geef de focus na sluiten terug aan de pagina. Veel cookieplugins hebben hiervoor een toegankelijke instelling.",
+      "inspanning": "klein",
+      "seo_geo": "Een melding die de inhoud afdekt, kan ook crawlers en AI-assistenten hinderen bij het lezen van de pagina."
+    },
+    {
+      "titel": "Velden in het afrekenformulier hebben geen label",
+      "ernst": "hoog",
+      "wcag": [
+        { "nummer": "1.3.1", "naam": "Info en relaties", "niveau": "A" },
+        { "nummer": "3.3.2", "naam": "Labels of instructies", "niveau": "A" }
+      ],
+      "wie": "Schermlezergebruikers, mensen met een cognitieve beperking en oudere bezoekers.",
+      "waar": "Afrekenpagina: adres-, e-mail- en telefoonvelden.",
+      "wat_we_zagen": "De velden hebben alleen een grijze voorbeeldtekst die verdwijnt zodra je typt. Een schermlezer leest 'invoerveld, bewerkbaar' zonder te zeggen wat er moet worden ingevuld.",
+      "oplossing": "Geef elk veld een zichtbaar, gekoppeld label en markeer verplichte velden in tekst.",
+      "inspanning": "klein",
+      "seo_geo": null
+    },
+    {
+      "titel": "Foutmeldingen worden niet voorgelezen",
+      "ernst": "middel",
+      "wcag": [
+        { "nummer": "3.3.1", "naam": "Foutidentificatie", "niveau": "A" },
+        { "nummer": "4.1.3", "naam": "Statusberichten", "niveau": "AA" }
+      ],
+      "wie": "Schermlezergebruikers en mensen die rood niet goed kunnen onderscheiden.",
+      "waar": "Afrekenpagina, na verzenden met een fout.",
+      "wat_we_zagen": "Een fout wordt alleen getoond met een rode rand om het veld. Er is geen tekst die zegt wat er mis is, en de schermlezer meldt niets.",
+      "oplossing": "Toon een foutmelding in tekst bij het veld, koppel die aan het veld en verplaats de focus naar het eerste foute veld.",
+      "inspanning": "middel",
+      "seo_geo": null
+    },
+    {
+      "titel": "Productafbeeldingen hebben geen tekstalternatief",
+      "ernst": "middel",
+      "wcag": [
+        { "nummer": "1.1.1", "naam": "Niet-tekstuele content", "niveau": "A" }
+      ],
+      "wie": "Blinde en slechtziende bezoekers die een schermlezer gebruiken.",
+      "waar": "Categorie- en productpagina's.",
+      "wat_we_zagen": "Op de productpagina hebben 9 van de 11 afbeeldingen geen alt-tekst. De schermlezer leest de bestandsnaam voor, zoals 'IMG_4821.jpg'.",
+      "oplossing": "Voeg beschrijvende alt-teksten toe aan productfoto's en geef decoratieve afbeeldingen een lege alt-tekst. Dit kan deels automatisch vanuit de productgegevens.",
+      "inspanning": "middel",
+      "seo_geo": "Alt-teksten helpen Google Afbeeldingen en AI-assistenten om uw producten te begrijpen en te tonen."
+    },
+    {
+      "titel": "Te weinig contrast op knoppen en prijzen",
+      "ernst": "laag",
+      "wcag": [
+        { "nummer": "1.4.3", "naam": "Contrast (minimum)", "niveau": "AA" }
+      ],
+      "wie": "Slechtziende bezoekers, ouderen en iedereen die buiten op een telefoon kijkt.",
+      "waar": "Knop 'In winkelwagen' en de afgeprijsde prijs.",
+      "wat_we_zagen": "Witte tekst op lichtoranje heeft een contrast van 2,4 op 1. De norm is minimaal 4,5 op 1.",
+      "oplossing": "Maak de knopkleur donkerder of kies donkere tekst. Dit is één aanpassing in het thema.",
+      "inspanning": "klein",
+      "seo_geo": null
+    }
+  ],
+  "principes": [
+    { "naam": "Waarneembaar", "status": "oranje", "toelichting": "Ontbrekende alt-teksten en te weinig contrast op enkele elementen." },
+    { "naam": "Bedienbaar", "status": "rood", "toelichting": "De cookiemelding blokkeert toetsenbordgebruikers volledig." },
+    { "naam": "Begrijpelijk", "status": "oranje", "toelichting": "Formuliervelden zonder label en onduidelijke foutmeldingen." },
+    { "naam": "Robuust", "status": "groen", "toelichting": "Geen grote problemen gevonden in de geteste pagina's." }
+  ],
+  "handmatige_checks": [
+    { "check": "Volledige taak uitvoeren met alleen het toetsenbord", "resultaat": "voldoet niet", "opmerking": "Vast in de cookiemelding." },
+    { "check": "Focus is altijd zichtbaar", "resultaat": "deels", "opmerking": "Zichtbaar op links, niet op knoppen in het menu." },
+    { "check": "Skiplink naar de hoofdinhoud", "resultaat": "voldoet", "opmerking": "Aanwezig en werkend." },
+    { "check": "Logische koppenstructuur met schermlezer", "resultaat": "deels", "opmerking": "Productpagina heeft twee h1-koppen." },
+    { "check": "Formulier invullen met schermlezer", "resultaat": "voldoet niet", "opmerking": "Velden worden zonder naam voorgelezen." },
+    { "check": "Inzoomen tot 200% en smal scherm (320 px)", "resultaat": "voldoet", "opmerking": "Inhoud blijft leesbaar zonder horizontaal scrollen." }
+  ],
+  "seo_geo": {
+    "tekst": "Toegankelijkheid en vindbaarheid gaan grotendeels over hetzelfde: een website die machines goed kunnen lezen. Wat een schermlezer helpt, helpt ook Google en AI-assistenten zoals ChatGPT en Gemini.",
+    "punten": [
+      "Een heldere koppenstructuur maakt duidelijk waar een pagina over gaat.",
+      "Alt-teksten maken productfoto's vindbaar in Google Afbeeldingen.",
+      "Beschrijvende linkteksten geven zoekmachines context over de pagina waarnaar wordt gelinkt.",
+      "Een toegankelijk afrekenproces betekent minder afgebroken bestellingen en dus meer omzet."
+    ]
+  },
+  "vervolg": [
+    { "titel": "Bespreking van de quickscan", "omschrijving": "In 30 minuten lopen we de bevindingen door en kijken we wat de snelste winst oplevert.", "prijs": "Gratis" },
+    { "titel": "Volledige analyse", "omschrijving": "Alle sjablonen van de website getoetst aan alle WCAG 2.2 AA-criteria, met een herstelplan en kostenraming per onderdeel.", "prijs": "Vaste prijs na intake" },
+    { "titel": "Herstel", "omschrijving": "EQwise lost de drempels op, of begeleidt uw eigen ontwikkelaars, en verbetert tegelijk de SEO en GEO van de website.", "prijs": "Vaste prijs per fase" },
+    { "titel": "Officiële toetsing en keurmerk", "omschrijving": "Een erkend onderzoeksbureau voert een WCAG-EM-onderzoek uit. Daarna begeleiden we de aanvraag van het keurmerk van Digitall Inclusive en stellen we de toegankelijkheidsverklaring op.", "prijs": "Op offertebasis" },
+    { "titel": "Toegankelijk blijven", "omschrijving": "Maandelijkse controle en een korte training voor uw webredactie, zodat nieuwe pagina's ook toegankelijk zijn.", "prijs": "Maandabonnement" }
+  ],
+  "afzender": {
+    "naam": "Martin de Smit",
+    "functie": "eigenaar EQwise",
+    "email": "[e-mailadres]",
+    "telefoon": "[telefoonnummer]",
+    "website": "eqwise.nl"
+  }
+}

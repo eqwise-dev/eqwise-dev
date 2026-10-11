@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EAA-quickscan {{ klant.naam }} | EQwise</title>
+<meta name="author" content="{{ afzender.naam }}, EQwise">
+<meta name="description" content="Quickscan digitale toegankelijkheid van {{ klant.website }}, {{ rapport.datum }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blauw: #3B3DFF;        /* EQwise primair, 6,4:1 op wit */
+    --navy: #16214A;
+    --tekst: #111114;
+    --tekst-zacht: #4D5664;  /* 7,4:1 op wit */
+    --lijn: #D9DCE3;
+    --vlak: #F4F5FA;
+    --rood: #B42318;   --rood-vlak: #FEF3F2;
+    --oranje: #B54708; --oranje-vlak: #FFFAEB;
+    --groen: #067647;  --groen-vlak: #ECFDF3;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    margin: 0; background: #E9EBF1; color: var(--tekst);
+    font: 10.5pt/1.55 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  h1, h2, h3 { font-family: Poppins, Helvetica, Arial, sans-serif; color: var(--navy); line-height: 1.25; margin: 0 0 .5em; }
+  h1 { font-size: 26pt; font-weight: 700; }
+  h2 { font-size: 16pt; font-weight: 600; margin-top: 0; }
+  h3 { font-size: 12pt; font-weight: 600; }
+  p { margin: 0 0 .8em; }
+  a { color: var(--blauw); }
+  ul { margin: 0 0 .8em; padding-left: 1.2em; }
+  li { margin-bottom: .25em; }
+
+  .pagina {
+    width: 210mm; min-height: 297mm; margin: 12mm auto; padding: 20mm 18mm;
+    background: #fff; box-shadow: 0 2px 12px rgba(22,33,74,.12);
+  }
+
+  /* Voorblad */
+  .voorblad { display: flex; flex-direction: column; padding: 0; }
+  .voorblad-band { background: var(--navy); color: #fff; padding: 22mm 18mm 16mm; }
+  .voorblad-band h1 { color: #fff; margin-bottom: .2em; }
+  .voorblad-band .label { font: 600 9pt Poppins, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: #C9CBFF; margin-bottom: 10mm; }
+  .voorblad-band .sub { font-size: 13pt; color: #E3E5F2; margin: 0; }
+  .voorblad-body { padding: 14mm 18mm 18mm; flex: 1; display: flex; flex-direction: column; }
+  .meta { display: grid; grid-template-columns: 38mm 1fr; gap: 2.5mm 6mm; margin: 0 0 12mm; }
+  .meta dt { color: var(--tekst-zacht); }
+  .meta dd { margin: 0; font-weight: 500; }
+  .voorblad-noot { margin-top: auto; padding: 5mm 6mm; background: var(--vlak); border-left: 3px solid var(--blauw); font-size: 9.5pt; color: var(--tekst-zacht); }
+  .voorblad-noot p:last-child { margin: 0; }
+  .noot-kop { font-size: 10.5pt; margin-bottom: .4em; }
+  .merk { font: 700 15pt Poppins, sans-serif; color: var(--blauw); margin-bottom: 8mm; }
+
+  /* Oordeel */
+  .oordeel { display: grid; grid-template-columns: 34mm 1fr; gap: 6mm; padding: 6mm; border-radius: 8px; margin-bottom: 8mm; }
+  .oordeel .badge { display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 6px; padding: 4mm 2mm; text-align: center; font: 600 10pt Poppins, sans-serif; }
+  .oordeel .badge .icoon { font-size: 20pt; line-height: 1; margin-bottom: 1.5mm; }
+  .oordeel h3 { margin-bottom: .3em; }
+  .niveau-rood   { background: var(--rood-vlak); }   .niveau-rood .badge   { background: var(--rood);   color: #fff; }
+  .niveau-oranje { background: var(--oranje-vlak); } .niveau-oranje .badge { background: var(--oranje); color: #fff; }
+  .niveau-groen  { background: var(--groen-vlak); }  .niveau-groen .badge  { background: var(--groen);  color: #fff; }
+
+  .kerncijfers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4mm; margin: 0 0 8mm; padding: 0; list-style: none; }
+  .kerncijfers li { border: 1px solid var(--lijn); border-radius: 6px; padding: 4mm; margin: 0; }
+  .kerncijfers .getal { display: block; font: 600 20pt Poppins, sans-serif; color: var(--navy); line-height: 1.1; }
+  .kerncijfers .wat { font-size: 9pt; color: var(--tekst-zacht); }
+
+  .eaa { padding: 5mm 6mm; border: 1px solid var(--lijn); border-radius: 6px; }
+  .eaa strong { color: var(--navy); }
+
+  /* Tabellen */
+  table { width: 100%; border-collapse: collapse; margin: 0 0 6mm; font-size: 9.5pt; }
+  caption { text-align: left; font: 600 10.5pt Poppins, sans-serif; color: var(--navy); margin-bottom: 2mm; }
+  th, td { text-align: left; vertical-align: top; padding: 2.4mm 3mm; border-bottom: 1px solid var(--lijn); }
+  thead th { background: var(--vlak); font-weight: 600; color: var(--navy); }
+
+  /* Status-labels: altijd tekst + symbool, nooit alleen kleur */
+  .status { display: inline-block; white-space: nowrap; font-weight: 600; font-size: 9pt; padding: .3mm 2.2mm; border-radius: 99px; }
+  .status-rood, .ernst-hoog, .res-voldoet-niet { color: var(--rood); background: var(--rood-vlak); }
+  .status-oranje, .ernst-middel, .res-deels { color: var(--oranje); background: var(--oranje-vlak); }
+  .status-groen, .ernst-laag, .res-voldoet { color: var(--groen); background: var(--groen-vlak); }
+
+  /* Bevindingen */
+  .bevinding { border: 1px solid var(--lijn); border-radius: 8px; padding: 5mm 6mm; margin-bottom: 5mm; break-inside: avoid; }
+  .bevinding-kop { display: flex; justify-content: space-between; align-items: baseline; gap: 4mm; margin-bottom: 2mm; }
+  .bevinding-kop h3 { margin: 0; }
+  .nummer { color: var(--blauw); margin-right: 1.5mm; }
+  .wcag { font-size: 9pt; color: var(--tekst-zacht); margin-bottom: 3mm; }
+  .velden { display: grid; grid-template-columns: 30mm 1fr; gap: 1.6mm 5mm; margin: 0; }
+  .velden dt { font-weight: 600; color: var(--navy); }
+  .velden dd { margin: 0; }
+  .seo { margin-top: 3mm; padding: 2.5mm 4mm; background: #EEF0FF; border-radius: 6px; font-size: 9.5pt; }
+  .seo strong { color: var(--blauw); }
+
+  /* Vervolg */
+  .stappen { list-style: none; padding: 0; margin: 0 0 5mm; counter-reset: stap; }
+  .stappen li { position: relative; padding: 3mm 5mm 3mm 17mm; border: 1px solid var(--lijn); border-radius: 8px; margin-bottom: 2.5mm; break-inside: avoid; }
+  .stappen li::before { counter-increment: stap; content: counter(stap); position: absolute; left: 5mm; top: 3mm; width: 8mm; height: 8mm; border-radius: 50%; background: var(--blauw); color: #fff; font: 600 10pt/8mm Poppins, sans-serif; text-align: center; }
+  .stappen h3 { margin-bottom: .1em; }
+  .stappen p { margin-bottom: .2em; }
+  .stappen .prijs { font-weight: 600; color: var(--navy); margin: 0; }
+  .cta { background: var(--navy); color: #fff; border-radius: 8px; padding: 5mm 7mm; }
+  .cta h2 { color: #fff; }
+  .cta a { color: #fff; }
+  .cta p:last-child { margin: 0; }
+
+  .scope-kop { margin-top: 8mm; }
+  .scope-lijst { font-size: 9.5pt; }
+  .klein { font-size: 9pt; color: var(--tekst-zacht); }
+
+  @page {
+    size: A4; margin: 16mm 0 14mm;
+    @bottom-left  { content: "EQwise · EAA-quickscan {{ klant.naam }}"; font: 8pt Inter, sans-serif; color: #4D5664; padding-left: 18mm; }
+    @bottom-right { content: "Pagina " counter(page) " van " counter(pages); font: 8pt Inter, sans-serif; color: #4D5664; padding-right: 18mm; }
+  }
+  @page :first { margin: 0; @bottom-left { content: none; } @bottom-right { content: none; } }
+  @media print {
+    body { background: #fff; }
+    .pagina { width: auto; min-height: 0; margin: 0; padding: 0 18mm; box-shadow: none; break-after: page; }
+    .pagina:last-child { break-after: auto; }
+    .voorblad { height: 297mm; padding: 0; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+<!-- ============ VOORBLAD ============ -->
+<section class="pagina voorblad" aria-labelledby="titel">
+  <div class="voorblad-band">
+    <p class="label">{{ rapport.soort }}</p>
+    <h1 id="titel">Toegankelijkheid van {{ klant.website_kort }}</h1>
+    <p class="sub">Hoe toegankelijk is de website voor mensen met een beperking, en wat betekent de European Accessibility Act voor {{ klant.naam }}?</p>
+  </div>
+  <div class="voorblad-body">
+    <p class="merk">EQwise</p>
+    <dl class="meta">
+      <dt>Opgesteld voor</dt><dd>{{ klant.naam }}{% if klant.contactpersoon %}, t.a.v. {{ klant.contactpersoon }}{% endif %}</dd>
+      <dt>Website</dt><dd>{{ klant.website }}</dd>
+      <dt>Datum scan</dt><dd>{{ rapport.datum }}</dd>
+      <dt>Norm</dt><dd>{{ rapport.norm }}</dd>
+      <dt>Opgesteld door</dt><dd>{{ afzender.naam }}, {{ afzender.functie }}</dd>
+      <dt>Kenmerk</dt><dd>{{ rapport.kenmerk }}</dd>
+    </dl>
+    <div class="voorblad-noot">
+      <h2 class="noot-kop">Over deze quickscan</h2>
+      <p>Deze quickscan is een steekproef van {{ scope.paginas | length }} pagina's, uitgevoerd met geautomatiseerde tests, AI-ondersteunde analyse en handmatige controles met toetsenbord en schermlezer. Geautomatiseerde tests vinden maar een deel van alle toegankelijkheidsproblemen; deze scan geeft daarom een indicatie en geen volledig beeld.</p>
+      <p>Een volledig onderzoek volgens WCAG-EM, dat nodig is voor een keurmerk en een onderbouwde toegankelijkheidsverklaring, wordt uitgevoerd door een erkend onderzoeksbureau. Dit rapport is geen juridisch advies.</p>
+      {% if scope.niet_onderzocht %}<p>Niet onderzocht: {{ scope.niet_onderzocht | join("; ") }}.</p>{% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ SAMENVATTING ============ -->
+<section class="pagina" aria-labelledby="samenvatting">
+  <h2 id="samenvatting">1. Samenvatting</h2>
+
+  {% set icoon = {"rood": "✕", "oranje": "!", "groen": "✓"} %}
+  {% set niveau_tekst = {"rood": "Veel drempels", "oranje": "Enkele drempels", "groen": "Goed op weg"} %}
+  <div class="oordeel niveau-{{ oordeel.niveau }}">
+    <div class="badge"><span class="icoon" aria-hidden="true">{{ icoon[oordeel.niveau] }}</span>{{ niveau_tekst[oordeel.niveau] }}</div>
+    <div>
+      <h3>{{ oordeel.kop }}</h3>
+      <p>{{ oordeel.samenvatting }}</p>
+    </div>
+  </div>
+
+  <ul class="kerncijfers" aria-label="Kerncijfers">
+    <li><span class="getal">{{ scope.paginas | length }}</span><span class="wat">pagina's onderzocht</span></li>
+    <li><span class="getal">{{ bevindingen | selectattr("ernst", "equalto", "hoog") | list | length }}</span><span class="wat">drempels met hoge ernst</span></li>
+    <li><span class="getal">{{ bevindingen | length }}</span><span class="wat">belangrijkste drempels beschreven</span></li>
+    <li><span class="getal">{{ handmatige_checks | selectattr("resultaat", "equalto", "voldoet niet") | list | length }}/{{ handmatige_checks | length }}</span><span class="wat">handmatige controles niet gehaald</span></li>
+  </ul>
+
+  {% set eaa_tekst = {"ja": "Ja, de EAA is van toepassing", "waarschijnlijk": "Waarschijnlijk van toepassing", "nee": "Waarschijnlijk niet van toepassing", "onbekend": "Nog niet vast te stellen"} %}
+  <div class="eaa">
+    <h3>Valt {{ klant.naam }} onder de European Accessibility Act?</h3>
+    <p><strong>{{ eaa_tekst[eaa.valt_onder] }}.</strong> {{ eaa.toelichting }}</p>
+    <p class="klein">De EAA geldt sinds 28 juni 2025 voor onder meer webshops, bank- en betaaldiensten, vervoersdiensten, e-books en telecom. Micro-ondernemingen (minder dan 10 medewerkers en maximaal € 2 miljoen omzet) zijn voor diensten vrijgesteld. Dit is geen juridisch advies.</p>
+  </div>
+
+  <h3 class="scope-kop">Wat we hebben onderzocht</h3>
+  <ul class="scope-lijst">
+  {% for p in scope.paginas %}<li>{{ p.naam }}: {{ p.url }}</li>{% endfor %}
+  </ul>
+  {% if scope.flow %}<p><strong>Getoetste taak:</strong> {{ scope.flow }}</p>{% endif %}
+  <p><strong>Methode:</strong> {{ scope.methoden | join("; ") }}.</p>
+</section>
+
+<!-- ============ BEVINDINGEN ============ -->
+<section class="pagina" aria-labelledby="bevindingen">
+  <h2 id="bevindingen">2. De belangrijkste drempels</h2>
+  <p>Hieronder staan de drempels die bezoekers met een beperking het meest hinderen, gesorteerd op ernst. Bij elke drempel staat wie er last van heeft, wat de oplossing is en wat het oplevert voor uw vindbaarheid.</p>
+
+  {% set inspanning_tekst = {"klein": "Klein (uren)", "middel": "Middel (dagen)", "groot": "Groot (weken)"} %}
+  {% for b in bevindingen %}
+  <article class="bevinding" aria-labelledby="b{{ loop.index }}">
+    <div class="bevinding-kop">
+      <h3 id="b{{ loop.index }}"><span class="nummer">{{ loop.index }}.</span>{{ b.titel }}</h3>
+      <span class="status ernst-{{ b.ernst }}">Ernst: {{ b.ernst }}</span>
+    </div>
+    <p class="wcag">WCAG {% for c in b.wcag %}{{ c.nummer }} {{ c.naam }} (niveau {{ c.niveau }}){% if not loop.last %} · {% endif %}{% endfor %}</p>
+    <dl class="velden">
+      <dt>Wie merkt het</dt><dd>{{ b.wie }}</dd>
+      <dt>Waar</dt><dd>{{ b.waar }}</dd>
+      <dt>Wat we zagen</dt><dd>{{ b.wat_we_zagen }}</dd>
+      <dt>Oplossing</dt><dd>{{ b.oplossing }}</dd>
+      <dt>Inspanning</dt><dd>{{ inspanning_tekst[b.inspanning] }}</dd>
+    </dl>
+    {% if b.seo_geo %}<p class="seo"><strong>Effect op vindbaarheid:</strong> {{ b.seo_geo }}</p>{% endif %}
+  </article>
+  {% endfor %}
+</section>
+
+<!-- ============ OVERZICHT ============ -->
+<section class="pagina" aria-labelledby="overzicht">
+  <h2 id="overzicht">3. Overzicht per onderdeel</h2>
+  <p>WCAG is opgebouwd uit vier principes. Zo scoort de website per principe in deze steekproef.</p>
+  {% set status_tekst = {"rood": "✕ Onvoldoende", "oranje": "! Aandacht nodig", "groen": "✓ In orde"} %}
+  <table>
+    <caption>Beoordeling per WCAG-principe</caption>
+    <thead><tr><th scope="col">Principe</th><th scope="col">Status</th><th scope="col">Toelichting</th></tr></thead>
+    <tbody>
+    {% for p in principes %}
+      <tr><th scope="row">{{ p.naam }}</th><td><span class="status status-{{ p.status }}">{{ status_tekst[p.status] }}</span></td><td>{{ p.toelichting }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  {% set res_tekst = {"voldoet": "✓ Voldoet", "deels": "! Deels", "voldoet niet": "✕ Voldoet niet"} %}
+  <table>
+    <caption>Handmatige controles (door een mens uitgevoerd)</caption>
+    <thead><tr><th scope="col">Controle</th><th scope="col">Resultaat</th><th scope="col">Opmerking</th></tr></thead>
+    <tbody>
+    {% for c in handmatige_checks %}
+      <tr><th scope="row">{{ c.check }}</th><td><span class="status res-{{ c.resultaat | replace(' ', '-') }}">{{ res_tekst[c.resultaat] }}</span></td><td>{{ c.opmerking }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+
+  <h2 id="kans">4. Toegankelijk én beter vindbaar</h2>
+  <p>{{ seo_geo.tekst }}</p>
+  <ul>{% for punt in seo_geo.punten %}<li>{{ punt }}</li>{% endfor %}</ul>
+</section>
+
+<!-- ============ KANS + VERVOLG ============ -->
+<section class="pagina" aria-labelledby="vervolg">
+  <h2 id="vervolg">5. Volgende stappen</h2>
+  <p>Zo brengen we de website stap voor stap naar WCAG 2.2 AA, en houden we dat zo.</p>
+  <ol class="stappen">
+  {% for s in vervolg %}
+    <li><h3>{{ s.titel }}</h3><p>{{ s.omschrijving }}</p>{% if s.prijs %}<p class="prijs">{{ s.prijs }}</p>{% endif %}</li>
+  {% endfor %}
+  </ol>
+
+  <div class="cta">
+    <h2>Bespreek de uitkomst in 30 minuten</h2>
+    <p>Ik loop de bevindingen graag met u door, inclusief een korte demonstratie met een schermlezer. Vrijblijvend.</p>
+    <p>{{ afzender.naam }} · <a href="mailto:{{ afzender.email }}">{{ afzender.email }}</a> · {{ afzender.telefoon }} · <a href="https://{{ afzender.website }}">{{ afzender.website }}</a></p>
+  </div>
+
+</section>
+
+</main>
+</body>
+</html>
