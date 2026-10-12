@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Footer mobiel voorstel</title>
+<style>
+:root{
+  --eq-inkt:#111114;--eq-tekst:#3F4654;--eq-mut:#4D5664;--eq-blauw:#3B3DFF;--eq-diep:#2848A0;
+  --eq-vlak:#F3F6FC;--eq-lijn:#E3E8F2;--eq-wit:#fff;--eq-kant:24px;
+  --eq-r4:4px;--eq-r8:8px;--eq-r12:12px;--eq-r16:16px;--eq-r24:24px;--eq-r32:32px;--eq-r48:48px;--eq-sectie:56px;
+  --kop:"Poppins",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#dfe3ec;font-family:var(--body);color:var(--eq-tekst);display:flex;gap:40px;padding:32px;align-items:flex-start}
+.kader{width:375px;background:#fff;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+.label{font:600 13px/1 var(--kop);letter-spacing:.04em;color:#444;margin:0 0 12px}
+/* ---------- voorstel ---------- */
+.voet{background:var(--eq-vlak);border-top:1px solid var(--eq-lijn);padding:var(--eq-sectie) var(--eq-kant) var(--eq-r24)}
+.merk{font:700 34px/1 var(--kop);color:var(--eq-inkt);letter-spacing:.01em;margin:0}
+.merk span{color:var(--eq-blauw)}
+.over{margin:var(--eq-r12) 0 0;font-size:15px;line-height:1.65;max-width:34ch}
+.knop{display:inline-flex;align-items:center;height:48px;padding:0 24px;border-radius:10px;background:var(--eq-blauw);color:#fff;font:600 16px/1 var(--body);text-decoration:none;margin-top:var(--eq-r24)}
+/* contact: altijd zichtbaar, het belangrijkste blok op telefoon */
+.contact{margin-top:var(--eq-r32);padding-top:var(--eq-r24);border-top:1px solid var(--eq-lijn);display:grid;gap:var(--eq-r4)}
+.kop{font:600 15px/1.2 var(--kop);color:var(--eq-inkt);margin:0 0 var(--eq-r8)}
+.contact p{margin:0;font-size:15px;line-height:1.6}
+.contact > a{display:flex;align-items:center;min-height:44px;color:var(--eq-inkt);font-weight:500;text-decoration:none;font-size:15px}
+.contact > a::before{content:"";width:20px;height:20px;margin-right:12px;background:var(--eq-blauw);-webkit-mask:var(--i) center/contain no-repeat;mask:var(--i) center/contain no-repeat}
+.tel{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2'%3E%3Cpath d='M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z'/%3E%3C/svg%3E")}
+.mail{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2'%3E%3Crect x='2' y='4' width='20' height='16' rx='2'/%3E%3Cpath d='m22 7-10 6L2 7'/%3E%3C/svg%3E")}
+.social{display:flex;gap:var(--eq-r8);margin:var(--eq-r16) 0 0;padding:0;list-style:none}
+.social a{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid var(--eq-lijn);border-radius:10px;background:#fff;color:var(--eq-tekst);font:600 15px/1 var(--body);text-decoration:none}
+/* linkgroepen: allebei dicht, gelijk gewicht */
+.groepen{margin-top:var(--eq-r32)}
+details{border-top:1px solid var(--eq-lijn)}
+details:last-child{border-bottom:1px solid var(--eq-lijn)}
+summary{display:flex;justify-content:space-between;align-items:center;min-height:56px;list-style:none;cursor:pointer}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";width:9px;height:9px;border-right:2px solid var(--eq-blauw);border-bottom:2px solid var(--eq-blauw);rotate:45deg;translate:0 -3px}
+details[open] summary::after{rotate:-135deg;translate:0 2px}
+summary .kop{margin:0}
+details ul{list-style:none;margin:0 0 var(--eq-r16);padding:0}
+details li a{display:flex;align-items:center;min-height:44px;font-size:15px;color:var(--eq-tekst);text-decoration:none}
+/* slot: links in twee kolommen, links uitgelijnd, zoals de rest van de kolom */
+.slot{margin-top:var(--eq-r16);display:flex;flex-wrap:wrap;column-gap:var(--eq-r24)}
+.slot a{white-space:nowrap;display:flex;align-items:center;min-height:44px;font-size:14px;color:var(--eq-diep);text-decoration:none}
+.slot .rij{flex-basis:100%;display:flex;justify-content:space-between;align-items:center;margin-top:var(--eq-r12);padding-top:var(--eq-r16);border-top:1px solid var(--eq-lijn);font-size:14px;color:var(--eq-mut)}
+.taal{display:inline-flex;align-items:center;gap:8px;min-height:44px;color:var(--eq-inkt);text-decoration:none;font-weight:500}
+.taal i{display:block;width:20px;height:14px;border-radius:2px;background:linear-gradient(#012169 0 0) , #012169;position:relative;overflow:hidden}
+.taal i::before,.taal i::after{content:"";position:absolute;background:#fff}
+.taal i::before{left:0;right:0;top:5px;height:4px;box-shadow:0 0 0 1px #C8102E inset}
+.taal i::after{top:0;bottom:0;left:8px;width:4px}
+</style></head><body>
+<div><p class="label">VOORSTEL · MOBIEL 375</p>
+<div class="kader"><footer class="voet">
+  <p class="merk">EQ<span>W</span>ISE</p>
+  <p class="over">SEO, GEO en snelle WordPress-sites voor het MKB. Geef je websiteadres en beantwoord tien korte vragen: op werkdagen binnen 48 uur heb je een concept-marketingplan.</p>
+  <a class="knop" href="#">10 vragen, 1 plan</a>
+
+  <div class="contact">
+    <p class="kop">Contact</p>
+    <p>Laan van Kronenburg 14<br>1183 AS Amstelveen</p>
+    <a class="tel" href="#">+31 20 893 20 84</a>
+    <a class="mail" href="#">Stuur een bericht</a>
+    <ul class="social"><li><a href="#">in</a></li><li><a href="#">wa</a></li><li><a href="#">X</a></li><li><a href="#">G</a></li></ul>
+  </div>
+
+  <div class="groepen">
+    <details><summary><span class="kop">Diensten</span></summary><ul><li><a href="#">Website laten maken</a></li></ul></details>
+    <details><summary><span class="kop">Onderwerpen</span></summary><ul><li><a href="#">SEO en GEO-audit</a></li></ul></details>
+  </div>
+
+  <nav class="slot">
+    <a href="#">Privacyverklaring</a><a href="#">Cookiebeleid</a>
+    <a href="#">Algemene voorwaarden</a><a href="#">Sitemap</a>
+    <a href="#">Digitale toegankelijkheid</a>
+    <div class="rij"><span>© EQwise 2026 · KvK 34191949</span><a class="taal" href="#"><i></i>EN</a></div>
+  </nav>
+</footer></div></div>
+</body></html>
