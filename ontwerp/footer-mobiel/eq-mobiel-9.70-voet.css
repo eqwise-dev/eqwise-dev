@@ -1,0 +1,160 @@
+
+/* ==========================================================================
+   9.70  DE VOET OP TELEFOON GELIJK MET DESKTOP  (art director, 12 okt 2026,
+         akkoord Martin)
+   --------------------------------------------------------------------------
+   Op telefoon zat Contact dichtgeklapt onderaan, terwijl het op desktop in
+   beeld staat; Diensten stond open en de andere twee dicht. In het
+   voettemplate staat de contactkolom nu als eerste kolom met een kop. Het
+   script in eq-interactie.js zet op telefoon alleen de eerste uitklapper
+   open, en dat is daardoor Contact. `order` zet de contactkolom daarna
+   weer als laatste: op desktop als vierde kolom, op telefoon onderaan
+   onder Diensten en Onderwerpen (wens Martin, 12 okt 2026), wel open.
+   Verder: de knop compact zoals op desktop, de juridische links links
+   uitgelijnd in de merkkleur, copyright en taalkeuze samen op de slotregel.
+   Alleen kindselectors: LiteSpeed schrijft `.a .b` terug naar `.b`.
+   ========================================================================== */
+
+/* De taalkeuze in de slotregel: vlag plus de naam van de taal. De naam komt
+   uit het aria-label van het blok, dus hij volgt de taal van de pagina
+   (English op NL, Nederlands op EN) zonder vertaalbare tekst in de CSS. */
+.eq-voet-slot.eq-voet-slot > .eqw-lang > .eqw-lang-link::after {
+	content: attr(aria-label);
+}
+
+/* De automatische taalwisselaar van WPML onder de voet is een tweede
+   exemplaar: de header en nu ook de slotregel hebben er een. Uitzetten in
+   WPML, Talen, Taalwisselaar in de footer; tot dan houdt deze regel hem uit
+   beeld. */
+.wpml-ls-statics-footer.wpml-ls-statics-footer {
+	display: none;
+}
+
+.eq-voet-kolommen.eq-voet-kolommen > .eq-voet-contactkolom {
+	order: 1;
+}
+
+@media (max-width: 767px) {
+
+	/* ---- de knop: compact, zoals op desktop ------------------------------ */
+	.eq-voet-kolommen.eq-voet-kolommen > * > .eq-knoppen.eq-knoppen,
+	.eq-voet-kolommen.eq-voet-kolommen > * > .eq-knoppen.eq-knoppen > .wp-block-button,
+	.eq-voet-kolommen.eq-voet-kolommen > * > .eq-knoppen.eq-knoppen > .wp-block-button > .wp-block-button__link {
+		width: auto;
+		justify-content: flex-start;
+	}
+
+	.eq-voet-kolommen.eq-voet-kolommen > * > .eq-knoppen.eq-knoppen > .wp-block-button > .wp-block-button__link {
+		justify-content: center;
+	}
+
+	.eq-voet-kolommen.eq-voet-kolommen > * > .eq-knoppen.eq-knoppen.eq-knoppen {
+		margin-block-start: var(--eq-r24);
+	}
+
+	/* ---- de kolommen als stapel, zodat `order` werkt ---------------------- */
+	.eq-voet-kolommen.eq-voet-kolommen {
+		display: flex;
+		flex-direction: column;
+		/* de grid-tussenruimte van de basis telt in een flexstapel ook mee */
+		gap: 0;
+	}
+
+	/* De eerste linkgroep onder het merkblok (Diensten, derde kind) krijgt
+	   lucht, zodat de social-iconen niet tegen de lijn staan. */
+	.eq-voet-kolommen.eq-voet-kolommen > :nth-child(3) {
+		margin-top: var(--eq-r32);
+	}
+
+	/* ---- contact: onderaan, altijd open, geen uitklapper ------------------ */
+
+	.eq-voet-contactkolom.eq-voet-contactkolom > .eq-voet-uitklap > summary {
+		pointer-events: none;
+		cursor: default;
+	}
+
+	.eq-voet-contactkolom.eq-voet-contactkolom > .eq-voet-uitklap > summary::after {
+		content: none;
+	}
+
+	/* Vangnet: ook als de uitklapper toch dicht staat (toetsenbord), blijft
+	   de inhoud zichtbaar in browsers die ::details-content kennen. */
+	.eq-voet-contactkolom.eq-voet-contactkolom > .eq-voet-uitklap::details-content {
+		content-visibility: visible;
+	}
+
+	/* Telefoon en bericht als tikregels met een icoon ervoor. */
+	.eq-voet-contact.eq-voet-contact > :is(.eq-tel, .eq-mail) > .wp-block-button > .wp-block-button__link {
+		gap: var(--eq-r12);
+		color: var(--eq-voet-kop);
+		font-weight: 500;
+	}
+
+	.eq-voet-contact.eq-voet-contact > :is(.eq-tel, .eq-mail) > .wp-block-button > .wp-block-button__link::before {
+		content: "";
+		flex: none;
+		inline-size: 20px;
+		block-size: 20px;
+		background-color: var(--eq-voet-merk);
+		-webkit-mask: var(--eq-voet-icoon) center / contain no-repeat;
+		mask: var(--eq-voet-icoon) center / contain no-repeat;
+	}
+
+	.eq-voet-contact.eq-voet-contact > .eq-tel {
+		--eq-voet-icoon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z'/%3E%3C/svg%3E");
+	}
+
+	.eq-voet-contact.eq-voet-contact > .eq-mail {
+		--eq-voet-icoon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='4' width='20' height='16' rx='2'/%3E%3Cpath d='m22 7-10 6L2 7'/%3E%3C/svg%3E");
+		margin-top: 0;
+	}
+
+	/* ---- contact sluit de kolommen af met een lijn ----------------------- */
+	.eq-voet-contactkolom.eq-voet-contactkolom > .eq-voet-uitklap {
+		border-bottom: var(--eq-randdikte) solid var(--eq-voet-lijn, var(--eq-lijn));
+	}
+
+	/* ---- de slotregel ------------------------------------------------------
+	   Juridische links links uitgelijnd, zoals de rest van de kolom, in de
+	   merkkleur en zonder streep, zoals op desktop. Daaronder copyright en
+	   taal op één regel. De lege ::before is de regelbreuk tussen die twee. */
+	.eq-voet-slot.eq-voet-slot {
+		justify-content: flex-start;
+		text-align: left;
+		column-gap: var(--eq-r24);
+		row-gap: 0;
+		margin-top: var(--eq-r16);
+		padding-top: 0;
+		border-top: 0;
+	}
+
+	.eq-voet-slot.eq-voet-slot > p > a {
+		color: var(--eq-voet-merk);
+		text-decoration: none;
+	}
+
+	.eq-voet-slot.eq-voet-slot::before {
+		content: "";
+		order: 1;
+		flex-basis: 100%;
+		block-size: var(--eq-r12);
+		border-bottom: var(--eq-randdikte) solid var(--eq-voet-lijn, var(--eq-lijn));
+		margin-bottom: var(--eq-r8);
+	}
+
+	.eq-voet-slot.eq-voet-slot > p:first-child {
+		order: 2;
+		flex: 1 1 auto;
+		color: var(--eq-mut);
+	}
+
+	.eq-voet-slot.eq-voet-slot > .eqw-lang {
+		order: 3;
+	}
+
+	.eq-voet-slot.eq-voet-slot > .eqw-lang > .eqw-lang-link {
+		color: var(--eq-voet-kop);
+		font-weight: 500;
+		text-decoration: none;
+	}
+}
