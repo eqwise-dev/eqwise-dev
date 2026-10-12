@@ -7,8 +7,9 @@
    beeld staat; Diensten stond open en de andere twee dicht. In het
    voettemplate staat de contactkolom nu als eerste kolom met een kop. Het
    script in eq-interactie.js zet op telefoon alleen de eerste uitklapper
-   open, en dat is daardoor Contact. Op 768 en breder zet `order` de
-   contactkolom terug als laatste kolom, dus desktop blijft zoals hij was.
+   open, en dat is daardoor Contact. `order` zet de contactkolom daarna
+   weer als laatste: op desktop als vierde kolom, op telefoon onderaan
+   onder Diensten en Onderwerpen (wens Martin, 12 okt 2026), wel open.
    Verder: de knop compact zoals op desktop, de juridische links links
    uitgelijnd in de merkkleur, copyright en taalkeuze samen op de slotregel.
    Alleen kindselectors: LiteSpeed schrijft `.a .b` terug naar `.b`.
@@ -29,10 +30,8 @@
 	display: none;
 }
 
-@media (min-width: 768px) {
-	.eq-voet-kolommen.eq-voet-kolommen > .eq-voet-contactkolom {
-		order: 1;
-	}
+.eq-voet-kolommen.eq-voet-kolommen > .eq-voet-contactkolom {
+	order: 1;
 }
 
 @media (max-width: 767px) {
@@ -53,10 +52,21 @@
 		margin-block-start: var(--eq-r24);
 	}
 
-	/* ---- contact: altijd open, geen uitklapper --------------------------- */
-	.eq-voet-kolommen.eq-voet-kolommen > .eq-voet-contactkolom {
+	/* ---- de kolommen als stapel, zodat `order` werkt ---------------------- */
+	.eq-voet-kolommen.eq-voet-kolommen {
+		display: flex;
+		flex-direction: column;
+		/* de grid-tussenruimte van de basis telt in een flexstapel ook mee */
+		gap: 0;
+	}
+
+	/* De eerste linkgroep onder het merkblok (Diensten, derde kind) krijgt
+	   lucht, zodat de social-iconen niet tegen de lijn staan. */
+	.eq-voet-kolommen.eq-voet-kolommen > :nth-child(3) {
 		margin-top: var(--eq-r32);
 	}
+
+	/* ---- contact: onderaan, altijd open, geen uitklapper ------------------ */
 
 	.eq-voet-contactkolom.eq-voet-contactkolom > .eq-voet-uitklap > summary {
 		pointer-events: none;
@@ -99,8 +109,8 @@
 		margin-top: 0;
 	}
 
-	/* ---- de linkgroepen sluiten af met een lijn -------------------------- */
-	.eq-voet-kolommen.eq-voet-kolommen > :last-child > .eq-voet-uitklap {
+	/* ---- contact sluit de kolommen af met een lijn ----------------------- */
+	.eq-voet-contactkolom.eq-voet-contactkolom > .eq-voet-uitklap {
 		border-bottom: var(--eq-randdikte) solid var(--eq-voet-lijn, var(--eq-lijn));
 	}
 
