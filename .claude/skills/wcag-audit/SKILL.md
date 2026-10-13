@@ -108,8 +108,16 @@ Follow `references/wordpress-fixes.md` for builder-specific fixes. Rules:
 
 ## Step 6 – Statement and legal context
 
-See `references/wetgeving-en-verklaring.md`. Determine whether the EAA applies to the client (e-commerce, banking, transport, telecom, e-books; micro-enterprises are exempt for services), or the Dutch government rules (Besluit digitale toegankelijkheid overheid). For UK clients or UK customers, check the UK section (the public sector regulations, and the Equality Act for businesses; the EAA does not apply in the UK but does apply to UK firms selling to EU consumers). Then draft:
-- for EAA-covered services: the accessibility information the law requires (how the service meets the requirements), for the terms and conditions or an accessibility page;
-- for others: a voluntary toegankelijkheidsverklaring page, using the template.
+See `references/wetgeving-en-verklaring.md` (researched from primary sources on 13-10-2026; section 0 is the quick decision). Determine:
+- whether the EAA applies (B2C only; e-commerce, banking, transport, telecom, e-books). Micro-enterprises are exempt in NL and DE, **but not in Belgium**, where they only get extra time until 28-06-2030;
+- in which **EU countries the client sells**: every one of those countries may supervise (section 2.5);
+- whether the Dutch government rules apply (the statuses A–E);
+- for UK or US customers, sections 5 and 6.
 
-Base every claim on the audit results, list known issues honestly with a planned fix date, and give a contact route for reporting barriers. Make no legal claims beyond what the evidence supports. Recommend an independent expert audit when a formal status or legal certainty is needed.
+Then draft:
+- for EAA-covered services: the Annex V accessibility information (template in section 4), placed in or linked from the general terms and conditions, offered orally too, and in the language of each target market;
+- for others: a voluntary toegankelijkheidsverklaring page using the same template.
+
+Tell a client about the Dutch **meldplicht** (duty to report): non-compliance must be reported to the ACM within 1 week (critical or serious) or 1 month (moderate or minor), with an improvement plan, unless fixed within that time. If the shop sells abroad, the report goes to each country's authority. The audit's impact levels (critical, serious, moderate, minor) line up with the ACM's terms.
+
+Base every claim on the audit results, list known issues honestly with a planned fix date, and give a contact route for reporting barriers. Make no legal claims beyond what the evidence supports. An independent audit is **not** legally required for webshops (ACM). For government, the research for status A or B must follow WCAG-EM, cover all 50 requirements and be at most 3 years old. Recommend a lawyer for legal certainty, especially on cross-border questions that are still open.
