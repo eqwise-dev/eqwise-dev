@@ -1,6 +1,6 @@
 ---
 name: wcag-audit
-description: Complete WCAG 2.2 AA accessibility process for (WordPress) websites, from audit to fix to statement. Runs axe-core plus real browser tests that automated scanners skip (keyboard traps, visible focus, focus on hidden menus, focus hidden behind sticky headers, skip link, reflow at 320px, text spacing, target size, auto-moving sliders, autoplay media, form labels and autocomplete), then has Claude review the evidence (alt text quality, focus order map, contrast on images, ARIA snapshot), works through the manual checklist, writes a prioritised Dutch report, fixes issues through Respira and re-tests, and drafts the toegankelijkheidsverklaring (accessibility statement) / European Accessibility Act (EAA) information. Use for "WCAG", "toegankelijkheid", "toegankelijkheidsaudit", "accessibility audit", "a11y", "EAA", "European Accessibility Act", "toegankelijkheidsverklaring", "digitoegankelijk", "EN 301 549", "is mijn site toegankelijk", "screen reader", "contrast check", "keyboard navigation".
+description: Complete WCAG 2.2 AA accessibility process for (WordPress) websites, from audit to fix to statement. Runs axe-core plus real browser tests that automated scanners skip (keyboard traps, visible focus, focus on hidden menus, focus hidden behind sticky headers, skip link, reflow at 320px, text spacing, target size, auto-moving sliders, autoplay media, form labels and autocomplete), then has Claude review the evidence (alt text quality, focus order map, contrast on images, ARIA snapshot), works through the manual checklist, writes a prioritised Dutch report, fixes issues through Respira and re-tests, and drafts the toegankelijkheidsverklaring (accessibility statement) / European Accessibility Act (EAA) information. Use for "WCAG", "toegankelijkheid", "toegankelijkheidsaudit", "accessibility audit", "a11y", "EAA", "European Accessibility Act", "toegankelijkheidsverklaring", "digitoegankelijk", "EN 301 549", "Equality Act", "UK accessibility", "is mijn site toegankelijk", "screen reader", "contrast check", "keyboard navigation".
 ---
 
 # WCAG audit, fix and statement
@@ -108,7 +108,7 @@ Follow `references/wordpress-fixes.md` for builder-specific fixes. Rules:
 
 ## Step 6 – Statement and legal context
 
-See `references/wetgeving-en-verklaring.md`. Determine whether the EAA applies to the client (e-commerce, banking, transport, telecom, e-books; micro-enterprises are exempt for services), or the Dutch government rules (Besluit digitale toegankelijkheid overheid). Then draft:
+See `references/wetgeving-en-verklaring.md`. Determine whether the EAA applies to the client (e-commerce, banking, transport, telecom, e-books; micro-enterprises are exempt for services), or the Dutch government rules (Besluit digitale toegankelijkheid overheid). For UK clients or UK customers, check the UK section (the public sector regulations, and the Equality Act for businesses; the EAA does not apply in the UK but does apply to UK firms selling to EU consumers). Then draft:
 - for EAA-covered services: the accessibility information the law requires (how the service meets the requirements), for the terms and conditions or an accessibility page;
 - for others: a voluntary toegankelijkheidsverklaring page, using the template.
 
