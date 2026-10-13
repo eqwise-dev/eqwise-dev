@@ -1,6 +1,6 @@
 ---
 name: wcag-audit
-description: Complete WCAG 2.2 AA accessibility process for (WordPress) websites, from audit to fix to statement. Runs axe-core plus real browser tests that automated scanners skip (keyboard traps, visible focus, focus on hidden menus, focus hidden behind sticky headers, skip link, reflow at 320px, text spacing, target size, auto-moving sliders, autoplay media, form labels and autocomplete), then has Claude review the evidence (alt text quality, focus order map, contrast on images, ARIA snapshot), works through the manual checklist, writes a prioritised Dutch report, fixes issues through Respira and re-tests, and drafts the toegankelijkheidsverklaring (accessibility statement) / European Accessibility Act (EAA) information. Use for "WCAG", "toegankelijkheid", "toegankelijkheidsaudit", "accessibility audit", "a11y", "EAA", "European Accessibility Act", "toegankelijkheidsverklaring", "digitoegankelijk", "EN 301 549", "Equality Act", "UK accessibility", "is mijn site toegankelijk", "screen reader", "contrast check", "keyboard navigation".
+description: Complete WCAG 2.2 AA accessibility process for (WordPress) websites, from audit to fix to statement. Runs axe-core plus real browser tests that automated scanners skip (keyboard traps, visible focus, focus on hidden menus, focus hidden behind sticky headers, skip link, reflow at 320px, text spacing, target size, auto-moving sliders, autoplay media, form labels and autocomplete), then has Claude review the evidence (alt text quality, focus order map, contrast on images, ARIA snapshot), works through the manual checklist, writes a prioritised Dutch report, fixes issues through the website AI-agent and re-tests, and drafts the toegankelijkheidsverklaring (accessibility statement) / European Accessibility Act (EAA) information. Use for "WCAG", "toegankelijkheid", "toegankelijkheidsaudit", "accessibility audit", "a11y", "EAA", "European Accessibility Act", "toegankelijkheidsverklaring", "digitoegankelijk", "EN 301 549", "Equality Act", "UK accessibility", "is mijn site toegankelijk", "screen reader", "contrast check", "keyboard navigation".
 ---
 
 # WCAG audit, fix and statement
@@ -100,10 +100,10 @@ For a client-facing deliverable, offer to publish it as an Artifact or a Claude 
 ## Step 5 – Fix (with permission) and re-test
 
 Follow `references/wordpress-fixes.md` for builder-specific fixes. Rules:
-- Ask before changing anything. Fix through Respira in the site's own builder format, on a draft duplicate for live pages (Respira's rules apply: snapshot first, never raw SQL or theme PHP).
+- Ask before changing anything. Fix through the website AI-agent in the site's own builder format, on a draft duplicate for live pages (the website AI-agent's rules apply: snapshot first, never raw SQL or theme PHP).
 - Fix global causes first: global colours or presets for contrast, one site-wide `:focus-visible` style, the skip link in the theme, the form plugin's field settings, and alt texts in bulk via `update_media_batch`.
 - Do **not** install accessibility overlays (accessiBe, UserWay, EqualWeb and similar). They do not make a site conformant and often make it worse for screen reader users.
-- Treat Respira's `apply_accessibility_fixes` as a helper: review its proposed changes before applying them, then verify with this audit.
+- Treat the website AI-agent's `apply_accessibility_fixes` as a helper: review its proposed changes before applying them, then verify with this audit.
 - After fixing, run the audit again on the same pages and run `python $W diff OLD/findings.json NEW/findings.json` to show what was fixed, what remains and whether anything is new. Report that diff.
 
 ## Step 6 – Statement and legal context

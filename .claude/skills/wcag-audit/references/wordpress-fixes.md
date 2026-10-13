@@ -1,10 +1,10 @@
 # Fixing WCAG findings on WordPress sites
 
-Always: ask first, fix through Respira in the builder's own format (Divi, Elementor, Bricks, Gutenberg, Oxygen and so on), work on a draft duplicate for live pages, and re-run `wcag.py audit` plus `wcag.py diff` afterwards.
+Always: ask first, fix through the website AI-agent in the builder's own format (Divi, Elementor, Bricks, Gutenberg, Oxygen and so on), work on a draft duplicate for live pages, and re-run `wcag.py audit` plus `wcag.py diff` afterwards.
 
 ## Global fixes first (one change, every page)
 
-| Finding | Global fix | Respira route |
+| Finding | Global fix | Website AI-agent route |
 |---|---|---|
 | `axe:color-contrast` on brand colours | Darken the brand or text colour in the global palette: text 4.5:1, large text and UI parts 3:1. Propose the nearest compliant shade of the brand colour, not a new colour. | `update_elementor_global_colors`, `update_bricks_color_palette`, `upsert_divi_presets`, `update_design_token` / theme.json |
 | `kbd:focus-not-visible` | One site-wide style: `:focus-visible{outline:3px solid #XXXXXX;outline-offset:2px}`. Remove theme rules like `*:focus{outline:none}`. The outline colour needs 3:1 against the backgrounds. | Customizer > Additional CSS, the builder's custom CSS, or a design token |

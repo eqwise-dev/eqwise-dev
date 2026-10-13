@@ -1,6 +1,6 @@
 ---
 name: visual-regression-check
-description: Pixel-level visual regression testing for client websites, like Percy but run by Claude. Keeps an approved screenshot baseline per client (several widths), re-captures after a change, diffs pixel by pixel with noise filtering (anti-aliasing, layout shift, cookie banners, animations, video) and hands Claude cropped before/after images of every changed region to triage. Use BEFORE and AFTER plugin, theme or WordPress core updates, global style changes (Divi presets, Elementor globals, design tokens, Bricks classes, custom CSS), page builder migrations, and before approving a Respira draft duplicate. Also triggers on "visual regression", "visuele check", "is er iets kapot gegaan", "screenshot vergelijken", "check the site after the update", "compare live with staging", "Percy".
+description: Pixel-level visual regression testing for client websites, like Percy but run by Claude. Keeps an approved screenshot baseline per client (several widths), re-captures after a change, diffs pixel by pixel with noise filtering (anti-aliasing, layout shift, cookie banners, animations, video) and hands Claude cropped before/after images of every changed region to triage. Use BEFORE and AFTER plugin, theme or WordPress core updates, global style changes (Divi presets, Elementor globals, design tokens, Bricks classes, custom CSS), page builder migrations, and before approving a draft duplicate from the website AI-agent. Also triggers on "visual regression", "visuele check", "is er iets kapot gegaan", "screenshot vergelijken", "check the site after the update", "compare live with staging", "Percy".
 ---
 
 # Visual regression check
@@ -30,17 +30,17 @@ python $V approve  <client> [--run latest|<run-id>] [--pages home]   # ONLY afte
 python $V compare  --a <url> --b <url> [--name x] [--widths 375,1440] [--client <client>]
 ```
 
-`compare` needs no baseline. Use it for: the live page against a Respira draft duplicate (share preview link), production against staging, or the old site against the migrated site. `--client` reuses that client's hide and mask settings.
+`compare` needs no baseline. Use it for: the live page against a draft duplicate made by the website AI-agent (share preview link), production against staging, or the old site against the migrated site. `--client` reuses that client's hide and mask settings.
 
 ## Workflows
 
 ### A. Safe update (plugins, theme, core, global styles)
 1. `status <client>`. If there is no baseline, or it is older than about 7 days, or a page is missing, run `baseline` first. The site must be in a known good state at that moment; if unsure, ask.
-2. Do the change (for example Respira `guarded_plugin_update`, `run_updates`, `update_elementor_global_colors`, `upsert_divi_presets`, `apply_design_direction`). Purge the cache if the site has one (`purge_cache`).
+2. Do the change (for example the website AI-agent's `guarded_plugin_update`, `run_updates`, `update_elementor_global_colors`, `upsert_divi_presets`, `apply_design_direction`). Purge the cache if the site has one (`purge_cache`).
 3. `check <client> --label <what-changed>`.
-4. Triage (below). If there is a regression, roll back (Respira `restore_snapshot`, `restore_quarantined_plugin`, or the update tool's own rollback) and run `check` again to confirm the site is back to baseline.
+4. Triage (below). If there is a regression, roll back (the website AI-agent's `restore_snapshot`, `restore_quarantined_plugin`, or the update tool's own rollback) and run `check` again to confirm the site is back to baseline.
 
-### B. Before approving a Respira draft duplicate
+### B. Before approving a draft duplicate
 `compare --a <live url> --b <share preview url> --client <client>`. Show the person what will change visually before they approve the duplicate. Unexpected differences outside the edited section are the important finding.
 
 ### C. Migration parity (Divi to Gutenberg, Elementor to Bricks, and so on)
