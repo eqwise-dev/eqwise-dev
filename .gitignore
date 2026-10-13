@@ -18,3 +18,8 @@ venv/
 
 # macOS
 .DS_Store
+
+# Quickscan: klantgegevens en gegenereerde rapporten
+quickscan/rapporten/
+quickscan/quickscan-*.html
+quickscan/quickscan-*.pdf
