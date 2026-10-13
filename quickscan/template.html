@@ -204,7 +204,7 @@
       <h3 id="b{{ loop.index }}"><span class="nummer">{{ loop.index }}.</span>{{ b.titel }}</h3>
       <span class="status ernst-{{ b.ernst }}">Ernst: {{ b.ernst }}</span>
     </div>
-    <p class="wcag">WCAG {% for c in b.wcag %}{{ c.nummer }} {{ c.naam }} (niveau {{ c.niveau }}){% if not loop.last %} · {% endif %}{% endfor %}</p>
+    {% if b.wcag %}<p class="wcag">WCAG {% for c in b.wcag %}{{ c.nummer }} {{ c.naam }} (niveau {{ c.niveau }}){% if not loop.last %} · {% endif %}{% endfor %}</p>{% elif b.get('grondslag') %}<p class="wcag">{{ b.grondslag }}</p>{% endif %}
     <dl class="velden">
       <dt>Wie merkt het</dt><dd>{{ b.wie }}</dd>
       <dt>Waar</dt><dd>{{ b.waar }}</dd>

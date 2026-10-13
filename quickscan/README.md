@@ -55,6 +55,8 @@ op ernst gesorteerd.
 
 `bevindingen[].seo_geo` mag `null` zijn; dan valt het blok weg.
 
+`bevindingen[].wcag` mag een lege lijst zijn als een bevinding niet onder één WCAG-criterium valt (bijvoorbeeld een ontbrekende toegankelijkheidsverklaring). Zet dan in `bevindingen[].grondslag` waar de eis vandaan komt.
+
 ## Werkwijze per scan
 
 1. **Automatisch**: scan de 3 tot 5 belangrijkste pagina's (homepage plus de kerntaak, zoals product → winkelwagen → afrekenen) met axe-core of Lighthouse.
