@@ -22,6 +22,8 @@ Claude Code (orchestrator)
 | `list_models` | Configured models with role, privacy level and price |
 | `ask_model` | Send a question (plus optional files) to one model |
 | `review_diff` | Several models review the same diff in parallel |
+| `bulk_task` | Same prompt over many items (CSV or JSON lines), results to a file |
+| `claude_usage` | Your Claude 5-hour and weekly usage, and whether to offload |
 | `cost_report` | Spending per model per day |
 
 ## Setup (Mac)
@@ -70,6 +72,38 @@ Meta's developer docs. Until then `muse-spark` shows as "not configured" and
 - "Use review_diff on my current changes, focus on security."
 - "Ask muse-spark for a second opinion on this function, then compare it with yours."
 - "Show the cost_report for this week."
+
+## Staying under your weekly Claude limit
+
+Claude Code gives the status line your 5-hour and weekly usage.
+`swarm/usage_status.py` saves it and compares it with an even pace through
+the week (on day 3.5 of 7, "on pace" is 50%):
+
+| Level | When | What happens |
+|---|---|---|
+| normal | at or behind pace | nothing, work as usual |
+| ahead | more than 10 points ahead of pace | bulk work goes to `gpt-luna` |
+| offload | 70% or more and not behind pace | bulk to `gpt-luna`, routine drafting to `gpt-terra` |
+| critical | 90% or more | only planning and final review stay on Claude |
+
+At the levels ahead, offload and critical, one short line is added to
+Claude's context with each message you send, so the agent knows to offload.
+At normal nothing is added. Your status line shows e.g.
+`Week 65% (pace 50%) | 5h 40% | ahead of pace`.
+
+Setup: copy the two blocks from `swarm/claude-settings-snippet.json` into
+`~/.claude/settings.json`, with your own path. If you already have a status
+line, tell Claude and it can combine the two. Thresholds can be changed with
+`EQWISE_OFFLOAD_AT`, `EQWISE_CRITICAL_AT` and `EQWISE_PACE_MARGIN`.
+
+**Why offloading actually saves Claude usage:** `bulk_task` and
+`ask_model(output_file=...)` read input files and write results to files
+themselves. Claude only sends the instruction and gets a short summary back,
+so the volume (often most of the tokens) never passes through Claude.
+
+Non-public client data stays on Claude: GPT models are marked `external` and
+refuse calls with `confidential=true`. Public website content (titles, page
+text) is fine to offload.
 
 ## Benchmark: which model is good enough for which job
 

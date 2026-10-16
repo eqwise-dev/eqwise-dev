@@ -25,6 +25,8 @@ from dotenv import load_dotenv
 from litellm import Router
 from mcp.server.mcpserver import MCPServer
 
+import usage_status
+
 HERE = Path(__file__).resolve().parent
 CONFIG_PATH = Path(os.environ.get("EQWISE_MODELS_CONFIG", HERE / "litellm_config.yaml"))
 USAGE_LOG = Path(os.environ.get("EQWISE_MODELS_USAGE_LOG", HERE / "usage" / "usage.jsonl"))
@@ -201,6 +203,34 @@ def _read_files(paths: list[str]) -> str:
     return "\n\n".join(parts)
 
 
+def _save_output(text: str, output_file: str) -> str:
+    """Write a result to disk and return a short note, so it does not fill Claude's context."""
+    path = Path(output_file).expanduser()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text)
+    preview = text[:300] + ("..." if len(text) > 300 else "")
+    return f"Saved {len(text):,} characters to {path}.\nPreview:\n{preview}"
+
+
+def _load_items(items_file: str) -> list[dict]:
+    path = Path(items_file).expanduser()
+    if not path.is_file():
+        raise ToolError(f"File not found: {items_file}")
+    if path.suffix.lower() == ".csv":
+        import csv
+
+        with path.open(newline="") as f:
+            return list(csv.DictReader(f))
+    items = []
+    for n, line in enumerate(path.read_text().splitlines(), 1):
+        if line.strip():
+            try:
+                items.append(json.loads(line))
+            except json.JSONDecodeError as e:
+                raise ToolError(f"{items_file} line {n} is not valid JSON: {e}")
+    return items
+
+
 def _ensure_size(text: str, what: str):
     if len(text) > MAX_INPUT_CHARS:
         raise ToolError(
@@ -218,7 +248,10 @@ server = MCPServer(
         "through one gateway. Call list_models first to see what is configured. "
         "Set confidential=true whenever the input contains client data, credentials or "
         "personal data; the server then refuses models that are not trusted. "
-        "Every call counts against a daily budget; check cost_report when in doubt."
+        "Every call counts against a daily budget; check cost_report when in doubt. "
+        "claude_usage tells whether the user's Claude subscription is running ahead of "
+        "pace; when it is, volume work goes to a cheap model with bulk_task or "
+        "ask_model(output_file=...), so results land in files instead of Claude's context."
     ),
 )
 
@@ -245,23 +278,30 @@ async def ask_model(
     system: str | None = None,
     confidential: bool = False,
     max_tokens: int = 16000,
+    output_file: str | None = None,
 ) -> str:
     """Ask one model a question.
 
+    To save Claude usage, pass files by path (they are read here, not by Claude)
+    and set output_file: the full answer is written there and only a short
+    preview comes back.
+
     Args:
-        model: model alias from list_models, e.g. "claude-sonnet" or "muse-spark".
+        model: model alias from list_models, e.g. "claude-sonnet" or "gpt-luna".
         prompt: the question or task.
         files: optional local file paths whose contents are added to the prompt.
         system: optional system prompt.
         confidential: true when the input contains client or personal data.
         max_tokens: maximum length of the answer.
+        output_file: optional path; the answer is saved there instead of returned.
     """
     try:
         _check_model(model, confidential)
         _check_budget()
         full_prompt = prompt if not files else f"{_read_files(files)}\n\n{prompt}"
         _ensure_size(full_prompt, "The prompt with files")
-        return await _call(model, system, full_prompt, max_tokens, "ask_model")
+        answer = await _call(model, system, full_prompt, max_tokens, "ask_model")
+        return _save_output(answer, output_file) if output_file else answer
     except ToolError as e:
         return f"Error: {e}"
     except Exception as e:  # provider errors: show the reason, keep the server alive
@@ -325,6 +365,98 @@ async def review_diff(
         body = f"Error: {type(result).__name__}: {result}" if isinstance(result, Exception) else result
         sections.append(f"## Review by {alias}\n\n{body}")
     return "\n\n".join(sections)
+
+
+@server.tool()
+async def bulk_task(
+    model: str,
+    items_file: str,
+    template: str,
+    output_file: str | None = None,
+    system: str | None = None,
+    confidential: bool = False,
+    max_tokens: int = 2000,
+    max_items: int = 500,
+) -> str:
+    """Run the same prompt over many items with one model and write the results to a file.
+
+    Use for volume work (meta descriptions, alt texts, summaries, translations)
+    on a cheap model. Results go to output_file as JSON lines; only a short
+    summary comes back, so the work costs almost no Claude usage.
+
+    Args:
+        model: model alias, e.g. "gpt-luna" or "claude-haiku".
+        items_file: .jsonl (one JSON object per line) or .csv with a header row.
+        template: prompt with {field} placeholders filled from each item,
+            e.g. "Write a Dutch meta description for: {title}\\n{summary}".
+        output_file: where results go (default: <items_file>.out.jsonl).
+        system: optional system prompt for every item.
+        confidential: true when the items contain non-public client or personal data.
+        max_tokens: maximum answer length per item.
+        max_items: safety cap on the number of items.
+    """
+    try:
+        _check_model(model, confidential)
+        _check_budget()
+        items = _load_items(items_file)
+        if not items:
+            raise ToolError(f"{items_file} has no items.")
+        if len(items) > max_items:
+            raise ToolError(f"{len(items)} items is above max_items={max_items}. Raise it or split the file.")
+        prompts = []
+        for n, item in enumerate(items, 1):
+            try:
+                prompts.append(template.format_map(item))
+            except (KeyError, ValueError) as e:
+                raise ToolError(f"Item {n} does not fit the template: {e}. Fields: {', '.join(item)}")
+    except ToolError as e:
+        return f"Error: {e}"
+
+    out_path = Path(output_file or f"{items_file}.out.jsonl").expanduser()
+    semaphore = asyncio.Semaphore(8)
+    totals = {"cost": 0.0, "done": 0, "failed": 0, "skipped": 0}
+
+    async def run(index: int, prompt: str) -> dict:
+        async with semaphore:
+            if spent_today() >= DAILY_BUDGET_USD:
+                totals["skipped"] += 1
+                return {"index": index, "error": "daily budget reached"}
+            try:
+                text, cost = await _call_with_cost(model, system, prompt, max_tokens, "bulk_task")
+                totals["cost"] += cost
+                totals["done"] += 1
+                return {"index": index, "item": items[index], "output": text}
+            except Exception as e:
+                totals["failed"] += 1
+                return {"index": index, "item": items[index], "error": f"{type(e).__name__}: {e}"}
+
+    results = await asyncio.gather(*(run(i, p) for i, p in enumerate(prompts)))
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    with out_path.open("w") as f:
+        for row in results:
+            f.write(json.dumps(row, ensure_ascii=False) + "\n")
+
+    samples = [r["output"][:200] for r in results if "output" in r][:2]
+    lines = [
+        f"{totals['done']} of {len(items)} items done with {model}, cost ${totals['cost']:.4f}.",
+        f"Failed: {totals['failed']}. Skipped (budget): {totals['skipped']}.",
+        f"Results: {out_path}",
+    ]
+    if samples:
+        lines.append("Samples for a spot check:")
+        lines += [f"- {s}" for s in samples]
+    return "\n".join(lines)
+
+
+@server.tool()
+def claude_usage() -> str:
+    """Your Claude subscription usage (5-hour and weekly) and whether to offload work to other models.
+
+    Data comes from the Claude Code status line (swarm/usage_status.py). Levels:
+    normal, ahead (faster than an even weekly pace), offload, critical.
+    """
+    a = usage_status.assess(usage_status.load())
+    return f"Level: {a['level']}. {usage_status.describe(a)}"
 
 
 @server.tool()
