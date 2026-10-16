@@ -88,6 +88,14 @@ scores them with automatic checks (no judge model to pay for):
 swarm/.venv/bin/python swarm/bench.py --models claude-haiku,claude-sonnet,muse-spark --runs 3
 ```
 
+Claude against OpenAI, tier by tier (needs `OPENAI_API_KEY` and the three
+`GPT_*_MODEL` ids in `models.env`):
+
+```bash
+swarm/.venv/bin/python swarm/bench.py \
+  --models claude-opus,gpt-sol,claude-sonnet,gpt-terra,claude-haiku,gpt-luna --runs 3
+```
+
 It prints score, cost, cost per score point and speed per model, and saves
 the table to `swarm/usage/bench-<date>.md`. A full run of 3 models x 5 tasks x
 3 runs costs a few cents. Use the result to pick the cheapest model that still

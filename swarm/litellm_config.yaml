@@ -62,6 +62,43 @@ model_list:
       input_cost_per_token: 0.00000125   # $1.25 per 1M
       output_cost_per_token: 0.00000425  # $4.25 per 1M, thinking tokens billed as output
 
+  # OpenAI GPT-5.6, one entry per tier, for comparing with Claude tier by tier.
+  # The model ids come from models.env (GPT_SOL_MODEL etc.) so they can be
+  # corrected without touching this file: copy the exact ids from
+  # platform.openai.com/docs/models. Prices are from third-party sources
+  # (October 2026); Sol uses the higher of the two reported prices so the
+  # daily budget errs on the safe side. Check platform.openai.com/pricing.
+  # Privacy is "external" until OpenAI's API data terms are checked for your account.
+  - model_name: gpt-sol
+    litellm_params:
+      model: os.environ/GPT_SOL_MODEL
+      api_key: os.environ/OPENAI_API_KEY
+    model_info:
+      eqwise_privacy: external
+      eqwise_role: OpenAI top tier, compare with claude-opus
+      input_cost_per_token: 0.000005     # $5 per 1M (reported $4-5)
+      output_cost_per_token: 0.00003     # $30 per 1M (reported $20-30)
+
+  - model_name: gpt-terra
+    litellm_params:
+      model: os.environ/GPT_TERRA_MODEL
+      api_key: os.environ/OPENAI_API_KEY
+    model_info:
+      eqwise_privacy: external
+      eqwise_role: OpenAI mid tier, compare with claude-sonnet
+      input_cost_per_token: 0.000002     # $2 per 1M (reported)
+      output_cost_per_token: 0.000012    # $12 per 1M (reported)
+
+  - model_name: gpt-luna
+    litellm_params:
+      model: os.environ/GPT_LUNA_MODEL
+      api_key: os.environ/OPENAI_API_KEY
+    model_info:
+      eqwise_privacy: external
+      eqwise_role: OpenAI cheap tier, compare with claude-haiku
+      input_cost_per_token: 0.0000002    # $0.20 per 1M (reported)
+      output_cost_per_token: 0.0000012   # $1.20 per 1M (reported)
+
   # Optional extra providers. Uncomment, set the key in models.env and check
   # the current model id and price on the provider's site first.
   #
@@ -75,20 +112,10 @@ model_list:
   #     input_cost_per_token: 0
   #     output_cost_per_token: 0
   #
-  # - model_name: gpt
-  #   litellm_params:
-  #     model: openai/<current-gpt-model-id>
-  #     api_key: os.environ/OPENAI_API_KEY
-  #   model_info:
-  #     eqwise_privacy: external
-  #     eqwise_role: Second opinion (OpenAI)
-  #     input_cost_per_token: 0
-  #     output_cost_per_token: 0
-  #
-  # Budget candidates from the October 2026 price research. Verify the exact
-  # model id and price on the provider's page before enabling. Both are
-  # "external": public or test data only. DeepSeek is a Chinese provider and
-  # may use time-of-day pricing.
+  # Budget candidate from the October 2026 price research. Verify the exact
+  # model id and price on the provider's page before enabling. "external":
+  # public or test data only. DeepSeek is a Chinese provider and may use
+  # time-of-day pricing.
   #
   # - model_name: deepseek-flash
   #   litellm_params:
@@ -99,16 +126,6 @@ model_list:
   #     eqwise_role: Very cheap bulk coding and text work
   #     input_cost_per_token: 0.00000014   # $0.14 per 1M (reported)
   #     output_cost_per_token: 0.00000028  # $0.28 per 1M (reported)
-  #
-  # - model_name: gpt-luna
-  #   litellm_params:
-  #     model: openai/<gpt-5.6-luna-id>
-  #     api_key: os.environ/OPENAI_API_KEY
-  #   model_info:
-  #     eqwise_privacy: external
-  #     eqwise_role: Cheap second opinion (OpenAI)
-  #     input_cost_per_token: 0.0000002    # $0.20 per 1M (reported)
-  #     output_cost_per_token: 0.0000012   # $1.20 per 1M (reported)
   #
   # Local model through Ollama on your Mac (https://ollama.com). Free, private.
   # - model_name: local
