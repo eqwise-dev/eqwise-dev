@@ -164,6 +164,13 @@ def _check_budget():
 
 
 async def _call(alias: str, system: str | None, prompt: str, max_tokens: int, tool: str) -> str:
+    text, _cost = await _call_with_cost(alias, system, prompt, max_tokens, tool)
+    return text
+
+
+async def _call_with_cost(
+    alias: str, system: str | None, prompt: str, max_tokens: int, tool: str
+) -> tuple[str, float]:
     messages = []
     if system:
         messages.append({"role": "system", "content": system})
@@ -181,7 +188,7 @@ async def _call(alias: str, system: str | None, prompt: str, max_tokens: int, to
     text = choice.message.content or ""
     if choice.finish_reason == "length":
         text += f"\n\n[Note: answer cut off at max_tokens={max_tokens}. Ask again with a higher limit.]"
-    return text
+    return text, cost
 
 
 def _read_files(paths: list[str]) -> str:

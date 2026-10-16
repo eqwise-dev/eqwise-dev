@@ -85,6 +85,31 @@ model_list:
   #     input_cost_per_token: 0
   #     output_cost_per_token: 0
   #
+  # Budget candidates from the October 2026 price research. Verify the exact
+  # model id and price on the provider's page before enabling. Both are
+  # "external": public or test data only. DeepSeek is a Chinese provider and
+  # may use time-of-day pricing.
+  #
+  # - model_name: deepseek-flash
+  #   litellm_params:
+  #     model: deepseek/<deepseek-v4-flash-id>
+  #     api_key: os.environ/DEEPSEEK_API_KEY
+  #   model_info:
+  #     eqwise_privacy: external
+  #     eqwise_role: Very cheap bulk coding and text work
+  #     input_cost_per_token: 0.00000014   # $0.14 per 1M (reported)
+  #     output_cost_per_token: 0.00000028  # $0.28 per 1M (reported)
+  #
+  # - model_name: gpt-luna
+  #   litellm_params:
+  #     model: openai/<gpt-5.6-luna-id>
+  #     api_key: os.environ/OPENAI_API_KEY
+  #   model_info:
+  #     eqwise_privacy: external
+  #     eqwise_role: Cheap second opinion (OpenAI)
+  #     input_cost_per_token: 0.0000002    # $0.20 per 1M (reported)
+  #     output_cost_per_token: 0.0000012   # $1.20 per 1M (reported)
+  #
   # Local model through Ollama on your Mac (https://ollama.com). Free, private.
   # - model_name: local
   #   litellm_params:

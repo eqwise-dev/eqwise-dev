@@ -71,6 +71,28 @@ Meta's developer docs. Until then `muse-spark` shows as "not configured" and
 - "Ask muse-spark for a second opinion on this function, then compare it with yours."
 - "Show the cost_report for this week."
 
+## Benchmark: which model is good enough for which job
+
+`swarm/bench.py` runs five typical EQwise tasks on every configured model and
+scores them with automatic checks (no judge model to pay for):
+
+| Task | What is checked |
+|---|---|
+| Dutch meta description | 140-160 characters, contains the keyword |
+| JSON-LD LocalBusiness | valid JSON, schema.org, correct postcode and phone |
+| WordPress PHP security review | finds prepare(), nonce, capability check, escaping |
+| Search Console analysis | right query and correctly computed CTR |
+| Fluid type clamp() | correct min, max, slope and constant |
+
+```bash
+swarm/.venv/bin/python swarm/bench.py --models claude-haiku,claude-sonnet,muse-spark --runs 3
+```
+
+It prints score, cost, cost per score point and speed per model, and saves
+the table to `swarm/usage/bench-<date>.md`. A full run of 3 models x 5 tasks x
+3 runs costs a few cents. Use the result to pick the cheapest model that still
+scores well per job type, then add your own tasks to `TASKS` in `bench.py`.
+
 ## Adding a model
 
 Add an entry to `litellm_config.yaml` (examples for Gemini, GPT and Ollama
