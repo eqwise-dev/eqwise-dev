@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "eqwise-models": {
+      "command": "swarm/.venv/bin/python",
+      "args": ["swarm/server.py"]
+    }
+  }
+}

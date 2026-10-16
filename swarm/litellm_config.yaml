@@ -1,0 +1,97 @@
+# EQwise model gateway: one list of models that every agent can use.
+#
+# Used in two ways:
+#   1. By the MCP server (swarm/server.py), which reads this file directly.
+#   2. Optionally by the LiteLLM proxy (`litellm --config swarm/litellm_config.yaml`)
+#      for tools that speak the OpenAI API format, such as agent.py later on.
+#
+# Values starting with "os.environ/" are read from swarm/models.env.
+# A model whose environment variables are missing is skipped and shown as
+# "not configured" by the list_models tool.
+#
+# Custom fields under model_info (read by server.py, ignored by LiteLLM):
+#   eqwise_privacy  trusted  = may receive client data (contract + no training)
+#                   external = public or test data only
+#                   local    = runs on your own machine, data never leaves it
+#   eqwise_role     short description shown to the orchestrator
+#   input_cost_per_token / output_cost_per_token  in USD, used for the daily budget
+
+model_list:
+  - model_name: claude-opus
+    litellm_params:
+      model: anthropic/claude-opus-5-5
+      api_key: os.environ/ANTHROPIC_API_KEY
+    model_info:
+      eqwise_privacy: trusted
+      eqwise_role: Planning, architecture, hard bugs, final review
+      input_cost_per_token: 0.000004     # $4 per 1M
+      output_cost_per_token: 0.00002     # $20 per 1M
+
+  - model_name: claude-sonnet
+    litellm_params:
+      model: anthropic/claude-sonnet-5-5
+      api_key: os.environ/ANTHROPIC_API_KEY
+    model_info:
+      eqwise_privacy: trusted
+      eqwise_role: Everyday coding and code review
+      input_cost_per_token: 0.000002     # $2 per 1M
+      output_cost_per_token: 0.00001     # $10 per 1M
+
+  - model_name: claude-haiku
+    litellm_params:
+      model: anthropic/claude-haiku-5-5
+      api_key: os.environ/ANTHROPIC_API_KEY
+    model_info:
+      eqwise_privacy: trusted
+      eqwise_role: Cheap bulk work (meta descriptions, alt texts, short rewrites)
+      input_cost_per_token: 0.0000001    # $0.10 per 1M
+      output_cost_per_token: 0.0000005   # $0.50 per 1M
+
+  # Meta Muse Spark. The API is in public preview (US developers, waitlist).
+  # Assumption to verify once you have access: the endpoint speaks the OpenAI
+  # chat format. Fill MUSE_API_BASE and MUSE_MODEL from Meta's developer docs.
+  # Privacy is "external" until Meta's data terms for your account are checked.
+  - model_name: muse-spark
+    litellm_params:
+      model: os.environ/MUSE_MODEL
+      api_base: os.environ/MUSE_API_BASE
+      api_key: os.environ/MUSE_API_KEY
+    model_info:
+      eqwise_privacy: external
+      eqwise_role: Second opinion and cheap bulk work (Meta)
+      input_cost_per_token: 0.00000125   # $1.25 per 1M
+      output_cost_per_token: 0.00000425  # $4.25 per 1M, thinking tokens billed as output
+
+  # Optional extra providers. Uncomment, set the key in models.env and check
+  # the current model id and price on the provider's site first.
+  #
+  # - model_name: gemini
+  #   litellm_params:
+  #     model: gemini/<current-gemini-model-id>
+  #     api_key: os.environ/GEMINI_API_KEY
+  #   model_info:
+  #     eqwise_privacy: external
+  #     eqwise_role: Second opinion (Google)
+  #     input_cost_per_token: 0
+  #     output_cost_per_token: 0
+  #
+  # - model_name: gpt
+  #   litellm_params:
+  #     model: openai/<current-gpt-model-id>
+  #     api_key: os.environ/OPENAI_API_KEY
+  #   model_info:
+  #     eqwise_privacy: external
+  #     eqwise_role: Second opinion (OpenAI)
+  #     input_cost_per_token: 0
+  #     output_cost_per_token: 0
+  #
+  # Local model through Ollama on your Mac (https://ollama.com). Free, private.
+  # - model_name: local
+  #   litellm_params:
+  #     model: ollama_chat/<model-you-pulled>
+  #     api_base: http://localhost:11434
+  #   model_info:
+  #     eqwise_privacy: local
+  #     eqwise_role: Private drafts on client data, offline work
+  #     input_cost_per_token: 0
+  #     output_cost_per_token: 0
