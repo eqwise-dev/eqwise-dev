@@ -6,6 +6,10 @@
 *.key
 *.p12
 credentials.json
+swarm/models.env
+
+# Model gateway usage log (costs per call)
+swarm/usage/
 
 # Claude Code lokale instellingen
 .claude/settings.local.json
