@@ -23,8 +23,30 @@ volledige stijlsysteem; verander tokens daar en nergens anders.
 | 7 | Blauwe band | één zin in Poppins met het tweede deel vet, een korte toelichting, witte knop |
 | 8 | Voet | logo, adres Laan van Kronenburg 14, 1183 AS Amstelveen, +31 20 893 20 84, KvK 34191949 |
 
-Vaste hoofdstukken voor een audit, in deze volgorde: Stand, Meting, Acties, Bewijs, Fixes,
-Sterk, Vervolg. Laat een hoofdstuk weg als er niets in staat; verzin geen vulling.
+Vaste hoofdstukken voor een audit, in deze volgorde: Stand, Meting, AI-meting, Acties, Bewijs,
+Fixes, Sterk, Vervolg. Laat een hoofdstuk weg als er niets in staat; verzin geen vulling.
+
+## AI-meting (eenvoudige gratis meting)
+
+Elk SEO- en GEO-rapport krijgt een hoofdstuk "AI-meting" vóór de actielijst, volgens de methode op
+eqwise.nl/geo-optimalisatie/:
+
+1. Stel 8 vragen op zoals een klant ze stelt, **zonder merknaam**: per dienst en per plaats uit het
+   werkgebied van de klant (bijvoorbeeld "Kun je een opruimcoach in Amsterdam aanraden?").
+2. Stel elke vraag 2 keer, elk in een nieuwe sessie zonder voorkennis (16 antwoorden). Vraag om een
+   gewoon antwoord met webzoeken, plus de genoemde aanbieders en de bronnen.
+3. Tel per antwoord: wordt het merk of de eigenaar genoemd, welke aanbieders worden genoemd, welke
+   bronnen staan erbij.
+4. In het rapport: hoe vaak het merk genoemd wordt (x van 16), een staafje per concurrent die AI wél
+   noemt (top 7, plus het merk zelf in blauw), een tabel per vraag, de bronnen waar de namen vandaan
+   komen, en een antwoordblok "Zo lees je deze meting" met welke assistenten wel en niet gemeten zijn.
+   Concurrenten zijn een meetresultaat, geen oordeel.
+5. Sla de ruwe antwoorden op in `metingen/<klant>-<datum>-ai-meting.json`, zodat de herhaling na de
+   aanpassingen met precies dezelfde vragen kan.
+
+Bereikbaar vanuit de cloudomgeving: Claude met webzoeken. ChatGPT, Gemini en Perplexity vragen een
+API-sleutel als geheime variabele, en voor ChatGPT en Perplexity moeten `api.openai.com` en
+`api.perplexity.ai` vrijgegeven worden. Wat niet gemeten is, staat zo in het rapport.
 
 ## Componenten
 
