@@ -1,7 +1,7 @@
 export const meta = {
   name: 'fotoalbum-bouw',
   description: 'Fotoalbum stap 2: verhaal en layout, teksten per hoofdstuk, ON1-verbetering, boek en web bouwen, dubbele kwaliteitscontrole',
-  whenToUse: 'Na goedgekeurde curatie (fotoalbum-selectie). Args: {album: "<pad naar album.json>", curatie: "<pad naar curatie.json>", wensen?: "<vrije tekst>"}',
+  whenToUse: 'Na goedgekeurde curatie (fotoalbum-selectie of importeer_keuzebak.py). Args: {album: "<pad naar album.json>", curatie: "<pad naar curatie.json>", wensen?: "<vrije tekst>", stijlgids?: "<pad naar stijlgids.md>"}',
   phases: [
     { title: 'Verhaal', detail: 'art director: hoofdstukken, volgorde, layout per pagina' },
     { title: 'Teksten', detail: 'intro, bijschriften en alt-teksten per hoofdstuk' },
@@ -13,6 +13,8 @@ export const meta = {
 if (!args || !args.album || !args.curatie) throw new Error('Geef args.album en args.curatie.')
 const { album, curatie } = args
 const wensen = args.wensen || 'geen extra wensen'
+// Optioneel: stijlgids met de eigen stem van de fotograaf (fotoselectie-pipeline/stijlgids-v1.0.0.md).
+const stijlgids = args.stijlgids || ''
 
 const PLAN = {
   type: 'object',
@@ -90,6 +92,7 @@ Regels:
 - Layouts: vol, duo, drie, vier, passe-partout, panorama. Vol of panorama alleen voor de sterkste foto's (kwaliteit 4-5) met genoeg pixels: vol vraagt ongeveer 8,5 MP, panorama minstens 6300 px breed. Kleinere of sterk bijgesneden foto's in drie, vier of passe-partout.
 - Zet "focus" zo dat kop en oog binnen beeld blijven bij bijsnijden; bij een panorama nooit kop of oog op het midden (de rug van het boek).
 - Neem soorten met soort_status "ONEENS" niet op in bijschriften als zeker; laat bijschrift en alt leeg, de tekstschrijver vult ze.
+- Komt curatie.json uit de fotoselectie-pipeline (veld "bron"), gebruik dan per moment "plek", "land", "tijd" en "categorie": hoofdstukken volgen de reis in de tijd, per plek (Serengeti, Ngorongoro, ...); zet per hoofdstuk "plek" en "land" zodat er niets online opgezocht hoeft te worden. Kwaliteit = sterren uit de facet-score; foto's met dezelfde "koppeling"-reeks of bijna dezelfde tijd zijn bijna-dubbelen: kies er één. Mensen (categorie "mensen") alleen met reden, en dan "alleen_print": true.
 - Totaal 40-80 pagina's, even aantal. Titelpagina, overzichtskaart en hoofdstukkaarten voegt build.py zelf toe.
 - Ontwerp als een prijswinnend natuurfotoboek: veel wit, één sterke foto per spread waar dat kan, rust na drukte, kaartjes als decoratie die vertellen waar je bent. Zet "maker" (naam fotograaf) en per hoofdstuk zo nodig "plek" (bijvoorbeeld de naam van een wildpark als OSM die niet kent), "gps" ([lat, lon] als foto's geen GPS hebben) of "periode". Kies per hoofdstuk "icoon" (kust, duin, water, heide, bos, berg, savanne, ijs, veer of geen) als de automatische keuze op trefwoorden niet past.
 Geef het plan terug: hoofdstukken met thema en moment_ids, in volgorde.`,
@@ -99,7 +102,7 @@ log(`${plan.hoofdstukken.length} hoofdstukken, ${plan.paginas_totaal} pagina's`)
 
 const teksten = await parallel(plan.hoofdstukken.map((h, i) => () => agent(
   `Schrijf de teksten voor hoofdstuk ${i + 1} "${h.titel}" van het fotoboek in ${album} (thema: ${h.thema}).
-Gebruik de skill eqwise-taalgebruik. Lees ${album} voor de pagina's van dit hoofdstuk en ${curatie} voor soort, soort_status, beschrijving en kenmerken per moment.
+${stijlgids ? `Schrijf in de eigen stem van de fotograaf: lees eerst ${stijlgids} en houd je aan de kenmerken en aan de sectie "Wat dit NIET betekent" (niets verzinnen dat niet op de foto of in de gegevens staat). ` : 'Gebruik de skill eqwise-taalgebruik. '}Lees ${album} voor de pagina's van dit hoofdstuk en ${curatie} voor soort, soort_status, beschrijving en kenmerken per moment.
 - intro: 2-3 zinnen, persoonlijk en concreet, geen clichés.
 - bijschrift per pagina: kort; noem de soort alleen met zekerheid als soort_status "zeker" is, bij "waarschijnlijk" of "ONEENS" vaag blijven of de familie noemen.
 - alt per foto: beschrijvend voor wie de foto niet ziet en goed vindbaar (soort, gedrag, omgeving), 8-16 woorden, niet beginnen met "foto van".

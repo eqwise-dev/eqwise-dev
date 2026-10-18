@@ -190,3 +190,27 @@ python3 fotoalbum/soort_lokaal.py herken foto.jpg --mlx <qwen-vl-model-voor-mlx>
 - **Hoe het werkt:** de virtualenv van `qwen_local` wordt gebruikt (of `QWEN_VENV`) en het model wordt één keer geladen voor alle foto's.
 - **Let op, beeldinvoer:** volgens de `qwen_local`-README ondersteunt de 4-bit MLX-conversie van Qwen3-Omni mogelijk alleen tekst. Kan het model geen beeld lezen, dan meldt het script dat per foto ("fout") in plaats van een soort te verzinnen. Gebruik dan een Qwen-VL-model voor MLX.
 - **In de swarm:** `lokaal "mlx"` of `lokaal "mlx:<model>"`.
+
+## Aansluiten op de fotoselectie-pipeline (BioCLIP)
+
+Heb je een reis al door [`eqwise-dev/fotoselectie-pipeline`](https://github.com/eqwise-dev/fotoselectie-pipeline) gehaald, dan sla je de selectie-swarm over. De pipeline heeft dan al bursts, scherpte, de facet-score, de soortherkenning met **BioCLIP** en de regionale checklist, de sterren en de plaats (uit GPS of het reisschema) **in de JPEG's** gezet.
+
+```bash
+python3 fotoalbum/importeer_keuzebak.py /Volumes/mart-4tb/Fotoselectie-Tanzania-2026-09-01/Selectie --min-sterren 4
+```
+
+Het script leest titel (soortnaam), beschrijving, plek, land, sterren, kleurlabel en taxonomie uit XMP, zonder exiftool, en schrijft `uitvoer/selectie/curatie.json`:
+
+- **Albumwaardig:** foto's met minstens `--min-sterren` sterren. Foto's met een rood label (BioCLIP onzeker) vallen eruit en krijgen het oordeel "fotograaf beslist".
+- **Wetenschappelijke naam:** komt uit de taxonomieboom (`Tanzania|Animalia|…|Coracias caudatus`).
+- **Koppeling:** het deel na ` - ` in de bestandsnaam (`DSC_1234`), de stabiele koppeling van de pipeline.
+
+Daarna direct:
+
+```
+voer workflow fotoalbum-bouw uit met album …/album.json, curatie …/uitvoer/selectie/curatie.json
+  en stijlgids /pad/naar/fotoselectie-pipeline/stijlgids-v1.0.0.md
+```
+
+- **Hoofdstukken:** de art director bouwt ze op de reis in de tijd, per plek, en vult `plek` en `land` per hoofdstuk zelf in. Dat is nodig omdat maar een kwart van de foto's GPS heeft.
+- **Bijschriften:** de tekstschrijvers schrijven in jouw eigen stem uit de stijlgids, zonder iets te verzinnen dat niet op de foto of in de gegevens staat.
