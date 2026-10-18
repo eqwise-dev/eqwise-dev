@@ -160,3 +160,20 @@ Per hoofdstuk kan een luchtbeeld als paginavullende pagina naast de opening staa
   - laat luchtbeelden **weg uit de webversie**, tenzij je `"luchtfoto_web": true` zet. Een bedrijfswebsite telt al snel als promotioneel gebruik.
 
 Controleer de actuele richtlijnen op about.google voordat je drukt.
+
+## Lokaal beeldmodel voor soortherkenning (Qwen-VL)
+
+`fotoalbum/soort_lokaal.py` laat een lokaal draaiend beeldmodel de soort bepalen. De foto's verlaten de computer niet.
+
+```bash
+python3 fotoalbum/soort_lokaal.py modellen                  # welke modellen draaien er, en welke wordt gekozen
+python3 fotoalbum/soort_lokaal.py herken foto.jpg --regio Tanzania
+```
+
+- **Servers:** het script zoekt zelf naar Ollama (poort 11434), LM Studio (1234), llama.cpp (8080) en vLLM (8000). Een andere server stel je in met `LOKAAL_MODEL_URL`.
+- **Model:** zonder `--model` kiest het een Qwen-beeldmodel (naam met "qwen" en "vl"), en anders een ander beeldmodel. De naam hoef je dus niet te weten.
+- **In de swarm:** `voer workflow fotoalbum-selectie uit met fotomap … , lokaal true en regio Tanzania`. Het lokale model wordt dan de **derde, onafhankelijke stem**:
+  - zijn de curator en de controleur het oneens, dan beslist de meerderheid van 2 van 3;
+  - wijkt het lokale model af terwijl de twee anderen het eens zijn, dan wordt "zeker" verlaagd naar "waarschijnlijk".
+
+  Het antwoord van het lokale model staat per moment in `curatie.json` (`soort_lokaal`).

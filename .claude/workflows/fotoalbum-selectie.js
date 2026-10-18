@@ -1,7 +1,7 @@
 export const meta = {
   name: 'fotoalbum-selectie',
   description: 'Fotoalbum stap 1: bursts groeperen, per moment de beste opname kiezen, curatie en vogelsoort met onafhankelijke controle',
-  whenToUse: 'Start van een nieuw fotoalbum, zodra de foto\'s in fotos/origineel/ en fotos/bewerkt/ staan. Args: {fotomap: "<pad>"}',
+  whenToUse: 'Start van een nieuw fotoalbum, zodra de foto\'s in fotos/origineel/ en fotos/bewerkt/ staan. Args: {fotomap: "<pad>", lokaal?: true | "<modelnaam>", regio?: "Tanzania"}',
   phases: [
     { title: 'Inventaris', detail: 'selectie.py: bursts, scherpte, contactvellen' },
     { title: 'Curatie', detail: 'per batch momenten beoordelen en soort bepalen' },
@@ -12,6 +12,10 @@ export const meta = {
 
 if (!args || !args.fotomap) throw new Error('Geef args.fotomap: de map met origineel/ en bewerkt/.')
 const FOTOMAP = args.fotomap
+// Optioneel: lokaal beeldmodel (bijv. Qwen-VL in Ollama/LM Studio) als derde, onafhankelijke determinatie.
+// args.lokaal: true (automatische modelkeuze) of een modelnaam; args.regio: bijv. "Tanzania".
+const LOKAAL = args.lokaal || false
+const REGIO = args.regio || ''
 const MAX_BATCHES = 4
 
 const INVENTARIS = {
@@ -75,10 +79,14 @@ const SOORT = {
           wetenschappelijke_naam: { type: 'string' },
           zekerheid: { type: 'string', enum: ['hoog', 'middel', 'laag'] },
           kenmerken: { type: 'string', description: 'zichtbare kenmerken waarop het oordeel rust' },
+          lokaal_soort: { type: 'string', description: 'antwoord van het lokale model, leeg als niet gebruikt' },
+          lokaal_wetenschappelijk: { type: 'string' },
+          lokaal_zekerheid: { type: 'string' },
         },
         required: ['id', 'soort', 'wetenschappelijke_naam', 'zekerheid', 'kenmerken'],
       },
     },
+    lokaal_model: { type: 'string', description: 'naam van het gebruikte lokale model, leeg als niet gebruikt' },
   },
   required: ['oordelen'],
 }
@@ -124,7 +132,12 @@ ${batch.map(g => `- ${g.id}: ${g.contactvel} | keuze ${g.keuze.join(', ')} | ${g
 Noem de zichtbare kenmerken waarop je oordeel rust (snavel, oogring, vleugelstrepen, poten, verenkleed, formaat t.o.v. omgeving).
 Wees streng: geslacht of familie is beter dan een verkeerde soort; dan zekerheid laag.
 
-${vogels.map(m => `- ${m.id}: ${m.keuze[0]}`).join('\n')}`,
+${vogels.map(m => `- ${m.id}: ${m.keuze[0]}`).join('\n')}
+${LOKAAL ? `
+Daarna, PAS NA je eigen oordeel: laat het lokale beeldmodel dezelfde foto's determineren met
+  python3 fotoalbum/soort_lokaal.py herken ${typeof LOKAAL === 'string' ? `--model "${LOKAAL}" ` : ''}${REGIO ? `--regio "${REGIO}" ` : ''}<paden>
+(paden relatief aan ${FOTOMAP}) en neem per id over: lokaal_soort, lokaal_wetenschappelijk, lokaal_zekerheid, plus lokaal_model.
+Pas je eigen oordeel NIET aan op dat van het lokale model. Draait er geen lokaal model, laat de velden leeg.` : ''}`,
       { label: `soortcontrole ${n + 1}/${batches.length}`, phase: 'Soortcontrole', schema: SOORT })
       .then(soort => ({ cur, soort }))
   },
@@ -138,13 +151,20 @@ for (const r of resultaten.filter(Boolean)) {
     const o = tweede.get(m.id)
     // Eens als de Nederlandse of de wetenschappelijke naam overeenkomt (Nederlandse namen variëren).
     const gelijk = (a, b) => a && b && a.trim().toLowerCase() === b.trim().toLowerCase()
-    const eens = !o || gelijk(o.soort, m.soort) || gelijk(o.wetenschappelijke_naam, m.wetenschappelijke_naam)
+    const zelfde = (a, an, b, bn) => gelijk(a, b) || gelijk(an, bn)
+    const eens = !o || zelfde(o.soort, o.wetenschappelijke_naam, m.soort, m.wetenschappelijke_naam)
+    // Derde stem van het lokale model: beslist bij onenigheid (2 van 3), en verlaagt "zeker" als het afwijkt.
+    const lokaal = o && o.lokaal_soort ? zelfde(o.lokaal_soort, o.lokaal_wetenschappelijk, m.soort, m.wetenschappelijke_naam)
+      ? 'curator' : zelfde(o.lokaal_soort, o.lokaal_wetenschappelijk, o.soort, o.wetenschappelijke_naam) ? 'controle' : 'anders' : null
     momenten.push({
       ...m,
       soort_controle: o ? o.soort : null,
       soort_kenmerken: o ? o.kenmerken : null,
       // Pas "zeker" als beide onafhankelijk dezelfde soort met hoge zekerheid noemen.
-      soort_status: !o ? 'niet gecontroleerd' : !eens ? 'ONEENS: fotograaf beslist'
+      soort_lokaal: o && o.lokaal_soort ? `${o.lokaal_soort} (${o.lokaal_wetenschappelijk || '?'}, ${o.lokaal_zekerheid || '?'})` : null,
+      soort_status: !o ? 'niet gecontroleerd'
+        : !eens ? (lokaal === 'curator' ? 'waarschijnlijk (2 van 3)' : lokaal === 'controle' ? `waarschijnlijk ${o.soort} (2 van 3)` : 'ONEENS: fotograaf beslist')
+        : lokaal === 'anders' ? 'waarschijnlijk (lokaal model wijkt af)'
         : (m.soort_zekerheid === 'hoog' && o.zekerheid === 'hoog') ? 'zeker' : 'waarschijnlijk',
     })
   }
