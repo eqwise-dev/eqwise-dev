@@ -361,7 +361,7 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; overflow
         <div class="figuur-titel">Stand per onderdeel</div>
         <div class="stand">
           <div class="tegel"><span class="badge b-ok">Goed</span><h3>Indexering en crawlbaarheid</h3><p>robots.txt open, 14 URL's in de sitemap, alle 200. Canonicals, lang en titels in orde.</p></div>
-          <div class="tegel"><span class="badge b-hi">Zwak</span><h3>Wie is het bedrijf</h3><p>Geen adres, plaats of KvK. Kaal schema. Telefoonlink ongeldig. Geen links naar profielen.</p></div>
+          <div class="tegel"><span class="badge b-hi">Zwak</span><h3>Van wie is het bedrijf</h3><p>Geen adres, plaats of KvK. Kaal schema. Telefoonlink ongeldig. Geen links naar profielen.</p></div>
           <div class="tegel"><span class="badge b-hi">Zwak</span><h3>Snelheid</h3><p>Mobiel 63/100, desktop 87/100. Geen cache, geen browsercaching, zware hero-afbeeldingen, 22 blokkerende stylesheets.</p></div>
           <div class="tegel"><span class="badge b-mid">Matig</span><h3>Content en structuur</h3><p>Concrete prijzen en FAQ's, maar geen Over-pagina, geen regiopagina's en headings als opmaak.</p></div>
           <div class="tegel"><span class="badge b-mid">Matig</span><h3>GEO en AI-zichtbaarheid</h3><p>AI-bots welkom en llms.txt aanwezig. Weinig externe vermeldingen, merknaam op plek 16.</p></div>
@@ -460,7 +460,7 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; overflow
       <h2 id="h-actions">Wat moet er gebeuren?</h2>
       <div class="chips" role="group" aria-label="Filter op onderdeel">
         <button type="button" data-filter="all" aria-pressed="true">Alles</button>
-        <button type="button" data-filter="entiteit" aria-pressed="false">Wie is het bedrijf</button>
+        <button type="button" data-filter="entiteit" aria-pressed="false">Van wie is het bedrijf</button>
         <button type="button" data-filter="snelheid" aria-pressed="false">Snelheid</button>
         <button type="button" data-filter="techniek" aria-pressed="false">Techniek</button>
         <button type="button" data-filter="content" aria-pressed="false">Content</button>
@@ -486,17 +486,17 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; overflow
       </li>
 
       <li class="act" data-sev="hoog" data-area="entiteit">
-        <div class="act-head"><strong>Bedrijfsgegevens (NAP) ontbreken</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">Wie is het bedrijf</span></span></div>
+        <div class="act-head"><strong>Bedrijfsgegevens (NAP) ontbreken</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">Van wie is het bedrijf</span></span></div>
         <p>Nergens een adres, vestigingsplaats of KvK-nummer. Het nummer in de footer linkt naar de pagina zelf; op de contactpagina staat de ongeldige link <code>tel:+ 31(0)650 625 621</code>.</p>
         <p class="fix">KvK-nummer, vestigingsplaats en één schrijfwijze van het nummer in de footer; link als <code>tel:+31650625621</code>.</p>
       </li>
       <li class="act" data-sev="hoog" data-area="entiteit geo">
-        <div class="act-head"><strong>Structured data is een kale Organization</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">Wie is het bedrijf</span><span class="tag">GEO</span></span></div>
+        <div class="act-head"><strong>Structured data is een kale Organization</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">Van wie is het bedrijf</span><span class="tag">GEO</span></span></div>
         <p>Yoast geeft alleen naam, url en logo. Geen LocalBusiness of ProfessionalService, geen telefoon, e-mail, werkgebied, oprichter of sameAs.</p>
         <p class="fix">ProfessionalService-schema toevoegen met oprichter, areaServed, tarieven en profiellinks. Zie het voorbeeld onderaan.</p>
       </li>
       <li class="act" data-sev="hoog" data-area="entiteit geo">
-        <div class="act-head"><strong>Geen links naar profielen buiten de site</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">Wie is het bedrijf</span></span></div>
+        <div class="act-head"><strong>Geen links naar profielen buiten de site</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">Van wie is het bedrijf</span></span></div>
         <p>LinkedIn en Instagram van Irene Brouwer bestaan wel, maar de site linkt er niet naar. Een Google Bedrijfsprofiel kon niet worden vastgesteld.</p>
         <p class="fix">Google Bedrijfsprofiel aanmaken of claimen, profielen in de footer linken en opnemen in sameAs.</p>
       </li>
@@ -582,7 +582,7 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; overflow
         <p class="fix">Juridische pagina's en dunne archieven op noindex, unieke descriptions, herhaald blok inkorten.</p>
       </li>
       <li class="act" data-sev="middel" data-area="entiteit content">
-        <div class="act-head"><strong>Blogauteur heet "admin"</strong><span class="tags"><span class="pill p-mid">Middel</span><span class="tag">Wie is het bedrijf</span></span></div>
+        <div class="act-head"><strong>Blogauteur heet "admin"</strong><span class="tags"><span class="pill p-mid">Middel</span><span class="tag">Van wie is het bedrijf</span></span></div>
         <p>In het Person-schema, op de pagina en in de RSS-feed. Twee posts, laatst bijgewerkt in april 2026, zonder zichtbare datum.</p>
         <p class="fix">Auteur Irene Brouwer met bio en link naar de Over-pagina, datum tonen.</p>
       </li>
@@ -623,7 +623,7 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; overflow
         <p class="fix">Consentbanner met Google Consent Mode v2.</p>
       </li>
       <li class="act" data-sev="laag" data-area="entiteit">
-        <div class="act-head"><strong>NBPO-logo niet te verifiëren</strong><span class="tags"><span class="pill p-lo">Laag</span><span class="tag">Wie is het bedrijf</span></span></div>
+        <div class="act-head"><strong>NBPO-logo niet te verifiëren</strong><span class="tags"><span class="pill p-lo">Laag</span><span class="tag">Van wie is het bedrijf</span></span></div>
         <p>Staat op vier pagina's, maar er is geen NBPO-profiel van Irene Brouwer gevonden.</p>
         <p class="fix">Bij lidmaatschap profiel laten aanmaken en linken met tekst; anders logo weghalen.</p>
       </li>
