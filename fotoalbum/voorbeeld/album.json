@@ -1,0 +1,161 @@
+{
+  "titel": "Kust, dorp en heide",
+  "ondertitel": "Voorbeeldalbum met testbeelden: één bron voor het Blurb-boek en de webpagina.",
+  "fotomap": "fotos",
+  "uitvoermap": "uitvoer",
+  "drukker": {
+    "naam": "Blurb Large Landscape 13 x 11 inch (33 x 28 cm), ImageWrap hardcover",
+    "pagina_breedte_in": 13.25,
+    "pagina_hoogte_in": 11.25,
+    "afloop_in": 0.125,
+    "veilige_marge_in": 0.5,
+    "maat_gecontroleerd": false,
+    "min_paginas": 20,
+    "dpi_min": 200,
+    "dpi_doel": 300,
+    "print_helderheid": 1.04,
+    "max_paginas": 240,
+    "papier": "Premium Lustre of Mohawk ProPhoto Pearl (max. 240 pagina's); layflat max. 110"
+  },
+  "web": {
+    "basis_url": "https://www.voorbeeld.nl/fotoalbum",
+    "breedtes": [
+      640,
+      1280,
+      1920
+    ],
+    "kwaliteit": 80
+  },
+  "hoofdstukken": [
+    {
+      "titel": "Aankomst",
+      "intro": "De eerste dagen: zand, wind en het licht van de late middag.",
+      "paginas": [
+        {
+          "layout": "vol",
+          "bijschrift": "Het strand bij laag water.",
+          "fotos": [
+            {
+              "bestand": "strand.jpg",
+              "alt": "Leeg strand bij laag water in de middagzon"
+            }
+          ]
+        },
+        {
+          "layout": "duo",
+          "fotos": [
+            {
+              "bestand": "portret.jpg",
+              "alt": "Portret in de duinen",
+              "alleen_print": true
+            },
+            {
+              "bestand": "duinen.jpg",
+              "alt": "Pad door de duinen",
+              "focus": "30% 50%"
+            }
+          ]
+        },
+        {
+          "layout": "panorama",
+          "bijschrift": "Uitzicht over de baai.",
+          "fotos": [
+            {
+              "bestand": "panorama.jpg",
+              "alt": "Panorama over de baai"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "titel": "Het dorp",
+      "intro": "Markt op zaterdag, vissersboten in de haven.",
+      "paginas": [
+        {
+          "layout": "drie",
+          "bijschrift": "Zaterdagmarkt en haven.",
+          "fotos": [
+            {
+              "bestand": "markt.jpg",
+              "alt": "Kramen op de zaterdagmarkt"
+            },
+            {
+              "bestand": "haven.jpg",
+              "alt": "Vissersboten in de haven"
+            },
+            {
+              "bestand": "avond.jpg",
+              "alt": "Avondlucht boven het dorp"
+            }
+          ]
+        },
+        {
+          "layout": "vol",
+          "fotos": [
+            {
+              "bestand": "oud-telefoontje.jpg",
+              "alt": "Oude foto met lage resolutie"
+            }
+          ]
+        },
+        {
+          "layout": "passe-partout",
+          "bijschrift": "De laatste avond.",
+          "fotos": [
+            {
+              "bestand": "avond.jpg",
+              "alt": "Zonsondergang boven zee"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "titel": "Vogels",
+      "intro": "Reigers in wisselend licht, op elkaar afgestemd.",
+      "paginas": [
+        {
+          "layout": "drie",
+          "bijschrift": "Drie reigers, één stijl.",
+          "fotos": [
+            {
+              "bestand": "bewerkt/reiger.jpg",
+              "alt": "Reiger, bewerkte referentiefoto"
+            },
+            {
+              "bestand": "reiger-donker.jpg",
+              "alt": "Reiger in somber licht"
+            },
+            {
+              "bestand": "reiger-licht.jpg",
+              "alt": "Reiger in fel licht"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "harmoniseren": {
+    "aan": true,
+    "sterkte": 0.6
+  },
+  "on1": {
+    "in": "on1/in",
+    "uit": "on1/uit",
+    "preset": "Album: NoNoise + Resize 2x"
+  },
+  "plaatsen": {
+    "online": false
+  },
+  "maker": "Voorbeeld · EQwise",
+  "kaft": {
+    "stijl": "beeld",
+    "voor": "bewerkt/reiger.jpg",
+    "voor_focus": "55% 50%",
+    "achtertekst": "Een jaar langs kust, dorp en heide: wat er vloog, waadde en zong, en waar.",
+    "maat_gecontroleerd": false
+  },
+  "fotocredits": "eind",
+  "medefotografen_web": false
+}

@@ -1,0 +1,63 @@
+{
+  "titel": "Tanzania",
+  "ondertitel": "Van de Serengeti tot de kust",
+  "maker": "Martin de Smit",
+  "medefotografen": [
+    "Edith",
+    "Jack",
+    "Connie"
+  ],
+  "fotocredits": "eind",
+  "medefotografen_web": true,
+  "land": "Tanzania",
+  "jaar": "2026",
+  "fotomap": "fotos",
+  "uitvoermap": "uitvoer",
+  "drukker": {
+    "naam": "Blurb Large Landscape 13 x 11 inch (33 x 28 cm), ImageWrap hardcover",
+    "pagina_breedte_in": 13.25,
+    "pagina_hoogte_in": 11.25,
+    "afloop_in": 0.125,
+    "veilige_marge_in": 0.5,
+    "maat_gecontroleerd": false,
+    "min_paginas": 20,
+    "dpi_min": 200,
+    "dpi_doel": 300,
+    "print_helderheid": 1.04,
+    "max_paginas": 240,
+    "papier": "Premium Lustre of Mohawk ProPhoto Pearl (max. 240 pagina's); layflat max. 110"
+  },
+  "web": {
+    "basis_url": "",
+    "breedtes": [
+      640,
+      1280,
+      1920
+    ],
+    "kwaliteit": 80
+  },
+  "harmoniseren": {
+    "aan": true,
+    "sterkte": 0.6
+  },
+  "plaatsen": {
+    "online": true
+  },
+  "stijl": {
+    "accent": "#a4572a",
+    "achtergrond": "#f7f3ec"
+  },
+  "kaft": {
+    "stijl": "beeld",
+    "achtertekst": "",
+    "kaart_achter": true,
+    "rug_richting": "omhoog",
+    "maat_gecontroleerd": false
+  },
+  "on1": {
+    "in": "~/Pictures/ON1-album/in",
+    "uit": "~/Pictures/ON1-album/uit",
+    "preset": "Album: NoNoise + Resize 2x"
+  },
+  "hoofdstukken": []
+}

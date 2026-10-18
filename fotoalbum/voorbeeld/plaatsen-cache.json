@@ -1,0 +1,88 @@
+{
+ "_let_op": "Testdata voor het voorbeeld; contouren zijn grove handmatige schetsen, geen echte OSM-geometrie.",
+ "53.073,4.744": {
+  "plaats": "De Koog",
+  "regio": "Noord-Holland",
+  "land": "Nederland",
+  "gebied": "Nationaal Park Duinen van Texel",
+  "gebied_id": "relation/test-texel"
+ },
+ "51.499,3.611": {
+  "plaats": "Middelburg",
+  "regio": "Zeeland",
+  "land": "Nederland",
+  "gebied": null,
+  "gebied_id": null
+ },
+ "52.075,5.814": {
+  "plaats": "Otterlo",
+  "regio": "Gelderland",
+  "land": "Nederland",
+  "gebied": "Nationaal Park De Hoge Veluwe",
+  "gebied_id": "relation/test-veluwe"
+ },
+ "contour:relation/test-texel": [
+  [
+   [
+    4.71,
+    53.0
+   ],
+   [
+    4.74,
+    53.0
+   ],
+   [
+    4.8,
+    53.1
+   ],
+   [
+    4.86,
+    53.18
+   ],
+   [
+    4.83,
+    53.18
+   ],
+   [
+    4.76,
+    53.11
+   ],
+   [
+    4.71,
+    53.0
+   ]
+  ]
+ ],
+ "contour:relation/test-veluwe": [
+  [
+   [
+    5.76,
+    52.03
+   ],
+   [
+    5.86,
+    52.02
+   ],
+   [
+    5.89,
+    52.07
+   ],
+   [
+    5.86,
+    52.12
+   ],
+   [
+    5.78,
+    52.13
+   ],
+   [
+    5.74,
+    52.08
+   ],
+   [
+    5.76,
+    52.03
+   ]
+  ]
+ ]
+}
