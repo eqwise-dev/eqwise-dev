@@ -141,3 +141,22 @@ Bij de foto's zelf staan geen iconen, zodat het beeld rustig blijft.
 - **Camera zonder GPS:** zet telefoonfoto's van dezelfde reis in `fotos/telefoon/`. Een hoofdstuk zonder GPS leent dan de locaties van telefoonfoto's die binnen een uur van de eigen opnames zijn gemaakt. Staat de cameraklok niet op lokale tijd, zet dan `"plaatsen": {"camera_tijdverschil_min": 60}` (minuten die bij de cameratijd worden opgeteld; Nederlandse zomertijd naar Tanzania is +60).
 - **Land:** komt uit OpenStreetMap, anders uit `"land"` in `album.json`, en anders uit de kaart zelf.
 - **Soorten:** de selectie-swarm determineert vogels én zoogdieren, met Nederlandse en wetenschappelijke naam. De twee determinaties gelden als eens als een van beide namen overeenkomt.
+
+## Luchtbeelden (Google Earth Pro)
+
+Per hoofdstuk kan een luchtbeeld als paginavullende pagina naast de opening staan:
+
+```json
+{ "titel": "In de krater", "luchtfoto": "luchtbeelden/ngorongoro.jpg",
+  "luchtfoto_bron": "Beeld: Google Earth · © 2026 Airbus", "luchtfoto_focus": "50% 45%" }
+```
+
+- **Exporteren:** in Google Earth Pro via *Bestand → Afbeelding opslaan*, op de hoogste resolutie. Volgens oudere bronnen is dat maximaal ongeveer 4800 × 3200 px; controleer het in je eigen versie. Dat is genoeg voor één volle pagina (ongeveer 360 dpi), niet voor een hele spread.
+- **Plaatsing:** valt de opening rechts met een vrije linkerpagina ervoor, dan komt het luchtbeeld links (een mooie spread). Anders komt het direct na de opening.
+- **Regels van Google (geo-richtlijnen):** boeken tot 5.000 exemplaren zijn toegestaan, maar alleen met een leesbare bronvermelding van minstens 6 pt en zonder commercieel of promotioneel gebruik. Het script:
+  - laat het beeld ongemoeid: geen kleurafstemming, geen extra helderheid, niet naar ON1;
+  - zet `luchtfoto_bron` altijd zichtbaar op de pagina. Neem daarin de dataleveranciers over die Google Earth onderin het beeld toont;
+  - zet een handelsmerk- en non-affiliatieregel op de overzichtspagina;
+  - laat luchtbeelden **weg uit de webversie**, tenzij je `"luchtfoto_web": true` zet. Een bedrijfswebsite telt al snel als promotioneel gebruik.
+
+Controleer de actuele richtlijnen op about.google voordat je drukt.

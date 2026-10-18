@@ -31,6 +31,8 @@ import plaatsen
 FONTS = Path(__file__).parent / "fonts"
 # OpenStreetMap-gegevens (ODbL) vragen naamsvermelding; Natural Earth is publiek domein.
 KAARTBRON = "Kaartgegevens: Natural Earth, © OpenStreetMap-bijdragers"
+GOOGLE_DISCLAIMER = (". Luchtbeelden: Google Earth. Google Earth is een handelsmerk van Google LLC; "
+                     "dit boek is niet verbonden aan of goedgekeurd door Google.")
 
 CHROME_KANDIDATEN = [
     "/opt/pw-browsers/chromium-1194/chrome-linux/chrome",
@@ -203,6 +205,9 @@ class Album:
             })
         return uit
 
+    def heeft_luchtfoto(self):
+        return any(h.get("luchtfoto") for h in self.data["hoofdstukken"])
+
     def kaart_svg(self, h_idx, breedte=360, hoogte=300, label=False):
         """Klein kaartje zonder label (de plek staat al in de tekst); groot kaartje met label."""
         loc = self.locaties[h_idx]
@@ -244,9 +249,17 @@ class Album:
         for h_idx, hoofdstuk in enumerate(self.data["hoofdstukken"]):
             # Een opening staat bij voorkeur rechts. Valt hij links, dan wordt de
             # linkerpagina een grote kaart van het hoofdstuk: geen lege pagina's.
-            if (len(paginas) + 1) % 2 == 0 and self.locaties[h_idx]["punten"]:
+            # Met een luchtfoto (bijv. Google Earth Pro-export) wordt die de linkerpagina; valt de
+            # opening rechts zonder ruimte ervoor, dan komt de luchtfoto direct na de opening.
+            lucht = hoofdstuk.get("luchtfoto")
+            links_vrij = (len(paginas) + 1) % 2 == 0
+            if links_vrij and lucht:
+                paginas.append({"type": "luchtfoto", "h_idx": h_idx})
+            elif links_vrij and self.locaties[h_idx]["punten"]:
                 paginas.append({"type": "hoofdstukkaart", "h_idx": h_idx})
             paginas.append({"type": "titel", "hoofdstuk": hoofdstuk, "h_idx": h_idx})
+            if lucht and not links_vrij:
+                paginas.append({"type": "luchtfoto", "h_idx": h_idx})
             for pagina in hoofdstuk["paginas"]:
                 if pagina["layout"] == "panorama":
                     # Een panorama hoort op een linkerpagina te beginnen
@@ -333,7 +346,17 @@ class Album:
                                 for n, h in enumerate(self.data["hoofdstukken"]))
                 delen.append(f'<div class="overzicht"><p class="kicker">Waar deze foto\'s zijn gemaakt</p>'
                              f'<div class="grotekaart">{svg}</div><ol>{lijst}</ol>'
-                             f'<p class="bron">{KAARTBRON}</p></div>')
+                             f'<p class="bron">{KAARTBRON}{GOOGLE_DISCLAIMER if self.heeft_luchtfoto() else ""}</p></div>')
+        elif pagina["type"] == "luchtfoto":
+            h = self.data["hoofdstukken"][pagina["h_idx"]]
+            foto = {"bestand": h["luchtfoto"], "focus": h.get("luchtfoto_focus", "50% 50%"), "luchtfoto": True}
+            naam = self._print_foto(foto, self.pag_b, self.pag_h, imgmap, 1.0, nr)
+            # Google vraagt een leesbare bronvermelding (minstens 6 pt) en geen aanpassing van het beeld:
+            # daarom geen kleurcorrectie, geen extra helderheid, en de bron altijd zichtbaar.
+            bron = html.escape(h.get("luchtfoto_bron", "Beeld: Google Earth"))
+            delen.append(f'<img src="img/{naam}" style="left:0;top:0;width:{self.pag_b}in;height:{self.pag_h}in;'
+                         f'object-position:{foto["focus"]}" alt="">'
+                         f'<p class="luchtbron">{bron}</p>')
         elif pagina["type"] == "hoofdstukkaart":
             loc = self.locaties[pagina["h_idx"]]
             svg = self.kaart_svg(pagina["h_idx"], 720, 560, label=True)
@@ -379,7 +402,7 @@ class Album:
                                        "Kies een kleiner vak of een andere foto.")
         elif dpi < self.dpi_doel * 0.8:
             self.waarschuwingen.append(f"MATIG    {label} haalt {dpi:.0f} dpi; acceptabel, niet ideaal.")
-        if dpi < self.dpi_doel * 0.8:
+        if dpi < self.dpi_doel * 0.8 and not foto.get("luchtfoto"):  # Google-beeld niet laten bewerken door ON1
             self.te_verbeteren[foto["bestand"]] = min(round(dpi), self.te_verbeteren.get(foto["bestand"], 10_000))
         # Schalen naar doelresolutie voor het vak (cover), nooit opschalen.
         schaal = min(1.0, max(vak_b * self.dpi_doel / img.width, vak_h * self.dpi_doel / img.height))
@@ -471,7 +494,7 @@ class Album:
                               if meta else "")
                            + f'<p class="intro">{html.escape(hoofdstuk.get("intro", ""))}</p></div>'
                            + (f'<div class="kaartje">{svg}</div>' if svg else "")
-                           + f'</header>{"".join(figuren)}</section>')
+                           + f'</header>{self._web_luchtfoto(hoofdstuk, breedtes, imgmap, w)}{"".join(figuren)}</section>')
             if loc["midden"]:
                 schema_plaatsen.append({"@type": "Place", "name": loc["korte_naam"] or loc["plekregel"],
                                         "geo": {"@type": "GeoCoordinates", "latitude": round(loc["midden"][1], 4),
@@ -490,6 +513,18 @@ class Album:
         (doel / "index.html").write_text(HTML_SKELET.format(titel=html.escape(self.data["titel"]), css=web_css,
                                                             body=inhoud), encoding="utf-8")
         return doel / "index.html"
+
+    def _web_luchtfoto(self, hoofdstuk, breedtes, imgmap, w):
+        # Google Earth-beelden mogen niet commercieel of promotioneel worden gebruikt; een bedrijfssite valt
+        # daar al snel onder. Daarom alleen op het web met "luchtfoto_web": true.
+        if not hoofdstuk.get("luchtfoto") or not hoofdstuk.get("luchtfoto_web"):
+            return ""
+        foto = {"bestand": hoofdstuk["luchtfoto"], "web_naam": "lucht-" + Path(hoofdstuk["luchtfoto"]).name}
+        srcset, groot, (bw, bh) = self._web_foto(foto, breedtes, imgmap, w.get("kwaliteit", 80))
+        bron = html.escape(hoofdstuk.get("luchtfoto_bron", "Beeld: Google Earth"))
+        return (f'<figure class="luchtfoto"><img src="img/{groot}" srcset="{srcset}" sizes="100vw" width="{bw}" '
+                f'height="{bh}" alt="Luchtbeeld van {html.escape(self.locaties[self.data["hoofdstukken"].index(hoofdstuk)]["korte_naam"])}" '
+                f'loading="lazy" decoding="async"><figcaption>{bron}</figcaption></figure>')
 
     def _web_foto(self, foto, breedtes, imgmap, kwaliteit):
         img = self.laad(foto)  # nieuw opgeslagen: geen EXIF of GPS mee
@@ -563,6 +598,9 @@ body {{ -webkit-print-color-adjust: exact; print-color-adjust: exact; }}
 .openingsicoon {{ display: block; width: .46in; height: .46in; margin-bottom: .28in; }}
 .regelicoon {{ width: 11pt; height: 11pt; margin: -2pt 5pt 0 0; opacity: .8; }}
 .lijsticoon {{ width: 12pt; height: 12pt; margin: -2pt 7pt 0 0; }}
+.luchtbron {{ position: absolute; right: {veilig}in; bottom: {veilig}in; font: 400 6.5pt/1.3 {schreefloos};
+  color: #fff; text-shadow: 0 0 3pt rgba(0,0,0,.6); max-width: 5in; text-align: right; }}
+.pagina.rechts .luchtbron {{ right: auto; left: {veilig}in; text-align: left; }}
 .overzicht .bron {{ font: 400 7pt/1 {schreefloos}; opacity: .5; margin-top: .2in; }}
 .overzicht li em {{ opacity: .6; margin-left: .1in; font-size: 10.5pt; }}
 """
