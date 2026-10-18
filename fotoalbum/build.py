@@ -177,7 +177,7 @@ class Album:
             bestanden = [self.fotomap / f["bestand"] for p in hoofdstuk["paginas"] for f in p["fotos"]]
             punten = [g for g in (plaatsen.gps(b) for b in bestanden) if g]
             if not punten and telefoon:
-                tijden = [t + verschil for t in (plaatsen.opnametijd(b) for b in bestanden) if t]
+                tijden = [t for t in self._tijden(hoofdstuk, verschil) if t]
                 if tijden:
                     van, tot = min(tijden) - timedelta(hours=1), max(tijden) + timedelta(hours=1)
                     punten = [g for t, g in telefoon if van <= t <= tot]
@@ -199,7 +199,7 @@ class Album:
                 "plekregel": regel,
                 "korte_naam": hoofdstuk.get("plek") or info.get("gebied") or info.get("plaats") or "",
                 "park": {"naam": info.get("gebied"), "contour": contour} if contour else None,
-                "periode": hoofdstuk.get("periode") or plaatsen.periode(plaatsen.opnametijd(b) for b in bestanden),
+                "periode": hoofdstuk.get("periode") or plaatsen.periode(self._tijden(hoofdstuk, timedelta(0))),
                 "icoon": hoofdstuk.get("icoon") or iconen.kies(hoofdstuk["titel"], hoofdstuk.get("intro"), regel,
                                                                hoofdstuk.get("thema")),
             })
@@ -247,6 +247,23 @@ class Album:
 
     def heeft_luchtfoto(self):
         return any(h.get("luchtfoto") for h in self.data["hoofdstukken"])
+
+    def _tijden(self, hoofdstuk, verschil):
+        """Opnametijden van een hoofdstuk. Een "tijd" per foto (al gelijkgezet per toestel door
+        importeer_keuzebak.py) gaat voor; anders EXIF plus het algemene cameraverschil."""
+        from datetime import datetime
+        uit = []
+        for p in hoofdstuk["paginas"]:
+            for f in p["fotos"]:
+                if f.get("tijd"):
+                    try:
+                        uit.append(datetime.strptime(f["tijd"], "%Y:%m:%d %H:%M:%S"))
+                        continue
+                    except ValueError:
+                        pass
+                t = plaatsen.opnametijd(self.fotomap / f["bestand"])
+                uit.append(t + verschil if t else None)
+        return uit
 
     def kaart_svg(self, h_idx, breedte=360, hoogte=300, label=False):
         """Klein kaartje zonder label (de plek staat al in de tekst); groot kaartje met label."""

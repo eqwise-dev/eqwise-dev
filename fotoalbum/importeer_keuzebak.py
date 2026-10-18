@@ -70,10 +70,12 @@ def lees(pad):
         sterren = int(float(eerste(_waarde(xmp, "xmp:Rating")) or 0))
     except ValueError:
         sterren = 0
-    tijd = None
+    tijd, camera = None, ""
     try:
         exif = Image.open(pad).getexif()
         tijd = exif.get_ifd(ExifTags.IFD.Exif).get(ExifTags.Base.DateTimeOriginal)
+        merk, model = str(exif.get(ExifTags.Base.Make) or "").strip(), str(exif.get(ExifTags.Base.Model) or "").strip()
+        camera = model if model.lower().startswith(merk.lower()[:4]) or not merk else f"{merk} {model}"
     except OSError:
         pass
     return {
@@ -86,6 +88,7 @@ def lees(pad):
         "taxonomie": taxonomie,
         "tijd": str(tijd).strip() if tijd else "",
         "maker": eerste(_waarde(xmp, "dc:creator")) or "",
+        "camera": camera.strip(),
     }
 
 
@@ -100,11 +103,14 @@ def main():
     ap.add_argument("--min-sterren", type=int, default=4, help="albumwaardig vanaf dit aantal sterren")
     ap.add_argument("--uit", help="standaard: <keuzebak>/../uitvoer/selectie/curatie.json")
     ap.add_argument("--maker", help="maker voor foto's zonder dc:creator (bijv. de reisvriend van deze map)")
-    ap.add_argument("--tijdverschil", action="append", default=[], metavar="MAKER=MINUTEN",
-                    help="cameraklok van een maker gelijkzetten, bijv. 'Anne=-60' (herhaalbaar)")
+    ap.add_argument("--tijdverschil", action="append", default=[], metavar="WIE=MINUTEN",
+                    help="klok gelijkzetten per toestel: 'Anne|NIKON Z 6=-60', of per maker 'Anne=-60' "
+                         "of per cameramodel 'ILCE-7RM5=+5' (herhaalbaar; toestel wint van maker)")
+    ap.add_argument("--apparaten", action="store_true",
+                    help="alleen tonen welke toestellen per maker voorkomen, met eerste en laatste opnametijd")
     ap.add_argument("--voeg-toe", action="store_true", help="aan een bestaande curatie.json toevoegen (meerdere fotografen)")
     args = ap.parse_args()
-    verschil = {k.strip(): int(v) for k, v in (t.split("=", 1) for t in args.tijdverschil)}
+    verschil = {k.strip(): int(v) for k, v in (t.rsplit("=", 1) for t in args.tijdverschil)}
     basis = Path(args.keuzebak).expanduser().resolve()
     paden = sorted(p for p in basis.rglob("*") if p.suffix.lower() in (".jpg", ".jpeg", ".tif", ".tiff"))
     if not paden:
@@ -117,9 +123,11 @@ def main():
         m = lees(pad)
         maker = m["maker"] or args.maker or ""
         tijd = m["tijd"]
-        if tijd and verschil.get(maker):
+        # Telefoons zetten hun klok zelf gelijk via het netwerk; camera's niet. Daarom per toestel.
+        minuten = verschil.get(f"{maker}|{m['camera']}", verschil.get(m["camera"], verschil.get(maker)))
+        if tijd and minuten:
             from datetime import datetime, timedelta
-            tijd = (datetime.strptime(tijd, "%Y:%m:%d %H:%M:%S") + timedelta(minutes=verschil[maker])).strftime("%Y:%m:%d %H:%M:%S")
+            tijd = (datetime.strptime(tijd, "%Y:%m:%d %H:%M:%S") + timedelta(minutes=minuten)).strftime("%Y:%m:%d %H:%M:%S")
         wet = m["taxonomie"].get("soort", "")
         onzeker = m["categorie"] == "onzeker"
         momenten.append({
@@ -127,6 +135,8 @@ def main():
             # Absoluut pad: bij meerdere fotografen staan de foto's in verschillende mappen.
             "keuze": [str(pad)],
             "maker": maker,
+            "camera": m["camera"],
+            "telefoon": bool(re.search(r"iphone|pixel|galaxy|^sm-|oneplus|xiaomi|huawei|oppo", m["camera"], re.I)),
             "koppeling": stam_zonder_nummer(pad.name),
             "keuze_gewijzigd": False,
             "albumwaardig": m["sterren"] >= args.min_sterren and not onzeker,
@@ -144,6 +154,16 @@ def main():
             "tijd": tijd,
             "opmerking": "BioCLIP was onzeker; controleer de soort" if onzeker else "",
         })
+    if args.apparaten:
+        per = {}
+        for m in momenten:
+            per.setdefault((m.get("maker") or "?", m.get("camera") or "?"), []).append(m.get("tijd") or "")
+        for (maker, camera), tijden in sorted(per.items()):
+            t = sorted(x for x in tijden if x)
+            soort = "telefoon" if re.search(r"iphone|pixel|galaxy|^sm-", camera, re.I) else "camera"
+            print(f"{maker:18s} {camera:28s} {soort:9s} {len(tijden):5d} foto's  {t[0] if t else '-'}  →  {t[-1] if t else '-'}")
+        print("\nZet het klokverschil per camera: --tijdverschil 'Naam|Model=MINUTEN'. Telefoons staan meestal goed.")
+        return
     uit.parent.mkdir(parents=True, exist_ok=True)
     fotomappen = sorted(set((bestaand or {}).get("fotomappen", [])) | {str(basis)})
     makers = sorted({m.get("maker") for m in momenten if m.get("maker")})

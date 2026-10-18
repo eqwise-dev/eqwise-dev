@@ -230,7 +230,11 @@ FOTOSELECTIE_PIPELINE=~/fotoselectie-pipeline python3 fotoalbum/soort_lokaal.py 
 ## Foto's van reisvrienden (meerdere fotografen)
 
 1. **Pipeline per fotograaf:** haal elke map door de fotoselectie-pipeline, met `--maker "Naam"` bij stap 5. Dan staat de maker in de foto's.
-2. **Klokken gelijkzetten:** zet ze gelijk met `--tijdverschil Naam=MINUTEN`. Dat is nodig voor bijna-dubbelen en voor de volgorde in de tijd. Vergelijk daarvoor één moment dat jullie allebei fotografeerden.
+2. **Klokken gelijkzetten, per toestel:** iedereen heeft een eigen camera en soms ook een telefoon. Telefoons zetten hun klok zelf goed via het netwerk, camera's niet. Bekijk eerst welke toestellen er zijn:
+   ```bash
+   python3 fotoalbum/importeer_keuzebak.py …/Selectie-Anne --maker Anne --apparaten
+   ```
+   Zet dan het verschil per camera met `--tijdverschil 'Anne|NIKON Z 6=+60'`. Per maker (`Anne=+60`) of per cameramodel kan ook; het toestel wint. Vergelijk daarvoor een camerafoto en een telefoonfoto van hetzelfde moment. Of fotografeer met de camera het scherm van je telefoon met de klok erop. Dat is nodig voor bijna-dubbelen en voor de volgorde in de tijd. Vergelijk daarvoor één moment dat jullie allebei fotografeerden.
 3. **Alles in één curatie:**
    ```bash
    python3 fotoalbum/importeer_keuzebak.py …/Selectie      --maker "Martin de Smit"
@@ -248,4 +252,4 @@ Wat het album ermee doet:
   Het colofon bevat verder de kaartbronnen, de Google-vermelding bij luchtbeelden, het lettertype en het copyright.
 - **Bijna-dubbelen:** maakten twee fotografen hetzelfde moment, dan kiest de art director alleen de beste, ongeacht van wie die is.
 - **Toestemming:** foto's van reisvrienden gaan standaard **alleen in het boek**, niet op de website. Gaven ze toestemming, zet dan `"medefotografen_web": true`.
-- **GPS lenen:** hebben reisvrienden telefoonfoto's met GPS, zet die dan in `fotos/telefoon/`. Hoofdstukken zonder GPS lenen dan hun locaties.
+- **GPS lenen:** zet **alle** telefoonfoto's van de reis, van iedereen, in `fotos/telefoon/`, ook de foto's die niet in het album komen. Daar worden alleen de tijd en de GPS van gebruikt. Hoofdstukken waarvan de camerafoto's geen GPS hebben, lenen dan de locaties van telefoonfoto's uit hetzelfde uur, op basis van de gelijkgezette tijd.
