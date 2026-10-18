@@ -21,6 +21,8 @@ from pathlib import Path
 
 from PIL import Image, ImageCms, ImageEnhance, ImageOps
 
+import harmonisatie
+
 CHROME_KANDIDATEN = [
     "/opt/pw-browsers/chromium-1194/chrome-linux/chrome",
     "chromium",
@@ -87,6 +89,52 @@ class Album:
         self.dpi_doel = d.get("dpi_doel", 300)
         self.waarschuwingen = []
         self.paginas = self._bouw_paginas()
+        self.correcties = self._bereken_harmonisatie()
+
+    # ---------- foto's laden en in lijn brengen ----------
+
+    def alle_fotos(self):
+        gezien = {}
+        for hoofdstuk in self.data["hoofdstukken"]:
+            for pagina in hoofdstuk["paginas"]:
+                for foto in pagina["fotos"]:
+                    gezien.setdefault(foto["bestand"], foto)
+        return gezien
+
+    @staticmethod
+    def is_bewerkt(foto):
+        return foto.get("bewerkt", Path(foto["bestand"]).parts[0] == "bewerkt")
+
+    def _bereken_harmonisatie(self):
+        instelling = {"aan": True, "sterkte": 0.6, **self.data.get("harmoniseren", {})}
+        if not instelling["aan"]:
+            return {}
+        fotos = self.alle_fotos()
+        metingen = {naam: harmonisatie.meet(open_foto(self.fotomap / naam)) for naam in fotos}
+        referenties = [naam for naam, foto in fotos.items() if self.is_bewerkt(foto)]
+        doel = harmonisatie.bepaal_doel(metingen, referenties)
+        correcties = {}
+        for naam, foto in fotos.items():
+            if self.is_bewerkt(foto) or foto.get("harmoniseren") is False:
+                continue
+            corr = harmonisatie.correctie(metingen[naam], doel, instelling["sterkte"])
+            correcties[naam] = corr
+            if harmonisatie.omschrijf(corr) != "nauwelijks":
+                self.waarschuwingen.append(f"KLEUR    {naam}: {harmonisatie.omschrijf(corr)}")
+        return correcties
+
+    def laad(self, foto):
+        return harmonisatie.pas_toe(open_foto(self.fotomap / foto["bestand"]), self.correcties.get(foto["bestand"]))
+
+    def maak_contactvel(self, pad):
+        paren = []
+        for naam, corr in self.correcties.items():
+            if harmonisatie.omschrijf(corr) == "nauwelijks":
+                continue
+            voor = open_foto(self.fotomap / naam)
+            voor.thumbnail((800, 800))
+            paren.append((voor, harmonisatie.pas_toe(voor, corr)))
+        harmonisatie.contactvel(paren, pad)
 
     # ---------- inhoud naar pagina's ----------
 
@@ -156,6 +204,7 @@ class Album:
         self._controleer_pdf(pdf)
         if proef:
             self._maak_proef(doel)
+            self.maak_contactvel(doel / "harmonisatie.jpg")
         return pdf
 
     def _print_pagina(self, nr, pagina, imgmap, helderder):
@@ -179,8 +228,7 @@ class Album:
         return f'<section class="pagina {kant}" data-nr="{nr}">{"".join(delen)}</section>'
 
     def _print_foto(self, foto, vak_b, vak_h, imgmap, helderder, nr):
-        bron = self.fotomap / foto["bestand"]
-        img = open_foto(bron)
+        img = self.laad(foto)
         dpi = min(img.width / vak_b, img.height / vak_h)
         label = f"pagina {nr}: {foto['bestand']}"
         if dpi < self.dpi_min:
@@ -280,7 +328,7 @@ class Album:
         return doel / "index.html"
 
     def _web_foto(self, foto, breedtes, imgmap, kwaliteit):
-        img = open_foto(self.fotomap / foto["bestand"])  # nieuw opgeslagen: geen EXIF of GPS mee
+        img = self.laad(foto)  # nieuw opgeslagen: geen EXIF of GPS mee
         stam = Path(foto.get("web_naam") or foto["bestand"]).stem
         delen, laatste = [], None
         for b in breedtes:
