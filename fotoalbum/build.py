@@ -275,6 +275,10 @@ class Album:
         minimum = self.data["drukker"].get("min_paginas", 20)
         while len(paginas) < minimum:
             paginas.append({"type": "leeg"})
+        maximum = self.data["drukker"].get("max_paginas", 240)
+        if len(paginas) > maximum:
+            self.waarschuwingen.append(f"TE LANG   {len(paginas)} pagina's; deze drukker en dit papier staan er "
+                                       f"hoogstens {maximum} toe. Haal foto's weg of kies een kleinere layout.")
         return paginas
 
     def vakken(self, pagina):

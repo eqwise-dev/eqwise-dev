@@ -13,7 +13,9 @@
     "min_paginas": 20,
     "dpi_min": 200,
     "dpi_doel": 300,
-    "print_helderheid": 1.04
+    "print_helderheid": 1.04,
+    "max_paginas": 240,
+    "papier": "Premium Lustre of Mohawk ProPhoto Pearl (max. 240 pagina's); layflat max. 110"
   },
   "web": {
     "basis_url": "https://www.voorbeeld.nl/fotoalbum",
