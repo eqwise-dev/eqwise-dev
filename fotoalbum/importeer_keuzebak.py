@@ -85,6 +85,7 @@ def lees(pad):
         "categorie": LABEL_CATEGORIE.get(label, "onzeker" if not label else label.lower()),
         "taxonomie": taxonomie,
         "tijd": str(tijd).strip() if tijd else "",
+        "maker": eerste(_waarde(xmp, "dc:creator")) or "",
     }
 
 
@@ -98,19 +99,34 @@ def main():
     ap.add_argument("keuzebak")
     ap.add_argument("--min-sterren", type=int, default=4, help="albumwaardig vanaf dit aantal sterren")
     ap.add_argument("--uit", help="standaard: <keuzebak>/../uitvoer/selectie/curatie.json")
+    ap.add_argument("--maker", help="maker voor foto's zonder dc:creator (bijv. de reisvriend van deze map)")
+    ap.add_argument("--tijdverschil", action="append", default=[], metavar="MAKER=MINUTEN",
+                    help="cameraklok van een maker gelijkzetten, bijv. 'Anne=-60' (herhaalbaar)")
+    ap.add_argument("--voeg-toe", action="store_true", help="aan een bestaande curatie.json toevoegen (meerdere fotografen)")
     args = ap.parse_args()
+    verschil = {k.strip(): int(v) for k, v in (t.split("=", 1) for t in args.tijdverschil)}
     basis = Path(args.keuzebak).expanduser().resolve()
     paden = sorted(p for p in basis.rglob("*") if p.suffix.lower() in (".jpg", ".jpeg", ".tif", ".tiff"))
     if not paden:
         sys.exit(f"Geen foto's gevonden in {basis}")
-    momenten = []
-    for n, pad in enumerate(paden, start=1):
+    uit = Path(args.uit) if args.uit else basis.parent / "uitvoer" / "selectie" / "curatie.json"
+    bestaand = json.loads(uit.read_text(encoding="utf-8")) if args.voeg_toe and uit.exists() else None
+    momenten = bestaand["momenten"] if bestaand else []
+    begin_id = max((m["id"] for m in momenten), default=0)
+    for n, pad in enumerate(paden, start=begin_id + 1):
         m = lees(pad)
+        maker = m["maker"] or args.maker or ""
+        tijd = m["tijd"]
+        if tijd and verschil.get(maker):
+            from datetime import datetime, timedelta
+            tijd = (datetime.strptime(tijd, "%Y:%m:%d %H:%M:%S") + timedelta(minutes=verschil[maker])).strftime("%Y:%m:%d %H:%M:%S")
         wet = m["taxonomie"].get("soort", "")
         onzeker = m["categorie"] == "onzeker"
         momenten.append({
             "id": n,
-            "keuze": [str(pad.relative_to(basis))],
+            # Absoluut pad: bij meerdere fotografen staan de foto's in verschillende mappen.
+            "keuze": [str(pad)],
+            "maker": maker,
             "koppeling": stam_zonder_nummer(pad.name),
             "keuze_gewijzigd": False,
             "albumwaardig": m["sterren"] >= args.min_sterren and not onzeker,
@@ -125,18 +141,21 @@ def main():
             "beschrijving": m["beschrijving"],
             "plek": m["plek"],
             "land": m["land"],
-            "tijd": m["tijd"],
+            "tijd": tijd,
             "opmerking": "BioCLIP was onzeker; controleer de soort" if onzeker else "",
         })
-    uit = Path(args.uit) if args.uit else basis.parent / "uitvoer" / "selectie" / "curatie.json"
     uit.parent.mkdir(parents=True, exist_ok=True)
-    uit.write_text(json.dumps({"fotomap": str(basis), "bron": "fotoselectie-pipeline", "momenten": momenten},
+    fotomappen = sorted(set((bestaand or {}).get("fotomappen", [])) | {str(basis)})
+    makers = sorted({m.get("maker") for m in momenten if m.get("maker")})
+    uit.write_text(json.dumps({"fotomap": fotomappen[0], "fotomappen": fotomappen, "makers": makers,
+                               "bron": "fotoselectie-pipeline", "momenten": momenten},
                               ensure_ascii=False, indent=1), encoding="utf-8")
     waardig = [m for m in momenten if m["albumwaardig"]]
     plekken = sorted({m["plek"] for m in waardig if m["plek"]})
     print(f"{len(momenten)} foto's ingelezen, {len(waardig)} albumwaardig (≥ {args.min_sterren} sterren)")
     print(f"Plekken: {', '.join(plekken) or 'geen'}")
     print(f"Onzeker volgens BioCLIP: {sum(1 for m in momenten if m['categorie'] == 'onzeker')}")
+    print(f"Fotografen: {', '.join(makers) or 'onbekend'}")
     print(f"→ {uit}")
 
 

@@ -226,3 +226,20 @@ FOTOSELECTIE_PIPELINE=~/fotoselectie-pipeline python3 fotoalbum/soort_lokaal.py 
 - **Zekerheid:** volgt de drempels van de pipeline (≥ 0,40 hoog, ≥ 0,30 middel).
 - **BioCLIP vinden:** de Python met BioCLIP staat standaard in `~/bioclip/venv/bin/python`, anders zet je `BIOCLIP_PYTHON`.
 - **In de selectie-swarm:** `lokaal "bioclip"`. Voor foto's die al door de pipeline gingen is dat niet nodig; gebruik dan `importeer_keuzebak.py`.
+
+## Foto's van reisvrienden (meerdere fotografen)
+
+1. **Pipeline per fotograaf:** haal elke map door de fotoselectie-pipeline, met `--maker "Naam"` bij stap 5. Dan staat de maker in de foto's.
+2. **Klokken gelijkzetten:** zet ze gelijk met `--tijdverschil Naam=MINUTEN`. Dat is nodig voor bijna-dubbelen en voor de volgorde in de tijd. Vergelijk daarvoor één moment dat jullie allebei fotografeerden.
+3. **Alles in één curatie:**
+   ```bash
+   python3 fotoalbum/importeer_keuzebak.py …/Selectie      --maker "Martin de Smit"
+   python3 fotoalbum/importeer_keuzebak.py …/Selectie-Anne --maker "Anne" --tijdverschil Anne=-60 --voeg-toe
+   ```
+
+Wat het album ermee doet:
+
+- **Bronvermelding:** bij foto's van een ander dan de maker van het album komt "Foto: Anne" bij het bijschrift, in het boek en op het web. Op de titelpagina staat "Met foto's van …".
+- **Bijna-dubbelen:** maakten twee fotografen hetzelfde moment, dan kiest de art director alleen de beste, ongeacht van wie die is.
+- **Toestemming:** foto's van reisvrienden gaan standaard **alleen in het boek**, niet op de website. Gaven ze toestemming, zeg dat dan in de wensen van de workflow.
+- **GPS lenen:** hebben reisvrienden telefoonfoto's met GPS, zet die dan in `fotos/telefoon/`. Hoofdstukken zonder GPS lenen dan hun locaties.

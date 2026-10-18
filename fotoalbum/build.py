@@ -205,6 +205,18 @@ class Album:
             })
         return uit
 
+    def credit(self, pagina):
+        """'Foto: Anne' voor foto's van een ander dan de maker van het album (de eigen foto's krijgen niets)."""
+        eigen = self.data.get("maker", "").split(" · ")[0].strip()
+        anderen = list(dict.fromkeys(f["maker"] for f in pagina.get("fotos", [])
+                                     if f.get("maker") and f["maker"] != eigen))
+        return f"Foto: {html.escape(' & '.join(anderen))}" if anderen else ""
+
+    def medefotografen(self):
+        eigen = self.data.get("maker", "").split(" · ")[0].strip()
+        return list(dict.fromkeys(f["maker"] for h in self.data["hoofdstukken"] for p in h["paginas"]
+                                  for f in p["fotos"] if f.get("maker") and f["maker"] != eigen))
+
     def heeft_luchtfoto(self):
         return any(h.get("luchtfoto") for h in self.data["hoofdstukken"])
 
@@ -340,7 +352,9 @@ class Album:
         if pagina["type"] == "albumtitel":
             delen.append(f'<div class="albumtitel">{iconen.svg("veer", "icoon titelicoon")}<h1>{html.escape(self.data["titel"])}</h1>'
                          f'<p class="ondertitel">{html.escape(self.data.get("ondertitel", ""))}</p>'
-                         f'<p class="maker">{html.escape(self.data.get("maker", ""))}</p></div>')
+                         f'<p class="maker">{html.escape(self.data.get("maker", ""))}</p>'
+                         + (f'<p class="mede">Met foto\'s van {html.escape(", ".join(self.medefotografen()))}</p>'
+                            if self.medefotografen() else "") + '</div>')
         elif pagina["type"] == "overzicht":
             svg = self.overzicht_svg()
             if svg:
@@ -393,8 +407,10 @@ class Album:
                 delen.append(f'<img src="img/{naam}" style="left:{links}in;top:{y}in;width:{b}in;height:{h}in;'
                              f'object-position:{focus}" alt="">')
             bijschrift = pagina.get("bijschrift")
-            if bijschrift and (pagina["type"] != "panorama" or pagina["kant"] == "rechts"):
-                delen.append(f'<p class="bijschrift">{html.escape(bijschrift)}</p>')
+            credit = self.credit(pagina)
+            tekst = " · ".join(x for x in (html.escape(bijschrift) if bijschrift else "", credit) if x)
+            if tekst and (pagina["type"] != "panorama" or pagina["kant"] == "rechts"):
+                delen.append(f'<p class="bijschrift">{tekst}</p>')
         return f'<section class="pagina {kant}" data-nr="{nr}">{"".join(delen)}</section>'
 
     def _print_foto(self, foto, vak_b, vak_h, imgmap, helderder, nr):
@@ -481,7 +497,8 @@ class Album:
                                          "description": foto.get("alt") or foto.get("bijschrift") or "",
                                          "caption": foto.get("bijschrift", pagina.get("bijschrift", ""))})
                 vorm = "panorama" if pagina["layout"] == "panorama" else f"n{len(items)}"
-                onderschrift = pagina.get("bijschrift")
+                onderschrift = " · ".join(x for x in (pagina.get("bijschrift") or "",
+                                                     self.credit({"fotos": fotos}).replace("&amp;", "&")) if x)
                 figuren.append(f'<figure class="{vorm}"><div class="beelden">{"".join(items)}</div>'
                                + (f"<figcaption>{html.escape(onderschrift)}</figcaption>" if onderschrift else "")
                                + "</figure>")
@@ -578,6 +595,7 @@ body {{ -webkit-print-color-adjust: exact; print-color-adjust: exact; }}
 .albumtitel {{ position: absolute; left: calc({veilig}in + 0.6in); right: {veilig}in; top: 38%; }}
 .albumtitel h1 {{ font: 300 66pt/1 {koppen}; letter-spacing: -.01em; }}
 .albumtitel .ondertitel {{ font: italic 400 18pt/1.4 {koppen}; margin-top: .25in; opacity: .8; max-width: 7in; }}
+.albumtitel .mede {{ font: italic 400 12pt/1.4 {koppen}; margin-top: .14in; opacity: .7; }}
 .albumtitel .maker {{ font: 500 9pt/1 {schreefloos}; letter-spacing: .3em; text-transform: uppercase; margin-top: .6in; opacity: .7; }}
 .opening {{ position: absolute; left: calc({veilig}in + 0.5in); top: calc({veilig}in + 1.1in); width: 6.2in; }}
 .opening .kicker {{ margin-bottom: .32in; }}
