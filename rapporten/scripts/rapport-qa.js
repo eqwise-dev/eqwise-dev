@@ -4,7 +4,8 @@
 //   npm i playwright-core
 //   node rapporten/scripts/rapport-qa.js <rapport.html> <uitmap>
 //
-// Uitvoer in <uitmap>: schermafdrukken per breedte (licht en donker) en <naam>.pdf.
+// Uitvoer in <uitmap>: schermafdrukken per breedte en <naam>.pdf. Elke breedte draait ook met een
+// donkere apparaatinstelling; het rapport hoort dan wit te blijven (geen donkere modus).
 // Het script meldt per breedte de scrollbreedte; die moet gelijk zijn aan de schermbreedte.
 // Elementen in .tabel en pre mogen binnen hun eigen scrollvak breder zijn.
 

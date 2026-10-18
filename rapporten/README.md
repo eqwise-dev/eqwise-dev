@@ -45,7 +45,12 @@ Kleuren van eqwise.nl: blauw `#3B3DFF`, diep `#2848A0`, donker `#16214A`, inkt `
 tekst `#3F4654`, mut `#4D5664`, lijn `#E3E8F2`, vlak `#F3F6FC`, zacht `#D8E2FF`,
 grijsblauw `#B9C3DE`. Letters: Poppins 500/600/700 voor koppen en labels, Inter 400/500/600
 voor tekst, IBM Plex Mono voor code. Spacing 4, 8, 12, 16, 24, 32, 48, 64, 80, 96, 128.
-Kolom 1200 px, kantlijn 168 px, zijkolom 248 px. Donkere modus en printversie zitten in de CSS.
+Kolom 1200 px, kantlijn 168 px, zijkolom 248 px. De printversie zit in de CSS.
+
+**Altijd wit, net als eqwise.nl.** Geen donkere modus: het rapport zet `color-scheme: light`, ook als
+het apparaat van de lezer op donker staat. De achtergrond is wit, met lichte vlakken (`--vlak`) voor
+figuren. Blauw alleen als accent: labels, links, knoppen, de Q-staart en één blauwe afsluitband.
+Geen grote donkere of blauwe vlakken bovenaan.
 
 ## Logo
 
@@ -64,6 +69,7 @@ Vervang het door het originele bestand zodra dat er is (staat op de Mac mini).
 ## Oplevering
 
 1. Draai `node rapporten/scripts/rapport-qa.js <rapport.html> <uitmap>`. Elke regel moet `ok`
-   zijn op 320, 375, 390, 430, 768, 1024, 1280, 1440 en 1920, licht en donker.
+   zijn op 320, 375, 390, 430, 768, 1024, 1280, 1440 en 1920. Het script draait elke breedte ook
+   met een donkere apparaatinstelling; het rapport moet dan nog steeds wit zijn.
 2. Bekijk de schermafdrukken van 1440 en 390 en de PDF op overlap bij paginaovergangen.
 3. Lever de HTML en de A4-PDF op.

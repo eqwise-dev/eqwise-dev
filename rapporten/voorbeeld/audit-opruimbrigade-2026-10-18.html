@@ -6,6 +6,7 @@
 <title>Audit opruimbrigade.nl</title>
 <meta name="description" content="Audit techniek, SEO en GEO van opruimbrigade.nl, opgesteld door EQwise op 18 oktober 2026.">
 <meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -53,24 +54,8 @@
   --rail: 168px;
   --zij: 248px;
   --gutter: max(16px, env(safe-area-inset-left, 0px));
+  color-scheme: light;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --grond: #0C1126; --inkt: #EEF0F7; --tekst: #C9CFDF; --mut: #A3ACC4; --lijn: #263056;
-    --vlak: #141B38; --zacht: #23295A; --blauw: #9D9EFF; --diep: #C3C4FF; --wit: #141B38;
-    --hi: #F28B80; --hi-vlak: #3B1F24; --mid: #E6B55A; --mid-vlak: #352C17;
-    --lo: #B3BCCF; --lo-vlak: #1F2747; --ok: #7ED4A0; --ok-vlak: #173225; --code: #0A0F22;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --grond: #0C1126; --inkt: #EEF0F7; --tekst: #C9CFDF; --mut: #A3ACC4; --lijn: #263056;
-  --vlak: #141B38; --zacht: #23295A; --blauw: #9D9EFF; --diep: #C3C4FF; --wit: #141B38;
-  --hi: #F28B80; --hi-vlak: #3B1F24; --mid: #E6B55A; --mid-vlak: #352C17;
-  --lo: #B3BCCF; --lo-vlak: #1F2747; --ok: #7ED4A0; --ok-vlak: #173225; --code: #0A0F22;
-  color-scheme: dark;
-}
-
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: var(--s24); }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
@@ -100,8 +85,6 @@ code { font-family: var(--f-mono); font-size: .86em; background: var(--code); bo
 .logo rect { fill: var(--blauw); }
 .knop { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 22px; border-radius: 10px; font-family: var(--f-kop); font-weight: 600; font-size: var(--t-klein); text-decoration: none; background: var(--blauw); color: #fff; border: 2px solid var(--blauw); }
 .knop:hover { background: var(--diep); border-color: var(--diep); color: #fff; }
-:root[data-theme="dark"] .knop, :root[data-theme="dark"] .knop:hover { color: #0C1126; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .knop, :root:not([data-theme="light"]) .knop:hover { color: #0C1126; } }
 
 /* Artikelraster: kantlijn | leeskolom | zijkolom */
 main { max-width: var(--kolom); margin: 0 auto; padding-inline: var(--gutter); }
