@@ -219,6 +219,9 @@ class Album:
         return f"Foto: {html.escape(' & '.join(anderen))}" if anderen else ""
 
     def medefotografen(self):
+        # Vaste lijst in album.json gaat voor (volgorde en schrijfwijze zoals jij die wilt in het colofon).
+        if self.data.get("medefotografen"):
+            return list(self.data["medefotografen"])
         eigen = self.data.get("maker", "").split(" · ")[0].strip()
         return list(dict.fromkeys(f["maker"] for h in self.data["hoofdstukken"] for p in h["paginas"]
                                   for f in p["fotos"] if f.get("maker") and f["maker"] != eigen))

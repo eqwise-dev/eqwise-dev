@@ -85,7 +85,7 @@ Gebruik de skill eqwise-art-director voor je ontwerpoordeel. Lees ${curatie} (al
 
 Wensen van de fotograaf: ${wensen}
 
-Schrijf ${album}. Bestaat het al, behoud dan "drukker", "web", "harmoniseren" en "on1" en vervang de rest. Bestaat het niet, neem die vier blokken over uit fotoalbum/voorbeeld/album.json en zet "fotomap" relatief naar de fotomap uit curatie.json. Lees fotoalbum/README.md voor het formaat.
+Schrijf ${album}. Bestaat het al, behoud dan alle instellingen ("titel", "ondertitel", "maker", "medefotografen", "fotocredits", "medefotografen_web", "land", "jaar", "drukker", "web", "harmoniseren", "plaatsen", "stijl", "kaft", "on1") en schrijf alleen "hoofdstukken" (en "kaft.voor" en "kaft.achtertekst" als die leeg zijn). Bestaat het niet, neem die vier blokken over uit fotoalbum/voorbeeld/album.json en zet "fotomap" relatief naar de fotomap uit curatie.json. Lees fotoalbum/README.md voor het formaat.
 
 Regels:
 - Een verhaal, geen catalogus: hoofdstukken op seizoen, plek of leefgebied; afwisseling in ritme (rustige volle pagina na een drukke pagina), soorten niet allemaal achter elkaar.
