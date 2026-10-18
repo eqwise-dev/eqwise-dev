@@ -239,7 +239,13 @@ FOTOSELECTIE_PIPELINE=~/fotoselectie-pipeline python3 fotoalbum/soort_lokaal.py 
 
 Wat het album ermee doet:
 
-- **Bronvermelding:** bij foto's van een ander dan de maker van het album komt "Foto: Anne" bij het bijschrift, in het boek en op het web. Op de titelpagina staat "Met foto's van …".
+- **Bronvermelding**, in te stellen met `"fotocredits"`:
+  - `"eind"` (aanbevolen): één keer, in het **colofon** op de laatste pagina en onder de webpagina.
+  - `"begin"`: op de titelpagina ("Met foto's van …").
+  - `"begin_en_eind"`: allebei.
+  - `"per_foto"`: "Foto: Anne" bij elk bijschrift.
+
+  Het colofon bevat verder de kaartbronnen, de Google-vermelding bij luchtbeelden, het lettertype en het copyright.
 - **Bijna-dubbelen:** maakten twee fotografen hetzelfde moment, dan kiest de art director alleen de beste, ongeacht van wie die is.
-- **Toestemming:** foto's van reisvrienden gaan standaard **alleen in het boek**, niet op de website. Gaven ze toestemming, zeg dat dan in de wensen van de workflow.
+- **Toestemming:** foto's van reisvrienden gaan standaard **alleen in het boek**, niet op de website. Gaven ze toestemming, zet dan `"medefotografen_web": true`.
 - **GPS lenen:** hebben reisvrienden telefoonfoto's met GPS, zet die dan in `fotos/telefoon/`. Hoofdstukken zonder GPS lenen dan hun locaties.

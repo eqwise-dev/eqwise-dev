@@ -205,8 +205,14 @@ class Album:
             })
         return uit
 
+    def credits_plek(self):
+        """'per_foto' (standaard), 'begin' (titelpagina), 'eind' (colofon) of 'begin_en_eind'."""
+        return self.data.get("fotocredits", "per_foto")
+
     def credit(self, pagina):
         """'Foto: Anne' voor foto's van een ander dan de maker van het album (de eigen foto's krijgen niets)."""
+        if self.credits_plek() != "per_foto":
+            return ""
         eigen = self.data.get("maker", "").split(" · ")[0].strip()
         anderen = list(dict.fromkeys(f["maker"] for f in pagina.get("fotos", [])
                                      if f.get("maker") and f["maker"] != eigen))
@@ -216,6 +222,28 @@ class Album:
         eigen = self.data.get("maker", "").split(" · ")[0].strip()
         return list(dict.fromkeys(f["maker"] for h in self.data["hoofdstukken"] for p in h["paginas"]
                                   for f in p["fotos"] if f.get("maker") and f["maker"] != eigen))
+
+    def colofon_regels(self):
+        maker = self.data.get("maker", "").split(" · ")[0].strip()
+        regels = []
+        if maker:
+            regels.append(("Foto's en tekst", maker))
+        if self.medefotografen() and self.credits_plek() in ("eind", "begin_en_eind", "per_foto"):
+            regels.append(("Met foto's van", ", ".join(self.medefotografen())))
+        if any(l["punten"] for l in self.locaties):
+            regels.append(("Kaarten", "Natural Earth; © OpenStreetMap-bijdragers"))
+        if self.heeft_luchtfoto():
+            regels.append(("Luchtbeelden", GOOGLE_DISCLAIMER.lstrip(". ").replace("Luchtbeelden: ", "")))
+        regels.append(("Lettertype", "Cormorant Garamond (SIL Open Font License)"))
+        jaar = self.data.get("jaar") or next((l["periode"].split()[-1] for l in self.locaties if l["periode"]), "")
+        if maker:
+            regels.append(("", f"© {jaar} {maker}".replace("  ", " ")))
+        return regels
+
+    def colofon_html(self):
+        rijen = "".join(f'<p><span>{html.escape(k)}</span>{html.escape(v)}</p>' if k else f'<p class="recht">{html.escape(v)}</p>'
+                        for k, v in self.colofon_regels())
+        return f'<p class="kicker">Colofon</p><h3>{html.escape(self.data["titel"])}</h3>{rijen}'
 
     def heeft_luchtfoto(self):
         return any(h.get("luchtfoto") for h in self.data["hoofdstukken"])
@@ -282,11 +310,11 @@ class Album:
                     paginas.append({"type": "panorama", "kant": "rechts", **pagina})
                 else:
                     paginas.append({"type": "fotos", **pagina})
-        if len(paginas) % 2:
-            paginas.append({"type": "leeg"})
+        # Colofon als allerlaatste pagina (een linkerpagina): bronnen, fotografen, rechten.
         minimum = self.data["drukker"].get("min_paginas", 20)
-        while len(paginas) < minimum:
+        while len(paginas) + 1 < minimum or (len(paginas) + 1) % 2:
             paginas.append({"type": "leeg"})
+        paginas.append({"type": "colofon"})
         maximum = self.data["drukker"].get("max_paginas", 240)
         if len(paginas) > maximum:
             self.waarschuwingen.append(f"TE LANG   {len(paginas)} pagina's; deze drukker en dit papier staan er "
@@ -354,7 +382,10 @@ class Album:
                          f'<p class="ondertitel">{html.escape(self.data.get("ondertitel", ""))}</p>'
                          f'<p class="maker">{html.escape(self.data.get("maker", ""))}</p>'
                          + (f'<p class="mede">Met foto\'s van {html.escape(", ".join(self.medefotografen()))}</p>'
-                            if self.medefotografen() else "") + '</div>')
+                            if self.medefotografen() and self.credits_plek() in ("per_foto", "begin", "begin_en_eind")
+                            else "") + '</div>')
+        elif pagina["type"] == "colofon":
+            delen.append(f'<div class="colofon">{self.colofon_html()}</div>')
         elif pagina["type"] == "overzicht":
             svg = self.overzicht_svg()
             if svg:
@@ -363,8 +394,7 @@ class Album:
                                 f'<em>{html.escape(self.locaties[n]["korte_naam"])}</em></li>'
                                 for n, h in enumerate(self.data["hoofdstukken"]))
                 delen.append(f'<div class="overzicht"><p class="kicker">Waar deze foto\'s zijn gemaakt</p>'
-                             f'<div class="grotekaart">{svg}</div><ol>{lijst}</ol>'
-                             f'<p class="bron">{KAARTBRON}{GOOGLE_DISCLAIMER if self.heeft_luchtfoto() else ""}</p></div>')
+                             f'<div class="grotekaart">{svg}</div><ol>{lijst}</ol></div>')
         elif pagina["type"] == "luchtfoto":
             h = self.data["hoofdstukken"][pagina["h_idx"]]
             foto = {"bestand": h["luchtfoto"], "focus": h.get("luchtfoto_focus", "50% 50%"), "luchtfoto": True}
@@ -526,7 +556,8 @@ class Album:
             schema["contentLocation"] = schema_plaatsen
         inhoud = (f'<article class="fotoalbum"><header class="album-kop"><h1>{html.escape(self.data["titel"])}</h1>'
                   f'<p>{html.escape(self.data.get("ondertitel", ""))}</p></header>{"".join(secties)}'
-                  + (f'<footer class="bron">{KAARTBRON}</footer>' if schema_plaatsen else "") + '</article>'
+                  + '<footer class="bron">' + " · ".join(f"{k}: {v}" if k else v for k, v in self.colofon_regels()
+                                                         if k != "Lettertype") + '</footer></article>'
                   f'<script type="application/ld+json">{json.dumps(schema, ensure_ascii=False)}</script>')
         # Los fragment voor plaatsing op de website, plus een volledige preview.
         web_css = FONT_CSS.format(ext="woff2", fmt="woff2") + WEB_CSS
@@ -623,6 +654,11 @@ body {{ -webkit-print-color-adjust: exact; print-color-adjust: exact; }}
 .luchtbron {{ position: absolute; right: {veilig}in; bottom: {veilig}in; font: 400 6.5pt/1.3 {schreefloos};
   color: #fff; text-shadow: 0 0 3pt rgba(0,0,0,.6); max-width: 5in; text-align: right; }}
 .pagina.rechts .luchtbron {{ right: auto; left: {veilig}in; text-align: left; }}
+.colofon {{ position: absolute; left: calc({veilig}in + 0.5in); bottom: calc({veilig}in + 0.6in); width: 6in; }}
+.colofon h3 {{ font: 300 22pt/1.1 {koppen}; margin: .18in 0 .3in; }}
+.colofon p {{ display: flex; font: 400 9pt/1.6 {schreefloos}; margin: 0 0 .06in; }}
+.colofon p span {{ flex: 0 0 1.5in; opacity: .55; }}
+.colofon .recht {{ margin-top: .25in; opacity: .7; }}
 .overzicht .bron {{ font: 400 7pt/1 {schreefloos}; opacity: .5; margin-top: .2in; }}
 .overzicht li em {{ opacity: .6; margin-left: .1in; font-size: 10.5pt; }}
 """
