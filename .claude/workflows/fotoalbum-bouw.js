@@ -128,7 +128,8 @@ const controles = await parallel([
   () => agent(
     `Controleer het boek als kritische fotoboekredacteur. Bekijk met Read: uitvoer/print/proef.png (in delen als het groot is), uitvoer/print/harmonisatie.jpg, en ${album}.
 Buildrapport: ${bouw}
-Let op: kop of oog van een vogel in de rug of buiten de veilige zone; tekst over een vogel; te kleine foto's (TE KLEIN, MATIG); kleurafstemming die een vogel onnatuurlijk maakt; herhaling van bijna dezelfde foto's; ritme en afwisseling; spreads die visueel botsen; lege of half lege pagina's.`,
+Let op: kop of oog van een vogel in de rug of buiten de veilige zone; tekst over een vogel; te kleine foto's (TE KLEIN, MATIG); kleurafstemming die een vogel onnatuurlijk maakt; herhaling van bijna dezelfde foto's; ritme en afwisseling; spreads die visueel botsen; lege of half lege pagina's.
+Geef daarnaast als aparte bevinding (ernst "klein", waar "inkrimpen") de pagina's die het boek ZWAKKER maken: foto's die technisch of beeldend achterblijven bij de rest (onscherp oog, MATIG/TE KLEIN, bijna-dubbel, saaie compositie), zwakste eerst, met per pagina één zin waarom. Die worden niet automatisch verwijderd; de fotograaf kiest of het boek kleiner wordt.`,
     { label: 'printcontrole', phase: 'Controle', schema: BEVINDINGEN }),
   () => agent(
     `Controleer de webversie uitvoer/web/index.html van ${album}: alt-teksten aanwezig en zinvol, foto's met "alleen_print" echt weggelaten, JSON-LD geldig, eerste foto niet lazy, mobiel geen horizontaal scrollen (maak met Chrome headless een screenshot op 390 px breed en bekijk het), totale beeldgrootte redelijk.`,
