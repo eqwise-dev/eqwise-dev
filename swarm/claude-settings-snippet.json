@@ -1,0 +1,18 @@
+{
+  "statusLine": {
+    "type": "command",
+    "command": "python3 /Users/YOUR-NAME/eqwise-dev/swarm/usage_status.py statusline"
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 /Users/YOUR-NAME/eqwise-dev/swarm/usage_status.py hook"
+          }
+        ]
+      }
+    ]
+  }
+}
