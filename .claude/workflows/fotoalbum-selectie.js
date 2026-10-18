@@ -1,7 +1,7 @@
 export const meta = {
   name: 'fotoalbum-selectie',
   description: 'Fotoalbum stap 1: bursts groeperen, per moment de beste opname kiezen, curatie en vogelsoort met onafhankelijke controle',
-  whenToUse: 'Start van een nieuw fotoalbum, zodra de foto\'s in fotos/origineel/ en fotos/bewerkt/ staan. Args: {fotomap: "<pad>", lokaal?: true | "<modelnaam>", regio?: "Tanzania"}',
+  whenToUse: 'Start van een nieuw fotoalbum, zodra de foto\'s in fotos/origineel/ en fotos/bewerkt/ staan. Args: {fotomap: "<pad>", lokaal?: true | "mlx" | "mlx:<model>" | "<modelnaam>", regio?: "Tanzania"}',
   phases: [
     { title: 'Inventaris', detail: 'selectie.py: bursts, scherpte, contactvellen' },
     { title: 'Curatie', detail: 'per batch momenten beoordelen en soort bepalen' },
@@ -16,6 +16,9 @@ const FOTOMAP = args.fotomap
 // args.lokaal: true (automatische modelkeuze) of een modelnaam; args.regio: bijv. "Tanzania".
 const LOKAAL = args.lokaal || false
 const REGIO = args.regio || ''
+// "mlx" of "mlx:<model>" = direct via mlx-vlm (qwen_local op de Mac mini); andere tekst = modelnaam op een server.
+const LOKAAL_OPTIE = LOKAAL === true ? '' : String(LOKAAL).startsWith('mlx')
+  ? `--mlx ${String(LOKAAL).includes(':') ? `"${String(LOKAAL).slice(4)}" ` : ''}` : `--model "${LOKAAL}" `
 const MAX_BATCHES = 4
 
 const INVENTARIS = {
@@ -135,7 +138,8 @@ Wees streng: geslacht of familie is beter dan een verkeerde soort; dan zekerheid
 ${vogels.map(m => `- ${m.id}: ${m.keuze[0]}`).join('\n')}
 ${LOKAAL ? `
 Daarna, PAS NA je eigen oordeel: laat het lokale beeldmodel dezelfde foto's determineren met
-  python3 fotoalbum/soort_lokaal.py herken ${typeof LOKAAL === 'string' ? `--model "${LOKAAL}" ` : ''}${REGIO ? `--regio "${REGIO}" ` : ''}<paden>
+  python3 fotoalbum/soort_lokaal.py herken ${LOKAAL_OPTIE}${REGIO ? `--regio "${REGIO}" ` : ''}<paden>
+Geeft het script per foto een "fout" (bijv. model zonder beeldinvoer), laat de lokaal-velden dan leeg en noem de fout in je antwoord.
 (paden relatief aan ${FOTOMAP}) en neem per id over: lokaal_soort, lokaal_wetenschappelijk, lokaal_zekerheid, plus lokaal_model.
 Pas je eigen oordeel NIET aan op dat van het lokale model. Draait er geen lokaal model, laat de velden leeg.` : ''}`,
       { label: `soortcontrole ${n + 1}/${batches.length}`, phase: 'Soortcontrole', schema: SOORT })

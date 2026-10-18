@@ -11,10 +11,19 @@ Gebruik:
 Zonder --model kiest het script zelf: eerst een model met "qwen" en "vl" in de naam, dan
 een ander beeldmodel (llava, gemma3, minicpm-v, pixtral). Uitvoer: JSON per foto met
 soort, wetenschappelijke_naam, zekerheid en kenmerken.
+
+Zonder server, direct via MLX (zoals qwen_local/setup.sh op de Mac mini):
+  python3 fotoalbum/soort_lokaal.py herken foto.jpg --mlx [modelnaam]
+Dat draait mlx-vlm in de virtualenv van qwen_local (of $QWEN_VENV) en laadt het model één
+keer voor alle foto's. Standaardmodel is dat van qwen_local/setup.sh; ondersteunt dat geen
+beeldinvoer, dan meldt het script dat en kies je een Qwen-VL-model voor MLX.
 """
 
 import argparse
 import base64
+import subprocess
+import tempfile
+from pathlib import Path
 import io
 import json
 import os
@@ -114,19 +123,77 @@ def herken(pad, model, regio=None):
     return {"bestand": str(pad), "model": naam, **_lees_json(tekst)}
 
 
+MLX_STANDAARD = "pherber3/Qwen3-Omni-30B-A3B-Instruct-4bit-mlx"  # uit qwen_local/setup.sh
+MLX_HELPER = r"""
+import json, sys
+from mlx_vlm import load, generate
+from mlx_vlm.prompt_utils import apply_chat_template
+from mlx_vlm.utils import load_config
+model_id, vraag, *fotos = sys.argv[1:]
+model, processor = load(model_id)
+config = load_config(model_id)
+prompt = apply_chat_template(processor, config, vraag, num_images=1)
+for foto in fotos:
+    try:
+        uit = generate(model, processor, prompt, [foto], max_tokens=400, temperature=0.0, verbose=False)
+        print(json.dumps({"bestand": foto, "tekst": getattr(uit, "text", uit)}), flush=True)
+    except Exception as fout:  # bijv. model zonder beeldinvoer
+        print(json.dumps({"bestand": foto, "fout": f"{type(fout).__name__}: {fout}"}), flush=True)
+"""
+
+
+def mlx_python():
+    for kandidaat in (os.environ.get("QWEN_VENV"), Path(__file__).parent.parent / "qwen_local" / ".venv",
+                      Path.home() / "eqwise-dev" / "qwen_local" / ".venv"):
+        if kandidaat and (Path(kandidaat) / "bin" / "python").exists():
+            return str(Path(kandidaat) / "bin" / "python")
+    sys.exit("Geen MLX-omgeving gevonden. Draai eerst bash qwen_local/setup.sh, of zet QWEN_VENV.")
+
+
+def herken_mlx(paden, model_id, regio=None):
+    vraag = VRAAG.format(regio=f", gemaakt in {regio}" if regio else "")
+    with tempfile.TemporaryDirectory() as tmp:
+        # Verkleinde kopieën: sneller, en het origineel blijft onaangeroerd.
+        kopieen = []
+        for n, pad in enumerate(paden):
+            doel = Path(tmp) / f"{n:04d}.jpg"
+            doel.write_bytes(base64.b64decode(_beeld(pad)))
+            kopieen.append(str(doel))
+        proces = subprocess.run([mlx_python(), "-c", MLX_HELPER, model_id, vraag, *kopieen],
+                                capture_output=True, text=True)
+    if proces.returncode != 0 and not proces.stdout.strip():
+        sys.exit(f"mlx-vlm faalde:\n{proces.stderr[-1500:]}")
+    resultaten = []
+    for regel, pad in zip((r for r in proces.stdout.splitlines() if r.startswith("{")), paden):
+        r = json.loads(regel)
+        if "fout" in r:
+            resultaten.append({"bestand": str(pad), "model": model_id, "soort": "onbekend", "wetenschappelijke_naam": "",
+                               "zekerheid": "laag", "kenmerken": "",
+                               "fout": r["fout"] + " (ondersteunt dit model beeldinvoer? Kies anders een Qwen-VL-model voor MLX.)"})
+        else:
+            resultaten.append({"bestand": str(pad), "model": model_id, **_lees_json(r["tekst"])})
+    return resultaten
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("actie", choices=["modellen", "herken"])
     parser.add_argument("fotos", nargs="*")
     parser.add_argument("--model")
     parser.add_argument("--regio")
+    parser.add_argument("--mlx", nargs="?", const=os.environ.get("LOKAAL_MLX_MODEL", MLX_STANDAARD),
+                        help="direct via mlx-vlm, zonder server; optioneel met modelnaam")
     args = parser.parse_args()
+    if args.mlx and args.actie == "herken":
+        print(json.dumps(herken_mlx(args.fotos, args.mlx, args.regio), ensure_ascii=False, indent=2))
+        return
     gevonden = vind_modellen()
     if args.actie == "modellen":
         for server, api, naam in gevonden:
             print(f"{naam:40s} {api:7s} {server}")
         if not gevonden:
             print("Geen lokale modelserver gevonden (Ollama 11434, LM Studio 1234, llama.cpp 8080, vLLM 8000).")
+            print("Draait Qwen via MLX (qwen_local/setup.sh)? Gebruik dan: herken <foto's> --mlx")
         else:
             print(f"\nAutomatische keuze: {kies_model(gevonden)[2]}")
         return

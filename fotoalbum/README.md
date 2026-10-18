@@ -177,3 +177,16 @@ python3 fotoalbum/soort_lokaal.py herken foto.jpg --regio Tanzania
   - wijkt het lokale model af terwijl de twee anderen het eens zijn, dan wordt "zeker" verlaagd naar "waarschijnlijk".
 
   Het antwoord van het lokale model staat per moment in `curatie.json` (`soort_lokaal`).
+
+### Via MLX op de Mac mini (qwen_local)
+
+Draait Qwen zoals in `qwen_local/setup.sh` (branch `claude/qwen-3.8-omni-flash-test`) direct met `mlx-vlm`, zonder server? Gebruik dan `--mlx`:
+
+```bash
+python3 fotoalbum/soort_lokaal.py herken foto.jpg --mlx                       # model uit qwen_local/setup.sh
+python3 fotoalbum/soort_lokaal.py herken foto.jpg --mlx <qwen-vl-model-voor-mlx>
+```
+
+- **Hoe het werkt:** de virtualenv van `qwen_local` wordt gebruikt (of `QWEN_VENV`) en het model wordt één keer geladen voor alle foto's.
+- **Let op, beeldinvoer:** volgens de `qwen_local`-README ondersteunt de 4-bit MLX-conversie van Qwen3-Omni mogelijk alleen tekst. Kan het model geen beeld lezen, dan meldt het script dat per foto ("fout") in plaats van een soort te verzinnen. Gebruik dan een Qwen-VL-model voor MLX.
+- **In de swarm:** `lokaal "mlx"` of `lokaal "mlx:<model>"`.
