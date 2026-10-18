@@ -9,3 +9,10 @@
 - Noem bij een positie altijd de zoekmachine, het land, de taal, het apparaat en de locatie.
 - Noem bij zoekvolume altijd de scope: globaal of een land.
 - Gebruik in rapporten voor klanten de naam "het EQwise SEO-platform" en noem geen leverancier.
+
+## SEO- en GEO-rapporten
+
+- Elk SEO- en GEO-rapport voor een klant krijgt de vaste EQwise-rapportstijl: de huisstijl van eqwise.nl in het design van de kennisbankblog (oktober 2026).
+- Lees eerst `rapporten/README.md` en begin met een kopie van `rapporten/voorbeeld/audit-opruimbrigade-2026-10-18.html`. Bouw geen eigen opmaak.
+- Gebruik het logo uit `rapporten/logo/`, inline als SVG.
+- Controleer voor oplevering met `rapporten/scripts/rapport-qa.js` en lever HTML en A4-PDF.
