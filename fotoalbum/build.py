@@ -23,6 +23,7 @@ from PIL import Image, ImageCms, ImageEnhance, ImageOps
 
 import harmonisatie
 import iconen
+import kaft
 import kaart
 import plaatsen
 
@@ -628,6 +629,7 @@ def main():
     if args.alleen != "web":
         pdf = album.maak_print(proef=args.proef)
         print(f"Print: {pdf}  ({len(album.paginas)} pagina's, {album.trim_b:.2f} x {album.trim_h:.2f} inch bijgesneden)")
+        print(f"Kaft:  {kaft.maak(album, sys.modules[__name__], proef=args.proef)}")
     if args.alleen != "print":
         print(f"Web:   {album.maak_web()}")
     for regel in album.waarschuwingen:

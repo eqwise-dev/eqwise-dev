@@ -108,3 +108,28 @@ Een kleine set dunne lijniconen (`fotoalbum/iconen.py`, vector, in de accentkleu
 - **Overzichtspagina:** het leefgebied-icoon naast elk hoofdstuk.
 
 Bij de foto's zelf staan geen iconen, zodat het beeld rustig blijft.
+
+## Kaft
+
+`build.py` maakt naast het binnenwerk ook `album-kaft.pdf`: één doorlopende omslag voor Blurb ImageWrap, met achterkant, rug, voorkant en de omslagrand rondom. Met `--proef` volgt `kaft-proef.png` met hulplijnen: rood is de snijrand, oranje de rug, blauw gestippeld de veilige zone (weg van snijrand en scharnier).
+
+```json
+"kaft": {
+  "stijl": "beeld",                 // of "passe-partout"
+  "voor": "bewerkt/ijsvogel.jpg",   // standaard: de eerste volle pagina uit het album
+  "voor_focus": "60% 45%",
+  "achtertekst": "Eén of twee zinnen voor de achterkant.",
+  "kaart_achter": true,
+  "rug_richting": "omhoog",         // omhoog = Europees, omlaag = Engels/Amerikaans
+  "paneel_breedte_in": 13.25, "paneel_hoogte_in": 11.25, "omslag_in": 0.75,
+  "scharnier_in": 0.4, "rug_in": 0.36,
+  "maat_gecontroleerd": true
+}
+```
+
+- **beeld:** de voorkant is volledig gevuld met de sterkste foto, met de titel klein en wit op een zacht verloop.
+- **passe-partout:** papierkleur, met één foto in een ruime marge en de titel eronder. Dat is de klassieke fine-art-kaft.
+- **Achterkant:** de korte tekst en de overzichtskaart met genummerde plekken, verder niets.
+- **Rug:** de titel en je naam als één gedraaide regel.
+
+**De maten zijn een schatting** totdat je de waarden uit Blurbs Specification Calculator invult. De rugdikte hangt af van het aantal pagina's en het papier. Zolang `maat_gecontroleerd` niet `true` is, geeft de build een duidelijke waarschuwing.
