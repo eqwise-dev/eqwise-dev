@@ -1,0 +1,1006 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Audit opruimbrigade.nl</title>
+<meta name="description" content="Audit techniek, SEO en GEO van opruimbrigade.nl, opgesteld door EQwise op 18 oktober 2026.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Kerngedachte: het rapport leest als een kennisbankartikel van eqwise.nl.
+   Kantlijnlabels per hoofdstuk, één leeskolom, figuurvlakken voor cijfers, blauwe afsluitband.
+   Tokens volgen eqwise.nl (eq-blauw, eq-inkt, eq-vlak, eq-zacht, eq-lijn). */
+:root {
+  --blauw: #3B3DFF;
+  --diep: #2848A0;
+  --donker: #16214A;
+  --inkt: #111114;
+  --tekst: #3F4654;
+  --mut: #4D5664;
+  --lijn: #E3E8F2;
+  --vlak: #F3F6FC;
+  --zacht: #D8E2FF;
+  --grijsblauw: #B9C3DE;
+  --wit: #FFFFFF;
+  --grond: #FFFFFF;
+  --hi: #A31B12;   --hi-vlak: #FBE9E7;
+  --mid: #8A5A00;  --mid-vlak: #FDF1DC;
+  --lo: #3F4654;   --lo-vlak: #EEF1F7;
+  --ok: #146C2E;   --ok-vlak: #E6F4EA;
+  --code: #F3F6FC;
+
+  --f-kop: "Poppins", Helvetica, Arial, sans-serif;
+  --f-tekst: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+
+  --t-h1: clamp(2rem, 1.35rem + 2.6vw, 2.8125rem);
+  --t-h2: clamp(1.5rem, 1.2rem + 1.2vw, 2.125rem);
+  --t-h3: clamp(1.1875rem, 1.1rem + .35vw, 1.375rem);
+  --t-lead: clamp(1.0625rem, 1rem + .3vw, 1.25rem);
+  --t-body: 1.0625rem;
+  --t-klein: .9375rem;
+  --t-bijschrift: .875rem;
+  --t-boven: .8125rem;
+  --t-cijfer: clamp(2.25rem, 2rem + 1vw, 3rem);
+
+  --s4: 4px; --s8: 8px; --s12: 12px; --s16: 16px; --s24: 24px; --s32: 32px;
+  --s48: 48px; --s64: 64px; --s80: 80px; --s96: 96px; --s128: 128px;
+  --r8: 8px; --r12: 12px; --r16: 16px;
+  --kolom: 1200px;
+  --rail: 168px;
+  --zij: 248px;
+  --gutter: max(16px, env(safe-area-inset-left, 0px));
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: var(--s24); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+body { margin: 0; background: var(--grond); color: var(--tekst); font-family: var(--f-tekst); font-size: var(--t-body); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+h1, h2, h3, h4 { font-family: var(--f-kop); color: var(--inkt); margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+h1 { font-size: var(--t-h1); font-weight: 700; line-height: 1.15; }
+h2 { font-size: var(--t-h2); font-weight: 700; line-height: 1.2; }
+h3 { font-size: var(--t-h3); font-weight: 600; line-height: 1.3; }
+p { margin: 0; }
+a { color: var(--inkt); text-decoration-color: var(--blauw); text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+a:hover { color: var(--blauw); }
+:focus-visible { outline: 2px solid var(--blauw); outline-offset: 3px; border-radius: 2px; }
+strong, b { color: var(--inkt); font-weight: 600; }
+code { font-family: var(--f-mono); font-size: .86em; background: var(--code); border: 1px solid var(--lijn); padding: 1px 6px; border-radius: 6px; overflow-wrap: anywhere; color: var(--inkt); }
+.accent { color: var(--blauw); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Kop en topbalk, zoals eqwise.nl */
+.topbalk { background: var(--vlak); font-size: var(--t-bijschrift); font-weight: 600; color: var(--inkt); }
+.topbalk .in, .kop .in, .voet .in { max-width: var(--kolom); margin: 0 auto; padding-inline: var(--gutter); }
+.topbalk .in { display: flex; justify-content: space-between; gap: var(--s16); padding-block: var(--s8); flex-wrap: wrap; }
+.topbalk span + span { color: var(--mut); font-weight: 500; }
+.kop { background: var(--grond); border-bottom: 1px solid var(--lijn); }
+.kop .in { display: flex; align-items: center; justify-content: space-between; gap: var(--s24); padding-block: var(--s16); }
+.logo { display: block; line-height: 0; color: var(--inkt); }
+.logo svg { display: block; width: 152px; height: auto; }
+.logo rect { fill: var(--blauw); }
+.knop { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 22px; border-radius: 10px; font-family: var(--f-kop); font-weight: 600; font-size: var(--t-klein); text-decoration: none; background: var(--blauw); color: #fff; border: 2px solid var(--blauw); }
+.knop:hover { background: var(--diep); border-color: var(--diep); color: #fff; }
+
+/* Artikelraster: kantlijn | leeskolom | zijkolom */
+main { max-width: var(--kolom); margin: 0 auto; padding-inline: var(--gutter); }
+.blok { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr) var(--zij); column-gap: var(--s48); padding-block: var(--s64) 0; }
+.blok > .rail { grid-column: 1; }
+.blok > .lees { grid-column: 2; min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s24); align-content: start; }
+.blok > .breed { grid-column: 1 / 3; min-width: 0; }
+.blok > .zij { grid-column: 3; grid-row: 1 / span 3; min-width: 0; }
+.raster { display: grid; grid-template-columns: minmax(0, 1fr) var(--zij); column-gap: var(--s48); }
+.stroom { min-width: 0; }
+.stroom .blok { grid-template-columns: var(--rail) minmax(0, 1fr); }
+.zijkolom { padding-top: var(--s64); min-width: 0; }
+.lees > p, .lees > ul, .lees > ol { max-width: 64ch; }
+.rail { display: grid; gap: var(--s16); align-content: start; padding-top: 6px; }
+.label { font-family: var(--f-kop); font-size: var(--t-boven); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--blauw); }
+.label-streep::before { content: ""; display: block; width: 28px; height: 3px; background: var(--blauw); margin-bottom: 12px; border-radius: 2px; }
+.noot { font-size: var(--t-bijschrift); color: var(--mut); line-height: 1.5; }
+.noot b { font-weight: 600; }
+
+/* Opening */
+.opening { padding-top: var(--s48); }
+.opening h1 { max-width: 20ch; }
+.lead { font-size: var(--t-lead); line-height: 1.65; color: var(--tekst); max-width: 60ch; }
+.meta-lijst { display: grid; gap: 2px; }
+.feiten { display: flex; flex-wrap: wrap; gap: var(--s8) var(--s24); font-size: var(--t-bijschrift); color: var(--mut); padding-top: var(--s8); border-top: 1px solid var(--lijn); }
+.feiten b { color: var(--inkt); font-weight: 600; }
+.meetkaart { background: var(--grond); border: 1px solid var(--lijn); border-radius: var(--r16); padding: var(--s24); box-shadow: 0 12px 32px -18px rgba(22,33,74,.28); display: grid; gap: var(--s8); align-self: start; }
+.meetkaart .cijfer { font-family: var(--f-kop); font-weight: 700; font-size: var(--t-cijfer); line-height: 1; color: var(--inkt); font-variant-numeric: tabular-nums; }
+.meetkaart .cijfer small { font-size: .45em; font-weight: 600; color: var(--mut); margin-left: 2px; }
+.meetkaart .wat { font-family: var(--f-kop); font-size: var(--t-boven); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--inkt); line-height: 1.4; }
+.meetkaart .bron { font-size: var(--t-bijschrift); color: var(--mut); line-height: 1.5; border-top: 1px solid var(--lijn); padding-top: var(--s12); margin-top: var(--s4); }
+
+/* Antwoordblok met blauwe lijn */
+.antwoord { border-left: 3px solid var(--blauw); padding: 2px 0 2px var(--s24); display: grid; gap: var(--s12); max-width: 64ch; }
+.antwoord ul { margin: 0; padding-left: 20px; display: grid; gap: var(--s8); }
+
+/* Figuurvlak */
+.figuur { background: var(--vlak); border-radius: var(--r16); padding: var(--s24); display: grid; gap: var(--s16); min-width: 0; }
+.figuur-titel { font-family: var(--f-kop); font-weight: 600; font-size: var(--t-klein); color: var(--inkt); }
+.figuur-bijschrift { font-size: var(--t-bijschrift); color: var(--mut); line-height: 1.5; }
+
+/* Stand per onderdeel */
+.stand { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: var(--s12); }
+.tegel { background: var(--grond); border: 1px solid var(--lijn); border-radius: var(--r12); padding: var(--s16) var(--s16) var(--s16); display: grid; gap: var(--s8); align-content: start; }
+.tegel h3 { font-size: 1rem; font-weight: 600; }
+.tegel p { font-size: var(--t-bijschrift); color: var(--mut); line-height: 1.5; }
+.badge { justify-self: start; font-family: var(--f-kop); font-size: .75rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; padding: 3px 10px; border-radius: 6px; line-height: 1.5; }
+.b-ok { color: var(--ok); background: var(--ok-vlak); }
+.b-hi { color: var(--hi); background: var(--hi-vlak); }
+.b-mid { color: var(--mid); background: var(--mid-vlak); }
+.b-lo { color: var(--lo); background: var(--lo-vlak); }
+
+/* Cijfers uit de scan */
+.cijfers { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 136px), 1fr)); gap: var(--s12); }
+.cel { background: var(--grond); border: 1px solid var(--lijn); border-radius: var(--r12); padding: var(--s16); display: grid; gap: var(--s4); align-content: start; }
+.cel .n { font-family: var(--f-kop); font-weight: 700; font-size: 2rem; line-height: 1.1; color: var(--inkt); font-variant-numeric: tabular-nums; }
+.cel .n small { font-size: .5em; font-weight: 600; color: var(--mut); }
+.cel .n.slecht { color: var(--hi); } .cel .n.matig { color: var(--mid); } .cel .n.goed { color: var(--ok); }
+.cel .l { font-size: var(--t-bijschrift); color: var(--mut); line-height: 1.4; }
+
+/* Staafje mobiel tegen desktop, zoals de blog */
+.staaf { display: grid; gap: var(--s8); }
+.staaf-rij { display: grid; gap: 4px; font-size: var(--t-bijschrift); }
+.staaf-rij .kop2 { display: flex; justify-content: space-between; font-weight: 600; color: var(--inkt); }
+.staaf-rij .baan { height: 14px; background: var(--grond); border: 1px solid var(--lijn); border-radius: 3px; overflow: hidden; }
+.staaf-rij .vul { height: 100%; background: var(--inkt); }
+.staaf-rij.blauw .kop2 { color: var(--blauw); }
+.staaf-rij.blauw .vul { background: var(--blauw); }
+
+/* Tabellen */
+.tabel { overflow-x: auto; background: var(--grond); border: 1px solid var(--lijn); border-radius: var(--r12); }
+table { border-collapse: collapse; width: 100%; font-size: var(--t-klein); font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 11px 16px; border-bottom: 1px solid var(--lijn); vertical-align: top; }
+th { font-family: var(--f-kop); font-weight: 600; font-size: var(--t-bijschrift); color: var(--inkt); background: var(--vlak); }
+tr:last-child td { border-bottom: 0; }
+.pos { font-size: .8125rem; font-weight: 600; padding: 2px 9px; border-radius: 6px; white-space: nowrap; }
+.pos.bad { color: var(--hi); background: var(--hi-vlak); }
+.pos.pend { color: var(--lo); background: var(--lo-vlak); }
+
+/* Lijsten */
+.lijst { margin: 0; padding-left: 20px; display: grid; gap: var(--s8); }
+.lijst li::marker { color: var(--blauw); }
+.vinklijst { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s8); }
+.vinklijst li { position: relative; padding-left: 28px; }
+.vinklijst li::before { content: ""; position: absolute; left: 2px; top: .5em; width: 12px; height: 7px; border-left: 2px solid var(--ok); border-bottom: 2px solid var(--ok); transform: rotate(-45deg); }
+.twee { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: var(--s32); }
+.twee h3 { margin-bottom: var(--s12); }
+
+/* Blauw blok boven de actielijst, zelfde blauw als de band */
+.blauwblok { grid-column: 1 / -1; background: #3B3DFF; color: #fff; border-radius: var(--r16); padding: var(--s48); display: grid; gap: var(--s24); margin-bottom: var(--s64); }
+.blauwblok .label { color: #fff; }
+.blauwblok .groot { font-family: var(--f-kop); font-weight: 500; font-size: var(--t-h2); line-height: 1.2; color: #fff; max-width: 24ch; text-wrap: balance; }
+.blauwblok .groot b { color: #fff; font-weight: 700; }
+.blauwblok p { color: #fff; max-width: 60ch; }
+.verdeling { display: flex; flex-wrap: wrap; gap: var(--s16) var(--s48); padding-top: var(--s24); border-top: 1px solid rgba(255,255,255,.28); }
+.verdeling div { display: grid; gap: 2px; }
+.verdeling .n { font-family: var(--f-kop); font-weight: 700; font-size: var(--t-cijfer); line-height: 1; color: #fff; font-variant-numeric: tabular-nums; }
+.verdeling .l { font-family: var(--f-kop); font-size: var(--t-boven); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #D8E2FF; }
+
+/* Actielijst */
+.chips { display: flex; flex-wrap: wrap; gap: var(--s8); }
+.chips button { font: inherit; font-family: var(--f-kop); font-weight: 500; font-size: var(--t-bijschrift); min-height: 40px; padding: 6px 16px; border-radius: 999px; cursor: pointer; background: var(--grond); color: var(--inkt); border: 1px solid var(--grijsblauw); }
+.chips button:hover { border-color: var(--blauw); }
+.chips button[aria-pressed="true"] { background: var(--blauw); border-color: var(--blauw); color: #fff; }
+.teller { font-size: var(--t-bijschrift); color: var(--mut); }
+.actions { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--lijn); }
+.act { display: grid; gap: 6px; padding: var(--s24) 0 var(--s24) var(--s24); border-bottom: 1px solid var(--lijn); position: relative; }
+.act::before { content: ""; position: absolute; left: 0; top: var(--s24); bottom: var(--s24); width: 3px; border-radius: 2px; }
+.act[data-sev="hoog"]::before { background: var(--hi); }
+.act[data-sev="middel"]::before { background: var(--mid); }
+.act[data-sev="laag"]::before { background: var(--grijsblauw); }
+.act-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
+.act-head strong { font-family: var(--f-kop); font-weight: 600; font-size: 1.0625rem; flex: 1 1 280px; min-width: 0; line-height: 1.4; }
+.tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.pill { font-family: var(--f-kop); font-size: .75rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; padding: 2px 9px; border-radius: 6px; line-height: 1.6; }
+.p-hi { color: var(--hi); background: var(--hi-vlak); }
+.p-mid { color: var(--mid); background: var(--mid-vlak); }
+.p-lo { color: var(--lo); background: var(--lo-vlak); }
+.tag { font-size: .78rem; font-weight: 500; color: var(--mut); border: 1px solid var(--lijn); padding: 1px 8px; border-radius: 6px; line-height: 1.6; }
+.tag.verify { color: var(--mid); border-color: currentColor; }
+.act p { font-size: var(--t-klein); color: var(--tekst); line-height: 1.6; max-width: 70ch; }
+.act p.fix { color: var(--inkt); }
+.act p.fix::before { content: "Fix  "; font-family: var(--f-kop); font-weight: 600; color: var(--blauw); white-space: pre; }
+
+/* Definitielijst GEO */
+.kv { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: var(--s12) var(--s24); margin: 0; font-size: var(--t-klein); }
+.kv dt { font-family: var(--f-kop); font-weight: 600; color: var(--inkt); }
+.kv dd { margin: 0; }
+
+/* Kant-en-klare fixes */
+.snip { display: grid; gap: var(--s12); }
+.snip-head { display: flex; justify-content: space-between; align-items: center; gap: var(--s12); flex-wrap: wrap; }
+.snip-head h3 { font-size: 1.0625rem; }
+.copy { font: inherit; font-family: var(--f-kop); font-weight: 600; font-size: var(--t-bijschrift); min-height: 40px; cursor: pointer; padding: 6px 16px; border-radius: 10px; background: var(--grond); color: var(--inkt); border: 1px solid var(--grijsblauw); }
+.copy:hover { border-color: var(--blauw); color: var(--blauw); }
+pre { margin: 0; background: var(--grond); border: 1px solid var(--lijn); border-radius: var(--r12); padding: var(--s16); overflow-x: auto; font-family: var(--f-mono); font-size: .8rem; line-height: 1.6; max-height: 420px; color: var(--inkt); }
+pre code { background: none; border: 0; padding: 0; font-size: inherit; overflow-wrap: normal; }
+
+/* Volgende stappen als tijdlijn */
+.tijdlijn { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: stap; max-width: 64ch; }
+.tijdlijn li { position: relative; padding: 0 0 var(--s24) 40px; counter-increment: stap; }
+.tijdlijn li::before { content: counter(stap); position: absolute; left: 0; top: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--blauw); color: #fff; font-family: var(--f-kop); font-weight: 600; font-size: .8125rem; display: grid; place-items: center; line-height: 1; }
+.tijdlijn li::after { content: ""; position: absolute; left: 12px; top: 30px; bottom: 4px; width: 2px; background: var(--zacht); }
+.tijdlijn li:last-child { padding-bottom: 0; }
+.tijdlijn li:last-child::after { display: none; }
+
+/* Auteur */
+.auteur { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); column-gap: var(--s48); padding-block: var(--s80) var(--s64); border-bottom: 1px solid var(--lijn); }
+.auteur .naam { font-family: var(--f-kop); font-weight: 600; font-size: 1.0625rem; color: var(--inkt); }
+.auteur p { font-size: var(--t-klein); color: var(--mut); max-width: 60ch; }
+.auteur .rij { display: grid; gap: 6px; }
+
+/* Zijkolom: inhoud */
+.toc { position: sticky; top: var(--s24); display: grid; gap: var(--s32); }
+.toc nav ol { list-style: none; margin: var(--s12) 0 0; padding: 0; border-left: 2px solid var(--lijn); display: grid; }
+.toc nav a { display: block; padding: 5px 0 5px var(--s12); margin-left: -2px; border-left: 2px solid transparent; font-size: var(--t-bijschrift); line-height: 1.4; color: var(--mut); text-decoration: none; }
+.toc nav a:hover { color: var(--inkt); }
+.toc nav a[aria-current="true"] { color: var(--inkt); font-weight: 600; border-left-color: var(--blauw); }
+.toc .contact { display: grid; gap: 4px; font-size: var(--t-bijschrift); color: var(--mut); line-height: 1.5; }
+.toc .contact a { font-family: var(--f-kop); font-weight: 600; color: var(--inkt); }
+
+/* Afsluitband */
+.band { background: #3B3DFF; color: #fff; margin-top: var(--s96); }
+.band .in { max-width: var(--kolom); margin: 0 auto; padding: var(--s64) var(--gutter); display: grid; gap: var(--s24); }
+.band h2 { color: #fff; font-weight: 500; max-width: 26ch; }
+.band h2 b { color: #fff; font-weight: 700; }
+.band p { color: #fff; max-width: 62ch; font-size: var(--t-lead); line-height: 1.6; }
+.band .knop { justify-self: start; background: #fff; color: #111114; border-color: #fff; }
+.band .knop:hover { background: #D8E2FF; border-color: #D8E2FF; color: #111114; }
+.band :focus-visible { outline-color: #fff; }
+
+/* Voet */
+.voet { background: #F3F6FC; color: #3F4654; }
+.voet .in { padding-block: var(--s64) var(--s32); display: grid; grid-template-columns: minmax(0, 1.3fr) repeat(2, minmax(0, 1fr)); gap: var(--s48); }
+.voet .logo { color: #111114; }
+.voet p, .voet li { font-size: var(--t-klein); line-height: 1.6; }
+.voet h3 { font-size: var(--t-klein); color: #111114; padding-bottom: var(--s12); border-bottom: 1px solid #E3E8F2; margin-bottom: var(--s12); }
+.voet ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.voet a { color: #111114; }
+.voet .klein { grid-column: 1 / -1; border-top: 1px solid #E3E8F2; padding-top: var(--s24); font-size: var(--t-bijschrift); color: #4D5664; }
+.voet .merk { display: grid; gap: var(--s16); align-content: start; }
+
+/* Responsief: eigen compositie per maat */
+@media (max-width: 1100px) {
+  .raster { grid-template-columns: minmax(0, 1fr); }
+  .zijkolom { display: none; }
+  .blok { grid-template-columns: var(--rail) minmax(0, 1fr); }
+  .blok.opening > .zij { display: block; grid-column: 2; grid-row: auto; margin-top: var(--s32); max-width: 340px; }
+}
+@media (max-width: 760px) {
+  .blok, .stroom .blok, .auteur { grid-template-columns: minmax(0, 1fr); row-gap: var(--s16); padding-top: var(--s48); }
+  .blok > .rail, .blok > .lees, .blok > .breed, .auteur > * { grid-column: 1; }
+  .blok.opening > .zij { grid-column: 1; margin-top: var(--s8); max-width: none; }
+  .rail { padding-top: 0; }
+  .rail .noot.desk { display: none; }
+  .opening .rail { grid-auto-flow: row; }
+  .figuur { padding: var(--s16); border-radius: var(--r12); margin-inline: calc(var(--gutter) * -0.5); }
+  .act { padding-left: var(--s16); }
+  .kv { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .kv dd { margin-bottom: var(--s12); }
+  .voet .in { grid-template-columns: minmax(0, 1fr); gap: var(--s32); }
+  .kop .knop { display: none; }
+  .band { margin-top: var(--s64); }
+  .blauwblok { padding: var(--s32) var(--s24); margin-bottom: var(--s32); border-radius: var(--r12); }
+  .band .in { padding-block: var(--s48); }
+}
+
+@media print {
+  :root { --grond: #fff; }
+  body { font-size: 10.5pt; }
+  .topbalk, .kop .knop, .chips, .copy, .toc, .band .knop { display: none !important; }
+  .blok { grid-template-columns: 120px minmax(0, 1fr); column-gap: 24px; padding-top: 28px; }
+  .blok > .zij, .zijkolom { display: none; }
+  .raster { grid-template-columns: minmax(0, 1fr); }
+  .stroom .blok { grid-template-columns: 120px minmax(0, 1fr); }
+  .blok.opening > .zij { display: block; grid-column: 2; grid-row: auto; max-width: 320px; margin-top: 16px; }
+  .auteur { grid-template-columns: 120px minmax(0, 1fr); column-gap: 24px; }
+  #actions .act[hidden] { display: grid !important; }
+  .act, .tegel, .cel, tr, .tijdlijn li, .meetkaart { break-inside: avoid; }
+  .blok { break-inside: auto; }
+  .blok > .lees, .figuur, .antwoord { display: block; }
+  .blok > .lees > * + *, .figuur > * + *, .antwoord > * + * { margin-top: 16px; }
+  .stand, .cijfers { break-inside: auto; }
+  h2, h3 { break-after: avoid; }
+  pre, pre code { max-height: none; overflow: visible; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .blauwblok, .band, .voet, .figuur, .badge, .pill, .pos, .tijdlijn li::before, .act::before { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .band { margin-top: 32px; }
+  .voet .in { padding-block: 32px 16px; }
+  a { text-decoration: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbalk"><div class="in"><span>Rapport voor Opruimbrigade</span><span>18 oktober 2026</span></div></div>
+<header class="kop">
+  <div class="in">
+    <a class="logo" href="https://eqwise.nl/" aria-label="EQwise, naar eqwise.nl"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 -720 3850 804" aria-hidden="true" focusable="false" width="152" height="32"><g transform="scale(1 -1)" fill="currentColor"><path transform="translate(0 0)" d="M233 565V423H462V291H233V137H492V0H62V702H492V565Z"/><path transform="translate(541 0)" d="M33 353Q33 456 81.5 538.0Q130 620 212.5 666.0Q295 712 394 712Q493 712 575.5 666.0Q658 620 705.5 538.0Q753 456 753 353Q753 250 705.0 167.5Q657 85 575.0 39.0Q493 -7 394 -7Q295 -7 212.5 39.0Q130 85 81.5 167.5Q33 250 33 353ZM579 353Q579 446 528.5 501.5Q478 557 394 557Q309 557 258.5 502.0Q208 447 208 353Q208 260 258.5 204.5Q309 149 394 149Q478 149 528.5 205.0Q579 261 579 353Z"/><path transform="translate(1327 0)" d="M1028 702 845 0H638L526 462L410 0H203L25 702H208L309 191L434 702H622L742 191L844 702Z"/><path transform="translate(2379 0)" d="M233 702V0H62V702Z"/><path transform="translate(2674 0)" d="M42 210H224Q228 171 251.0 150.5Q274 130 311 130Q349 130 371.0 147.5Q393 165 393 196Q393 222 375.5 239.0Q358 256 332.5 267.0Q307 278 260 292Q192 313 149.0 334.0Q106 355 75.0 396.0Q44 437 44 503Q44 601 115.0 656.5Q186 712 300 712Q416 712 487.0 656.5Q558 601 563 502H378Q376 536 353.0 555.5Q330 575 294 575Q263 575 244.0 558.5Q225 542 225 511Q225 477 257.0 458.0Q289 439 357 417Q425 394 467.5 373.0Q510 352 541.0 312.0Q572 272 572 209Q572 149 541.5 100.0Q511 51 453.0 22.0Q395 -7 316 -7Q239 -7 178.0 18.0Q117 43 80.5 92.0Q44 141 42 210Z"/><path transform="translate(3289 0)" d="M233 565V423H462V291H233V137H492V0H62V702H492V565Z"/><rect x="-64.0" y="-150.0" width="128" height="300" rx="10" fill="#3B3DFF" transform="translate(1049.0 123) rotate(40)"/></g></svg></a>
+    <a class="knop" href="https://eqwise.nl/contact/">Bespreek dit rapport</a>
+  </div>
+</header>
+
+<main id="inhoud">
+
+  <article>
+  <section class="blok opening" aria-labelledby="h-top">
+    <div class="rail">
+      <div class="label">SEO- en GEO-audit</div>
+      <div class="noot meta-lijst"><span>Door <b>Martin de Smit</b></span><span>18 oktober 2026</span><span>Leestijd 15 minuten</span></div>
+    </div>
+    <div class="lees">
+      <h1 id="h-top">Audit <span class="accent">opruimbrigade.nl</span></h1>
+      <p class="lead">Opruimbrigade is de praktijk van Irene Brouwer, professional organizer in Amsterdam en omgeving. De technische basis is gezond: alles is indexeerbaar en de sitemaps kloppen. Wat de site tegenhoudt: zoekmachines en AI kunnen niet vaststellen van wie het bedrijf is, de site is zwaar en ongecachet, en de merknaam deelt een gewoon woord met zwerfafvalploegen.</p>
+      <div class="feiten">
+        <span>Platform <b>WordPress 7.1 · Salient 18.1.1 · WPBakery · Yoast 28.7</b></span>
+        <span>Hosting <b>IONOS, Apache, HTTP/2</b></span>
+        <span>Gecontroleerd <b>13 pagina's, 4 sitemaps, REST API</b></span>
+      </div>
+    </div>
+    <aside class="zij meetkaart" aria-label="Kerncijfer">
+      <div class="cijfer">52<small>%</small></div>
+      <div class="wat">Site prestatie volgens het EQwise SEO-platform</div>
+      <div class="bron">Gemiddeld. Scan van 12 pagina's en 5 zoekwoorden, 18 oktober 2026.</div>
+    </aside>
+  </section>
+
+  <div class="raster">
+  <div class="stroom">
+  <section class="blok" aria-labelledby="h-stand">
+    <div class="rail"><div class="label label-streep">Stand</div><div class="noot desk">Zes onderdelen, beoordeeld als goed, matig of zwak.</div></div>
+    <div class="lees">
+      <h2 id="h-stand">Hoe staat de site ervoor?</h2>
+      <div class="figuur">
+        <div class="figuur-titel">Stand per onderdeel</div>
+        <div class="stand">
+          <div class="tegel"><span class="badge b-ok">Goed</span><h3>Indexering en crawlbaarheid</h3><p>robots.txt open, 14 URL's in de sitemap, alle 200. Canonicals, lang en titels in orde.</p></div>
+          <div class="tegel"><span class="badge b-hi">Zwak</span><h3>Van wie is het bedrijf</h3><p>Geen adres, plaats of KvK. Kaal schema. Telefoonlink ongeldig. Geen links naar profielen.</p></div>
+          <div class="tegel"><span class="badge b-hi">Zwak</span><h3>Snelheid</h3><p>Mobiel 63/100, desktop 87/100. Geen cache, geen browsercaching, zware hero-afbeeldingen, 22 blokkerende stylesheets.</p></div>
+          <div class="tegel"><span class="badge b-mid">Matig</span><h3>Content en structuur</h3><p>Concrete prijzen en FAQ's, maar geen Over-pagina, geen regiopagina's en headings als opmaak.</p></div>
+          <div class="tegel"><span class="badge b-mid">Matig</span><h3>GEO en AI-zichtbaarheid</h3><p>AI-bots welkom en llms.txt aanwezig. Weinig externe vermeldingen, merknaam op plek 16.</p></div>
+          <div class="tegel"><span class="badge b-hi">Zwak</span><h3>Autoriteit en rankings</h3><p>0 backlinks, 9 pagina's in de Google-index en geen van de 5 zoekwoorden in de top 10.</p></div>
+        </div>
+      </div>
+      <div class="antwoord">
+        <h3>Wat niet gemeten kon worden</h3>
+        <ul>
+        <li><b>Core Web Vitals (LCP, CLS, INP) en laadtijd in seconden:</b> nog niet gemeten. De aanvullende snelheidsmeting kon bij het opstellen niet worden uitgevoerd en volgt apart. De snelheidsscores hieronder komen uit de scan van het EQwise SEO-platform; de verbeterpunten uit HTML- en header-analyse.</li>
+        <li><b>Trust Flow, Citation Flow en Trust Level:</b> "gegevens niet beschikbaar" in de scan, wat past bij 0 backlinks.</li>
+        <li><b>De scan van het EQwise SEO-platform</b> is de gratis versie: 12 pagina's en 5 zoekwoorden. Twee posities waren nog in scan.</li>
+        <li><b>De zoekvragen in het GEO-deel</b> komen uit een webzoekindex, niet uit Google zelf. Behandel ze als indicatie.</li>
+        <li><b>AI-meting:</b> alleen Claude met webzoeken (16 antwoorden). ChatGPT, Gemini en Perplexity zijn niet gemeten.</li>
+      </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="blok" aria-labelledby="h-scan">
+    <div class="rail"><div class="label label-streep">Meting</div><div class="noot desk">Bron: het EQwise SEO-platform, gratis scan, 12 pagina's.</div></div>
+    <div class="lees">
+      <h2 id="h-scan">Wat zegt de scan van het EQwise SEO-platform?</h2>
+      <p>De scan van 12 pagina's geeft opruimbrigade.nl een site prestatie van 52 procent: gemiddeld. De techniek is schoon, maar de site heeft geen backlinks, niet alle pagina's staan in Google en geen van de 5 zoekwoorden haalt de top 10.</p>
+      <div class="figuur">
+        <div class="figuur-titel">De scan in acht cijfers</div>
+        <div class="cijfers">
+          <div class="cel"><span class="n matig">52%</span><span class="l">Site prestatie, gemiddeld</span></div>
+          <div class="cel"><span class="n slecht">18</span><span class="l">Fouten</span></div>
+          <div class="cel"><span class="n matig">3</span><span class="l">Waarschuwingen</span></div>
+          <div class="cel"><span class="n goed">24</span><span class="l">Geslaagd</span></div>
+          <div class="cel"><span class="n slecht">63<small>/100</small></span><span class="l">Snelheid mobiel</span></div>
+          <div class="cel"><span class="n goed">87<small>/100</small></span><span class="l">Snelheid desktop</span></div>
+          <div class="cel"><span class="n matig">9</span><span class="l">Pagina's in de Google-index (sitemap: 14)</span></div>
+          <div class="cel"><span class="n slecht">0</span><span class="l">Backlinks</span></div>
+        </div>
+        <div class="staaf" aria-label="Snelheidsscore mobiel tegen desktop">
+          <div class="staaf-rij"><div class="kop2"><span>Desktop</span><span>87</span></div><div class="baan"><div class="vul" style="width:87%"></div></div></div>
+          <div class="staaf-rij blauw"><div class="kop2"><span>Mobiel</span><span>63</span></div><div class="baan"><div class="vul" style="width:63%"></div></div></div>
+        </div>
+        <p class="figuur-bijschrift">Snelheidsscore uit de scan, schaal 0 tot 100. Mobiel blijft 24 punten achter.</p>
+      </div>
+
+      <h3>Posities van de 5 zoekwoorden</h3>
+      <div class="tabel">
+        <table>
+          <thead><tr><th>Zoekwoord</th><th>Google.com · NL · Amsterdam · desktop</th><th>Google.com · NL · Amsterdam · mobiel</th></tr></thead>
+          <tbody>
+          <tr><td>verhuizing amsterdam</td><td><span class="pos bad">niet in top 10</span></td><td><span class="pos pend">nog in scan</span></td></tr>
+          <tr><td>woning opruimen</td><td><span class="pos bad">niet in top 10</span></td><td><span class="pos bad">niet in top 10</span></td></tr>
+          <tr><td>huis opruimen</td><td><span class="pos bad">niet in top 10</span></td><td><span class="pos bad">niet in top 10</span></td></tr>
+          <tr><td>opruimen huis na overlijden</td><td><span class="pos bad">niet in top 10</span></td><td><span class="pos bad">niet in top 10</span></td></tr>
+          <tr><td>opruimen woning</td><td><span class="pos pend">nog in scan</span></td><td><span class="pos pend">nog in scan</span></td></tr>
+        </tbody>
+        </table>
+      </div>
+      <p class="noot">De taal van de zoekresultaten staat niet in de scan. "verhuizing amsterdam" past niet bij het aanbod: Opruimbrigade helpt bij verhuizen, maar is geen verhuisbedrijf. Kies liever zoekwoorden als "opruimcoach amsterdam" en "professional organizer amsterdam".</p>
+
+      <div class="twee">
+        <div><h3>Problemen in de scan</h3><ul class="lijst">
+          <li><b>Zoekwoorden ontbreken in de kernonderdelen (5).</b> De zoekwoorden staan niet in title, meta description, H1 en tekst van de pagina's.</li>
+          <li><b>Niet alle pagina's geïndexeerd.</b> Google heeft 9 pagina's in de index; de sitemap bevat er 14.</li>
+          <li><b>Geen backlinks.</b> Er zijn te weinig backlinks om giftige links te analyseren; de scan adviseert linkbuilding op korte termijn.</li>
+          <li><b>Meta description niet in orde op 4 pagina's.</b> Ontbrekend, te lang of dubbel; past bij de vier juridische pagina's met dezelfde description.</li>
+          <li><b>Heading-probleem op 1 pagina.</b> Geen of meer dan één H1; past bij de contactpagina zonder H1.</li>
+          <li><b>Mobiele snelheid 63/100.</b> Desktop scoort 87/100.</li>
+          <li><b>Sociale media:</b> 0 Facebook-interacties en 0 Pinterest-shares op de homepage.</li>
+        </ul></div>
+        <div><h3>In orde volgens de scan</h3><ul class="vinklijst">
+          <li>Geen 404-pagina's, serverfouten of trage responstijden</li>
+          <li>Geen defecte afbeeldingen of verbroken links</li>
+          <li>Geen pagina's met beperkte toegang (401, 403)</li>
+          <li>Titles en URL's geoptimaliseerd, geen foute redirects</li>
+          <li>Niet te veel uitgaande links</li>
+          <li>Afbeeldingen vindbaar in Google Afbeeldingen</li>
+          <li>Sitemap en robots.txt aanwezig</li>
+          <li>Google Analytics op alle pagina's</li>
+          <li>Mobiel bruikbaar</li>
+        </ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blok" aria-labelledby="h-ai">
+    <div class="rail"><div class="label label-streep">AI-meting</div><div class="noot desk">Claude met webzoeken, 18 oktober 2026. 8 vragen, elk 2 keer: 16 antwoorden.</div></div>
+    <div class="lees">
+      <h2 id="h-ai">Noemt AI Opruimbrigade?</h2>
+      <p>Acht vragen zoals een klant ze stelt, zonder merknaam, elk twee keer gesteld aan Claude met webzoeken. Per antwoord is geteld welke aanbieders genoemd worden en welke bronnen erbij staan. <b>Opruimbrigade staat in 0 van de 16 antwoorden</b>, ook niet bij de vraag naar een opruimcoach in Amsterdam.</p>
+      <div class="figuur">
+        <div class="figuur-titel">Wie AI wel noemt</div>
+        <div class="staaf"><div class="staaf-rij"><div class="kop2"><span>Haus &amp; Orde</span><span>6 van 16</span></div><div class="baan"><div class="vul" style="width:37.5%"></div></div></div><div class="staaf-rij"><div class="kop2"><span>Woningontruiming Amsterdam</span><span>6 van 16</span></div><div class="baan"><div class="vul" style="width:37.5%"></div></div></div><div class="staaf-rij"><div class="kop2"><span>Ruimtevol</span><span>4 van 16</span></div><div class="baan"><div class="vul" style="width:25.0%"></div></div></div><div class="staaf-rij"><div class="kop2"><span>Zamarra</span><span>4 van 16</span></div><div class="baan"><div class="vul" style="width:25.0%"></div></div></div><div class="staaf-rij"><div class="kop2"><span>De Heemsteedse Organizer</span><span>3 van 16</span></div><div class="baan"><div class="vul" style="width:18.8%"></div></div></div><div class="staaf-rij"><div class="kop2"><span>OLIV Organized Living</span><span>3 van 16</span></div><div class="baan"><div class="vul" style="width:18.8%"></div></div></div><div class="staaf-rij"><div class="kop2"><span>Spaceful (Iris van der Ros)</span><span>3 van 16</span></div><div class="baan"><div class="vul" style="width:18.8%"></div></div></div><div class="staaf-rij blauw"><div class="kop2"><span>Opruimbrigade</span><span>0 van 16</span></div><div class="baan"><div class="vul" style="width:0%"></div></div></div></div>
+        <p class="figuur-bijschrift">Aantal antwoorden (van 16) waarin de aanbieder genoemd wordt. De beroepsvereniging NBPO wordt in 9 antwoorden genoemd als plek om een organizer te zoeken; in totaal vallen 55 verschillende namen.</p>
+      </div>
+      <h3>Per vraag</h3>
+      <div class="tabel">
+        <table>
+          <thead><tr><th>Vraag van de klant</th><th>Opruimbrigade</th><th>Onder meer genoemd</th></tr></thead>
+          <tbody><tr><td>Kun je een professional organizer in Amsterdam aanraden?</td><td><span class="pos bad">0 van 2</span></td><td>Haus &amp; Orde, Spaceful (Iris van der Ros), Zamarra</td></tr><tr><td>Wie kan mij helpen mijn huis op te ruimen in Amsterdam?</td><td><span class="pos bad">0 van 2</span></td><td>ClearSpace, Haus &amp; Orde, Woningontruiming Amsterdam</td></tr><tr><td>Ik zoek een opruimcoach in Amsterdam. Welke opties zijn goed?</td><td><span class="pos bad">0 van 2</span></td><td>De Heemsteedse Organizer, Haus &amp; Orde, Hilde Verdijk</td></tr><tr><td>Wie helpt bij het leegruimen en opruimen van een woning na overlijden in Amsterdam?</td><td><span class="pos bad">0 van 2</span></td><td>Woningontruiming Amsterdam, Afzetbak, Ruttenberg</td></tr><tr><td>Ik ga verhuizen in Amsterdam en wil hulp bij opruimen en ontspullen. Wie kan ik inschakelen?</td><td><span class="pos bad">0 van 2</span></td><td>Amsterdam Verhuisbedrijf, Oomen Verhuizers, De Heemsteedse Organizer</td></tr><tr><td>Wat kost een professional organizer in Amsterdam en welke aanbieders zijn er?</td><td><span class="pos bad">0 van 2</span></td><td>OLIV Organized Living, Amsterdam Professional Organizer, Annemieke Belgraver Professional Organizer</td></tr><tr><td>Kun je een opruimcoach in Haarlem aanbevelen?</td><td><span class="pos bad">0 van 2</span></td><td>De Heemsteedse Organizer, De Opruimcoach Haarlem, Gort Coaching</td></tr><tr><td>Welk bedrijf helpt met het opruimen en organiseren van een kantoor of werkplek in Amsterdam?</td><td><span class="pos bad">0 van 2</span></td><td>Haus &amp; Orde, OLIV Organized Living, Schoonpand</td></tr></tbody>
+        </table>
+      </div>
+      <h3>Waar AI de namen vandaan haalt</h3>
+      <ul class="lijst">
+        <li><b>Trustpilot</b> staat in 13 van de 16 antwoorden als bron: reviewpagina's van Haus &amp; Orde, Woningontruiming Amsterdam en Opruimcoach Geske, en de categorie professional organizer.</li>
+        <li><b>Trustoo</b> en <b>Slimster</b> (vergelijkingssites) staan elk in 3 antwoorden, <b>Marktplaats</b> in 2.</li>
+        <li>De eigen websites van organizers die genoemd worden, zoals ruimtevol.nl (4 antwoorden) en deheemsteedseorganizer.nl (3).</li>
+        <li>De <b>NBPO-ledenlijst</b> wordt aangeraden om verder te zoeken.</li>
+      </ul>
+      <div class="antwoord">
+        <h3>Zo lees je deze meting</h3>
+        <ul>
+          <li>Alleen Claude is gemeten. ChatGPT, Gemini en Perplexity waren vanuit de meetomgeving niet bereikbaar en volgen in een vervolgmeting met dezelfde vragen.</li>
+          <li>Het is één meting van 16 antwoorden: een aanwijzing, geen trend. Herhaal hem na de aanpassingen met dezelfde vragen.</li>
+          <li>De genoemde aanbieders zijn een meetresultaat, geen oordeel over hun kwaliteit.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="blok" aria-labelledby="h-actions">
+    <div class="blauwblok" aria-label="Actielijst in het kort">
+      <div class="label">Actielijst in het kort</div>
+      <p class="groot">34 acties, <b>16 met prioriteit hoog</b></p>
+      <div class="verdeling">
+        <div><span class="n">16</span><span class="l">hoog</span></div>
+        <div><span class="n">12</span><span class="l">middel</span></div>
+        <div><span class="n">6</span><span class="l">laag</span></div>
+      </div>
+      <p>Begin met de bedrijfsgegevens, het ProfessionalService-schema en de snelheid: dat zijn de eerste twee volgende stappen.</p>
+    </div>
+    <div class="rail"><div class="label label-streep">Acties</div><div class="noot desk">Gesorteerd op prioriteit. Filter op onderdeel.</div></div>
+    <div class="lees">
+      <h2 id="h-actions">Wat moet er gebeuren?</h2>
+      <div class="chips" role="group" aria-label="Filter op onderdeel">
+        <button type="button" data-filter="all" aria-pressed="true">Alles</button>
+        <button type="button" data-filter="entiteit" aria-pressed="false">Van wie is het bedrijf</button>
+        <button type="button" data-filter="snelheid" aria-pressed="false">Snelheid</button>
+        <button type="button" data-filter="techniek" aria-pressed="false">Techniek</button>
+        <button type="button" data-filter="content" aria-pressed="false">Content</button>
+        <button type="button" data-filter="geo" aria-pressed="false">GEO</button>
+      </div>
+      <p class="teller" id="count" aria-live="polite">34 acties</p>
+      <ol class="actions" id="actions">
+
+      <li class="act" data-sev="hoog" data-area="geo content">
+        <div class="act-head"><strong>Geen backlinks</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">GEO</span><span class="tag">Autoriteit</span></span></div>
+        <p>De scan van het EQwise SEO-platform vindt 0 links naar de site. Trust Flow en Citation Flow zijn daardoor niet te bepalen.</p>
+        <p class="fix">Begin met vermeldingen die vanzelf passen: Google Bedrijfsprofiel, NBPO-profiel (als lid), KvK, lokale bedrijvengidsen en de zakelijke klanten uit de testimonials.</p>
+      </li>
+      <li class="act" data-sev="hoog" data-area="techniek">
+        <div class="act-head"><strong>Maar 9 van de 14 pagina's in Google</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">Techniek</span></span></div>
+        <p>De sitemap bevat 14 URL's, de Google-index 9.</p>
+        <p class="fix">In Search Console per URL de indexeringsstatus bekijken, de sitemap indienen en de belangrijkste pagina's laten indexeren.</p>
+      </li>
+      <li class="act" data-sev="hoog" data-area="content">
+        <div class="act-head"><strong>Zoekwoorden ontbreken in title, description en H1</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">Content</span></span></div>
+        <p>De scan meldt 5 fouten: de zoekwoorden staan niet in de belangrijkste pagina-onderdelen. Geen van de 5 zoekwoorden staat in de top 10 op Google.com, NL, Amsterdam, desktop of mobiel.</p>
+        <p class="fix">Per dienstpagina één hoofdzoekwoord kiezen en dat in title, meta description, H1 en eerste alinea zetten. Zoekwoordenlijst herzien: "verhuizing amsterdam" past niet bij het aanbod.</p>
+      </li>
+
+      <li class="act" data-sev="hoog" data-area="entiteit">
+        <div class="act-head"><strong>Bedrijfsgegevens (NAP) ontbreken</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">Van wie is het bedrijf</span></span></div>
+        <p>Nergens een adres, vestigingsplaats of KvK-nummer. Het nummer in de footer linkt naar de pagina zelf; op de contactpagina staat de ongeldige link <code>tel:+ 31(0)650 625 621</code>.</p>
+        <p class="fix">KvK-nummer, vestigingsplaats en één schrijfwijze van het nummer in de footer; link als <code>tel:+31650625621</code>.</p>
+      </li>
+      <li class="act" data-sev="hoog" data-area="entiteit geo">
+        <div class="act-head"><strong>Structured data is een kale Organization</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">Van wie is het bedrijf</span><span class="tag">GEO</span></span></div>
+        <p>Yoast geeft alleen naam, url en logo. Geen LocalBusiness of ProfessionalService, geen telefoon, e-mail, werkgebied, oprichter of sameAs.</p>
+        <p class="fix">ProfessionalService-schema toevoegen met oprichter, areaServed, tarieven en profiellinks. Zie het voorbeeld onderaan.</p>
+      </li>
+      <li class="act" data-sev="hoog" data-area="entiteit geo">
+        <div class="act-head"><strong>Geen links naar profielen buiten de site</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">Van wie is het bedrijf</span></span></div>
+        <p>LinkedIn en Instagram van Irene Brouwer bestaan wel, maar de site linkt er niet naar. Een Google Bedrijfsprofiel kon niet worden vastgesteld.</p>
+        <p class="fix">Google Bedrijfsprofiel aanmaken of claimen, profielen in de footer linken en opnemen in sameAs.</p>
+      </li>
+      <li class="act" data-sev="hoog" data-area="snelheid">
+        <div class="act-head"><strong>CSS en JS zonder compressie</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">Snelheid</span><span class="tag verify">te verifiëren</span></span></div>
+        <p><code>style.css</code> (164 KB) en <code>jquery.min.js</code> (88 KB) kwamen zonder content-encoding binnen; de HTML wel met gzip. Gemeten met één externe client.</p>
+        <p class="fix">Bevestigen in DevTools, dan deflate aanzetten via .htaccess of een cacheplugin.</p>
+      </li>
+      <li class="act" data-sev="hoog" data-area="snelheid">
+        <div class="act-head"><strong>Geen browsercaching op statische bestanden</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">Snelheid</span></span></div>
+        <p>Op alle 7 geteste bestanden alleen een ETag, geen Cache-Control of Expires.</p>
+        <p class="fix">Expires-regels in .htaccess (1 jaar; de bestanden hebben al <code>?ver=</code>).</p>
+      </li>
+      <li class="act" data-sev="hoog" data-area="snelheid">
+        <div class="act-head"><strong>Geen pagecache- of optimalisatieplugin</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">Snelheid</span></span></div>
+        <p>Elke weergave draait volledig door PHP en de database op gedeelde hosting.</p>
+        <p class="fix">Eén plugin (WP Rocket, FlyingPress, of WP Super Cache met Autoptimize) en Salient's eigen performance-opties niet dubbel aanzetten.</p>
+      </li>
+      <li class="act" data-sev="hoog" data-area="snelheid">
+        <div class="act-head"><strong>Zware LCP-afbeeldingen</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">Snelheid</span></span></div>
+        <p>Hero <code>opruimbrigade.jpg</code> is 332 KB zonder srcset, terwijl de mobiele preload een versie van 126 KB laadt, dus mobiel downloadt waarschijnlijk beide. Portret <code>Irene_Brouwer02-1.jpg</code> is 411 KB op 2000×2322.</p>
+        <p class="fix">Naar WebP, op weergaveformaat, met srcset; preload en img dezelfde bron laten gebruiken.</p>
+      </li>
+      <li class="act" data-sev="hoog" data-area="snelheid">
+        <div class="act-head"><strong>LCP-afbeelding op /thuis/ laadt via JavaScript</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">Snelheid</span></span></div>
+        <p>De afbeelding met fetchpriority=high heeft een SVG-placeholder en krijgt pas via Salient-JS (<code>data-nectar-img-src</code>) haar echte bron.</p>
+        <p class="fix">De bovenste afbeelding uitsluiten van Salient lazy load.</p>
+      </li>
+      <li class="act" data-sev="hoog" data-area="techniek">
+        <div class="act-head"><strong>http gaat niet altijd naar https</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">Techniek</span><span class="tag verify">te verifiëren</span></span></div>
+        <p><code>http://opruimbrigade.nl/thuis/</code> gaf twee keer 200 zonder redirect; de homepage gaat wel naar https.</p>
+        <p class="fix">Checken met <code>curl -I</code>; klopt het, dan sitebrede 301 naar https plus HSTS.</p>
+      </li>
+      <li class="act" data-sev="hoog" data-area="techniek">
+        <div class="act-head"><strong>Contactpagina heeft geen H1</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">Techniek</span></span></div>
+        <p>De eerste heading is een H2 met een hele zin.</p>
+        <p class="fix">Eén H1, bijvoorbeeld "Contact met opruimcoach Irene Brouwer (Amsterdam)".</p>
+      </li>
+      <li class="act" data-sev="hoog" data-area="geo">
+        <div class="act-head"><strong>Merknaam is verwarrend en weinig bevestigd</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">GEO</span></span></div>
+        <p>"Opruimbrigade" is ook de term voor strand- en zwerfafvalploegen, en er is een "Foto Opruim Brigade". Op de merknaam staat de site op plek 16 van 20. Geen vermeldingen op Trustpilot, Werkspot, Klantenvertellen, NBPO of in het nieuws gevonden.</p>
+        <p class="fix">Overal "Opruimbrigade | Irene Brouwer, opruimcoach Amsterdam" gebruiken en reviews verzamelen op het Google Bedrijfsprofiel.</p>
+      </li>
+      <li class="act" data-sev="hoog" data-area="geo content">
+        <div class="act-head"><strong>Zichtbaar op één zoekvraag, niet op de rest</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">GEO</span><span class="tag">Content</span></span></div>
+        <p>"opruimcoach Amsterdam" op plek 5. Niet in de top 10 tot 15 voor "professional organizer Amsterdam", "woning opruimen na overlijden Amsterdam" en "opruimcoach Haarlem/Zaandam/Amstelveen".</p>
+        <p class="fix">Eigen pagina's voor "na overlijden" en voor 3 tot 5 plaatsen, met unieke inhoud.</p>
+      </li>
+
+      <li class="act" data-sev="hoog" data-area="geo">
+        <div class="act-head"><strong>Niet genoemd in AI-antwoorden</strong><span class="tags"><span class="pill p-hi">Hoog</span><span class="tag">GEO</span></span></div>
+        <p>Claude met webzoeken noemt Opruimbrigade in 0 van 16 antwoorden op klantvragen. Haus &amp; Orde en Woningontruiming Amsterdam staan elk in 6 antwoorden; Trustpilot is de bron in 13 antwoorden.</p>
+        <p class="fix">Profielen met reviews op Trustpilot en Trustoo, een NBPO-profiel (bij lidmaatschap) en daarna dezelfde 8 vragen opnieuw meten, ook in ChatGPT, Gemini en Perplexity.</p>
+      </li>
+
+      <li class="act" data-sev="middel" data-area="techniek">
+        <div class="act-head"><strong>Interne links via redirects</strong><span class="tags"><span class="pill p-mid">Middel</span><span class="tag">Techniek</span></span></div>
+        <p><code>/contact/</code> wordt 11 keer gelinkt en gaat naar <code>/contact-en-snel-eenvoudig-hulp-bij-opruimen/</code>. Links zonder slash: <code>/disclamer</code>, <code>/cookies</code>, <code>/thuis</code>, <code>/werkwijze</code>, <code>/zakelijk</code>.</p>
+        <p class="fix">Alle interne links naar de definitieve URL met slash.</p>
+      </li>
+      <li class="act" data-sev="middel" data-area="content">
+        <div class="act-head"><strong>Belangrijke pagina's ontbreken</strong><span class="tags"><span class="pill p-mid">Middel</span><span class="tag">Content</span></span></div>
+        <p>"Over" is een anker <code>/#over</code>. Verhuizen en overlijden zijn alleen tabs op /thuis/. De 18 plaatsen staan alleen als lijst op de contactpagina.</p>
+        <p class="fix">Pagina's /over-irene-brouwer/, een pagina voor opruimen na overlijden en 3 tot 5 regiopagina's.</p>
+      </li>
+      <li class="act" data-sev="middel" data-area="techniek content">
+        <div class="act-head"><strong>Headings als opmaak, H1's als merknaam</strong><span class="tags"><span class="pill p-mid">Middel</span><span class="tag">Techniek</span></span></div>
+        <p>Hele zinnen als H2/H3 op home; telefoon, e-mail en de afspraakknop als H4, plus H5 en H6 in de footer. H1's "Opruimbrigade Thuis" en "Opruimbrigade Zakelijk".</p>
+        <p class="fix">Headings alleen voor structuur, H1's met zoekterm ("Opruimcoach voor thuis in Amsterdam").</p>
+      </li>
+      <li class="act" data-sev="middel" data-area="snelheid techniek">
+        <div class="act-head"><strong>Afbeeldingen: alt, formaat, kapotte elementen</strong><span class="tags"><span class="pill p-mid">Middel</span><span class="tag">Techniek</span><span class="tag">Snelheid</span></span></div>
+        <p>45 van de 91 media-items zonder alt. Vier GIF's van 1000×1173 getoond op ca. 300×352. Op /thuis/, /werkwijze/ en /zakelijk/ een img waarvan de src naar de pagina zelf wijst, waardoor de browser de pagina nog eens ophaalt.</p>
+        <p class="fix">Alt-teksten aanvullen, GIF's verkleinen of naar WebP, lege img-elementen verwijderen.</p>
+      </li>
+      <li class="act" data-sev="middel" data-area="snelheid">
+        <div class="act-head"><strong>22 blokkerende stylesheets, ~20 synchrone scripts</strong><span class="tags"><span class="pill p-mid">Middel</span><span class="tag">Snelheid</span></span></div>
+        <p>Alleen gtag laadt async. Home is 204 KB HTML, waarvan 93 KB inline CSS.</p>
+        <p class="fix">CSS combineren en kritieke CSS inline, JS defer of delay via de cacheplugin.</p>
+      </li>
+      <li class="act" data-sev="middel" data-area="snelheid">
+        <div class="act-head"><strong>Fonts als .woff in vier gewichten</strong><span class="tags"><span class="pill p-mid">Middel</span><span class="tag">Snelheid</span></span></div>
+        <p>Open Sans laadt als .woff, niet woff2. Er wordt ook een icon font (icomoon) gepreload.</p>
+        <p class="fix">Naar woff2, gewichten beperken, icon-preload heroverwegen.</p>
+      </li>
+      <li class="act" data-sev="middel" data-area="techniek content">
+        <div class="act-head"><strong>Dubbele en dunne content</strong><span class="tags"><span class="pill p-mid">Middel</span><span class="tag">Techniek</span></span></div>
+        <p>Privacy, cookies, disclamer en voorwaarden delen exact dezelfde meta description. Twee categorie-archieven met elk één post zijn indexeerbaar. Het blok "Elke missie begint met overzicht…" staat op vier pagina's.</p>
+        <p class="fix">Juridische pagina's en dunne archieven op noindex, unieke descriptions, herhaald blok inkorten.</p>
+      </li>
+      <li class="act" data-sev="middel" data-area="entiteit content">
+        <div class="act-head"><strong>Blogauteur heet "admin"</strong><span class="tags"><span class="pill p-mid">Middel</span><span class="tag">Van wie is het bedrijf</span></span></div>
+        <p>In het Person-schema, op de pagina en in de RSS-feed. Twee posts, laatst bijgewerkt in april 2026, zonder zichtbare datum.</p>
+        <p class="fix">Auteur Irene Brouwer met bio en link naar de Over-pagina, datum tonen.</p>
+      </li>
+      <li class="act" data-sev="middel" data-area="geo">
+        <div class="act-head"><strong>Geanimeerde koppen plakken woorden aan elkaar</strong><span class="tags"><span class="pill p-mid">Middel</span><span class="tag">GEO</span></span></div>
+        <p>Crawlers en AI lezen bijvoorbeeld "Teveelspullenenteweinigrust?".</p>
+        <p class="fix">Echte spaties tussen woord-spans of een platte tekstversie, en de intro als gewone alinea onder de H1.</p>
+      </li>
+      <li class="act" data-sev="middel" data-area="geo techniek">
+        <div class="act-head"><strong>14 FAQ's zonder FAQPage-schema</strong><span class="tags"><span class="pill p-mid">Middel</span><span class="tag">GEO</span></span></div>
+        <p>Op /thuis/, /zakelijk/ en /werkwijze/.</p>
+        <p class="fix">FAQPage-markup toevoegen. Zie het voorbeeld onderaan.</p>
+      </li>
+      <li class="act" data-sev="middel" data-area="geo">
+        <div class="act-head"><strong>llms.txt is automatisch en mager</strong><span class="tags"><span class="pill p-mid">Middel</span><span class="tag">GEO</span></span></div>
+        <p>Yoast genereert hem; de contactpagina ontbreekt en er staan geen feiten in.</p>
+        <p class="fix">Handgeschreven versie met werkgebied, tarieven, eigenaar en contact. Zie het voorbeeld onderaan.</p>
+      </li>
+      <li class="act" data-sev="middel" data-area="content">
+        <div class="act-head"><strong>Tegenstrijdigheid over de intake</strong><span class="tags"><span class="pill p-mid">Middel</span><span class="tag">Content</span></span></div>
+        <p>De FAQ antwoordt "Nee" op de vraag of de intake vrijblijvend is, elders staat "vrijblijvend".</p>
+        <p class="fix">Eén formulering: telefonische verkenning gratis, intake op locatie €95 (verrekend bij start).</p>
+      </li>
+
+      <li class="act" data-sev="laag" data-area="content">
+        <div class="act-head"><strong>Typfouten</strong><span class="tags"><span class="pill p-lo">Laag</span><span class="tag">Content</span></span></div>
+        <p>"Opruimbigade" op /zakelijk/; "Disclamer" in URL en titel.</p>
+        <p class="fix">Corrigeren; bij de URL een 301 van de oude naar de nieuwe.</p>
+      </li>
+      <li class="act" data-sev="laag" data-area="techniek">
+        <div class="act-head"><strong>Security-headers scoren F</strong><span class="tags"><span class="pill p-lo">Laag</span><span class="tag">Techniek</span></span></div>
+        <p>Geen HSTS, nosniff, Referrer-Policy of X-Frame-Options.</p>
+        <p class="fix">Headers via .htaccess. Zie het voorbeeld onderaan.</p>
+      </li>
+      <li class="act" data-sev="laag" data-area="techniek">
+        <div class="act-head"><strong>GA4 laadt zonder cookiebanner</strong><span class="tags"><span class="pill p-lo">Laag</span><span class="tag">Techniek</span></span></div>
+        <p>Een AVG-punt, geen SEO-punt.</p>
+        <p class="fix">Consentbanner met Google Consent Mode v2.</p>
+      </li>
+      <li class="act" data-sev="laag" data-area="entiteit">
+        <div class="act-head"><strong>NBPO-logo niet te verifiëren</strong><span class="tags"><span class="pill p-lo">Laag</span><span class="tag">Van wie is het bedrijf</span></span></div>
+        <p>Staat op vier pagina's, maar er is geen NBPO-profiel van Irene Brouwer gevonden.</p>
+        <p class="fix">Bij lidmaatschap profiel laten aanmaken en linken met tekst; anders logo weghalen.</p>
+      </li>
+      <li class="act" data-sev="laag" data-area="techniek">
+        <div class="act-head"><strong>Restanten van demo en staging</strong><span class="tags"><span class="pill p-lo">Laag</span><span class="tag">Techniek</span></span></div>
+        <p>Homepage-slug <code>harbor-landing</code>, demo-afbeeldingen (logoipsum) in de mediabibliotheek, og:url op /author/admin/ naar het oude stagingdomein.</p>
+        <p class="fix">Opruimen; de auteurspagina staat al op noindex.</p>
+      </li>
+      <li class="act" data-sev="laag" data-area="techniek">
+        <div class="act-head"><strong>og:image van home is 696×696</strong><span class="tags"><span class="pill p-lo">Laag</span><span class="tag">Techniek</span></span></div>
+        <p>Deelvoorbeelden op sociale media worden bijgesneden.</p>
+        <p class="fix">Een afbeelding van 1200×630 instellen in Yoast.</p>
+      </li>
+    </ol>
+    </div>
+  </section>
+
+  <section class="blok" aria-labelledby="h-areas">
+    <div class="rail"><div class="label label-streep">Bewijs</div><div class="noot desk">Live crawls, headers en de REST API van opruimbrigade.nl.</div></div>
+    <div class="lees">
+      <h2 id="h-areas">Bevindingen per onderdeel</h2>
+      <h3>Techniek: de basis staat</h3>
+      <ul class="lijst">
+          <li>robots.txt blokkeert niets en verwijst naar <code>sitemap_index.xml</code>.</li>
+          <li>De sitemaps tellen 14 URL's (10 pagina's, 2 posts, 2 categorieën): precies alle gepubliceerde content volgens de REST API.</li>
+          <li>Canonicals naar zichzelf, <code>lang="nl-NL"</code>, titels uniek en kort genoeg.</li>
+          <li>404, zoekresultaten en auteur-archief op noindex; attachments verwijzen door; www gaat naar non-www.</li>
+          <li>Bij 16 unieke interne URL's uit 9 pagina's geen 4xx of 5xx gevonden, alleen redirects. Externe links niet getest.</li>
+        </ul>
+      <h3>Snelheid: wat de HTML en headers laten zien</h3>
+      <div class="tabel">
+        <table>
+          <thead><tr><th>Pagina</th><th>HTML</th><th>Stylesheets</th><th>Scripts</th></tr></thead>
+          <tbody>
+              <tr><td>/</td><td>204 KB</td><td>22</td><td>23</td></tr>
+              <tr><td>/thuis/</td><td>155 KB</td><td>22</td><td>21</td></tr>
+              <tr><td>/contact/</td><td>127 KB</td><td>23</td><td>22</td></tr>
+            </tbody>
+        </table>
+      </div>
+      <p class="noot">Geen afbeelding met native <code>loading="lazy"</code>, geen gewone srcset, hero zonder width en height. Wel goed: HTTP/2, hero-preload met fetchpriority, <code>font-display: swap</code>, lokale fonts, maar één third party.</p>
+      <h3>GEO: hoe AI-systemen de site zien</h3>
+      <dl class="kv">
+          <dt>AI-crawlers</dt><dd>Allemaal toegestaan (<code>User-agent: * / Disallow:</code>), geen challenge-sporen.</dd>
+          <dt>llms.txt</dt><dd>Aanwezig via Yoast, maar zonder feiten en zonder contactpagina.</dd>
+          <dt>Citeerbaarheid</dt><dd>Sterk: prijzen (dagdeel €300, dag €575, abonnement €1.700, intake €95/€165), werkwijze in 5 stappen, 14 FAQ's, 17 plaatsen.</dd>
+          <dt>Externe bevestiging</dt><dd>Alleen LinkedIn en Instagram van Irene Brouwer gevonden.</dd>
+          <dt>AI-antwoorden</dt><dd>Claude met webzoeken noemt Opruimbrigade in 0 van 16 antwoorden; zie de AI-meting. ChatGPT, Gemini en Perplexity volgen.</dd>
+        </dl>
+    </div>
+  </section>
+
+  <section class="blok" aria-labelledby="h-snips">
+    <div class="rail"><div class="label label-streep">Fixes</div><div class="noot desk">Vul de waarden tussen [Vul de waarden tussen [ ] aannbsp;] aan voordat je iets live zet.</div></div>
+    <div class="lees">
+      <h2 id="h-snips">Kant-en-klare fixes</h2>
+      <p>Alleen feiten die al op de site staan. Kopieer, vul aan en plaats.</p>
+      <div class="figuur" style="gap:var(--s32)">
+      <div class="snip">
+      <div class="snip-head"><h3>.htaccess: compressie, caching en security-headers</h3><button type="button" class="copy" id="c-htaccess" data-target="s-htaccess">Kopieer</button></div>
+<pre id="s-htaccess"><code>&lt;IfModule mod_deflate.c&gt;
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml font/ttf
+&lt;/IfModule&gt;
+
+&lt;IfModule mod_expires.c&gt;
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+&lt;/IfModule&gt;
+
+&lt;IfModule mod_headers.c&gt;
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set X-Frame-Options "SAMEORIGIN"
+&lt;/IfModule&gt;</code></pre>
+    </div>
+
+    <div class="snip">
+      <div class="snip-head"><h3>JSON-LD: ProfessionalService</h3><button type="button" class="copy" id="c-org" data-target="s-org">Kopieer</button></div>
+<pre id="s-org"><code>{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": "https://opruimbrigade.nl/#organization",
+  "name": "Opruimbrigade",
+  "url": "https://opruimbrigade.nl/",
+  "logo": "https://opruimbrigade.nl/wp-content/uploads/2026/02/Opruimbrigade_Logo_big-1.jpg",
+  "image": "https://opruimbrigade.nl/wp-content/uploads/2026/04/opruimbrigade.jpg",
+  "description": "Professional organizer (opruimcoach) in Amsterdam en omgeving voor particulieren en bedrijven: opruimen, ontspullen, structureren en inrichten, ook bij verhuizen, verbouwen en na overlijden.",
+  "telephone": "+31650625621",
+  "email": "hello@opruimbrigade.nl",
+  "priceRange": "€€",
+  "address": { "@type": "PostalAddress", "addressLocality": "[vestigingsplaats]", "addressCountry": "NL" },
+  "areaServed": ["Amsterdam","Almere","Alphen aan den Rijn","Amstelveen","Beverwijk","Castricum","Haarlem","Heemskerk","Hilversum","Hoofddorp","Hoorn","Huizen","Medemblik","Purmerend","Uithoorn","Velsen","Zaanstad"],
+  "founder": {
+    "@type": "Person",
+    "@id": "https://opruimbrigade.nl/#irene-brouwer",
+    "name": "Irene Brouwer",
+    "jobTitle": "Professional Organizer (opruimcoach)",
+    "sameAs": ["https://nl.linkedin.com/in/irene-brouwer-", "https://www.instagram.com/irenebrouwer/"]
+  },
+  "identifier": { "@type": "PropertyValue", "propertyID": "KvK", "value": "[KvK-nummer]" },
+  "sameAs": [
+    "https://nl.linkedin.com/in/irene-brouwer-",
+    "https://www.instagram.com/irenebrouwer/",
+    "[Google Bedrijfsprofiel-URL]"
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Tarieven",
+    "itemListElement": [
+      { "@type": "Offer", "name": "Dagdeel opruimen (4 uur)", "price": "300", "priceCurrency": "EUR" },
+      { "@type": "Offer", "name": "Dag opruimen (8 uur)", "price": "575", "priceCurrency": "EUR" },
+      { "@type": "Offer", "name": "Onderhoudsabonnement 6 maanden (1x per maand 4 uur)", "price": "1700", "priceCurrency": "EUR" },
+      { "@type": "Offer", "name": "Intake op locatie (particulier)", "price": "95", "priceCurrency": "EUR" }
+    ]
+  }
+}</code></pre>
+    </div>
+
+    <div class="snip">
+      <div class="snip-head"><h3>JSON-LD: FAQPage (begin)</h3><button type="button" class="copy" id="c-faq" data-target="s-faq">Kopieer</button></div>
+<pre id="s-faq"><code>{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Wat kost een intake bij Opruimbrigade?",
+      "acceptedAnswer": { "@type": "Answer", "text": "De telefonische verkenning is gratis. De intake op locatie kost €95 incl. btw voor particulieren en €165 excl. btw voor bedrijven. Bij start van het traject wordt dit bedrag verrekend." }
+    },
+    {
+      "@type": "Question",
+      "name": "Wat kost een opruimcoach van Opruimbrigade?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Een dagdeel van 4 uur kost €300 incl. btw, een dag van 8 uur €575 incl. btw. Een onderhoudsabonnement van 6 maanden (1x per maand 4 uur) kost €1.700 incl. btw. Grotere trajecten krijgen een projectprijs." }
+    },
+    {
+      "@type": "Question",
+      "name": "Werk je samen of neem je het volledig over?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Beide is mogelijk. Sommige klanten werken actief mee, anderen besteden het liever volledig uit. Tijdens de intake wordt besproken wat het beste past." }
+    }
+  ]
+}</code></pre>
+    </div>
+
+    <div class="snip">
+      <div class="snip-head"><h3>llms.txt</h3><button type="button" class="copy" id="c-llms" data-target="s-llms">Kopieer</button></div>
+<pre id="s-llms"><code># Opruimbrigade
+
+&gt; Opruimbrigade is de praktijk van Irene Brouwer, professional organizer (opruimcoach) in Amsterdam en omgeving. Ze helpt particulieren en bedrijven met opruimen, ontspullen, structureren en inrichten: thuis, bij verhuizen of verbouwen, bij het leegruimen van een woning na overlijden, en op de werkvloer.
+
+- Eigenaar: Irene Brouwer (voorheen Manager Interior Design bij IKEA)
+- Werkgebied: Amsterdam en omgeving, o.a. Almere, Alphen aan den Rijn, Amstelveen, Beverwijk, Castricum, Haarlem, Heemskerk, Hilversum, Hoofddorp, Hoorn, Huizen, Medemblik, Purmerend, Uithoorn, Velsen, Zaanstad/Zaandam
+- Contact: +31 6 50 62 56 21 (bellen of WhatsApp), hello@opruimbrigade.nl
+- Tarieven (incl. btw): dagdeel 4 uur €300; dag 8 uur €575; onderhoudsabonnement 6 maanden (1x per maand 4 uur) €1.700; intake op locatie €95 particulier / €165 excl. btw zakelijk (verrekend bij start)
+- Werkwijze: 1. telefonische verkenning (gratis) 2. intake op locatie 3. offerte/plan 4. uitvoering 5. afronding
+
+## Diensten
+- [Opruimcoach thuis](https://opruimbrigade.nl/thuis/): hele huis of één ruimte, verhuizen/verbouwen, woning na overlijden, styling
+- [Opruimcoach voor bedrijven](https://opruimbrigade.nl/zakelijk/): werkplekken, opslag, herinrichting, onderhoudsabonnement
+- [Werkwijze en tarieven](https://opruimbrigade.nl/werkwijze/): stappen, prijzen, veelgestelde vragen
+
+## Contact
+- [Contact en werkgebied](https://opruimbrigade.nl/contact-en-snel-eenvoudig-hulp-bij-opruimen/)
+
+## Inspiratie
+- [Smalle gang inrichten met IKEA Trones](https://opruimbrigade.nl/hal-inspiratie-maximale-opbergruimte-in-een-smalle-gang-met-ikea-trones/)
+- [Klein vakantiehuisje ruimtelijk inrichten](https://opruimbrigade.nl/van-donker-naar-droomplek-zo-richt-je-een-klein-vakantiehuisje-ruimtelijk-in/)</code></pre>
+    </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blok" aria-labelledby="h-good">
+    <div class="rail"><div class="label label-streep">Sterk</div></div>
+    <div class="lees">
+      <h2 id="h-good">Wat goed gaat</h2>
+      <ul class="vinklijst twee" style="gap:var(--s8) var(--s32)">
+      <li>Alle pagina's indexeerbaar, sitemaps compleet</li>
+      <li>Canonicals, taal en titels correct</li>
+      <li>AI-crawlers volledig toegestaan</li>
+      <li>Concrete prijzen en werkwijze op de site</li>
+      <li>14 veelgestelde vragen met heldere antwoorden</li>
+      <li>Testimonials met naam, ook zakelijk</li>
+      <li>HTTP/2 en hero-preload met fetchpriority</li>
+      <li>Lokale fonts met font-display: swap</li>
+    </ul>
+    </div>
+  </section>
+
+  <section class="blok" aria-labelledby="h-next">
+    <div class="rail"><div class="label label-streep">Vervolg</div><div class="noot desk">In deze volgorde.</div></div>
+    <div class="lees">
+      <h2 id="h-next">Volgende stappen</h2>
+      <ol class="tijdlijn">
+      <li>Bedrijfsgegevens in de footer, telefoonlink herstellen en ProfessionalService-schema plaatsen.</li>
+      <li>Cacheplugin installeren, .htaccess-regels toevoegen en de hero- en portretafbeelding verkleinen.</li>
+      <li>http-redirect en compressie controleren met <code>curl -I</code>.</li>
+      <li>Google Bedrijfsprofiel aanmaken of claimen en de eerste reviews vragen.</li>
+      <li>Over-pagina, pagina voor opruimen na overlijden en 3 tot 5 regiopagina's schrijven.</li>
+      <li>Zoekwoordenlijst in het EQwise SEO-platform herzien, de volledige scan draaien en Search Console koppelen voor echte klikken en posities.</li>
+    </ol>
+    </div>
+  </section>
+
+  </div>
+    <aside class="zijkolom">
+      <div class="toc">
+        <nav aria-label="In dit rapport">
+          <div class="label">In dit rapport</div>
+          <ol>
+            <li><a href="#h-stand">Stand per onderdeel</a></li>
+            <li><a href="#h-scan">Scan EQwise SEO-platform</a></li>
+            <li><a href="#h-ai">AI-meting</a></li>
+            <li><a href="#h-actions">Actielijst</a></li>
+            <li><a href="#h-areas">Bevindingen per onderdeel</a></li>
+            <li><a href="#h-snips">Kant-en-klare fixes</a></li>
+            <li><a href="#h-good">Wat goed gaat</a></li>
+            <li><a href="#h-next">Volgende stappen</a></li>
+          </ol>
+        </nav>
+        <div>
+          <div class="label">Vragen</div>
+          <div class="contact" style="margin-top:12px"><a href="tel:+31208932084">+31 20 893 20 84</a><span>Martin de Smit, EQwise</span></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <section class="auteur" aria-label="Opgesteld door">
+    <div class="label">Opgesteld door</div>
+    <div class="rij">
+      <span class="naam">Martin de Smit, oprichter EQwise</span>
+      <p>Opgesteld op 18 oktober 2026 op basis van live crawls van opruimbrigade.nl en een scan van het EQwise SEO-platform (12 pagina's, 5 zoekwoorden).</p>
+    </div>
+  </section>
+  </article>
+</main>
+
+<section class="band" aria-labelledby="h-band">
+  <div class="in">
+    <h2 id="h-band">Begin met de eerste drie stappen <b>en meet daarna opnieuw</b></h2>
+    <p>Na de aanpassingen draait de volledige scan opnieuw, met dezelfde zoekwoorden. Zo zie je wat het opleverde, in plaats van een belofte vooraf.</p>
+    <a class="knop" href="https://eqwise.nl/contact/">Plan een gesprek</a>
+  </div>
+</section>
+
+<footer class="voet">
+  <div class="in">
+    <div class="merk">
+      <a class="logo" href="https://eqwise.nl/" aria-label="EQwise, naar eqwise.nl"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 -720 3850 804" aria-hidden="true" focusable="false" width="152" height="32"><g transform="scale(1 -1)" fill="currentColor"><path transform="translate(0 0)" d="M233 565V423H462V291H233V137H492V0H62V702H492V565Z"/><path transform="translate(541 0)" d="M33 353Q33 456 81.5 538.0Q130 620 212.5 666.0Q295 712 394 712Q493 712 575.5 666.0Q658 620 705.5 538.0Q753 456 753 353Q753 250 705.0 167.5Q657 85 575.0 39.0Q493 -7 394 -7Q295 -7 212.5 39.0Q130 85 81.5 167.5Q33 250 33 353ZM579 353Q579 446 528.5 501.5Q478 557 394 557Q309 557 258.5 502.0Q208 447 208 353Q208 260 258.5 204.5Q309 149 394 149Q478 149 528.5 205.0Q579 261 579 353Z"/><path transform="translate(1327 0)" d="M1028 702 845 0H638L526 462L410 0H203L25 702H208L309 191L434 702H622L742 191L844 702Z"/><path transform="translate(2379 0)" d="M233 702V0H62V702Z"/><path transform="translate(2674 0)" d="M42 210H224Q228 171 251.0 150.5Q274 130 311 130Q349 130 371.0 147.5Q393 165 393 196Q393 222 375.5 239.0Q358 256 332.5 267.0Q307 278 260 292Q192 313 149.0 334.0Q106 355 75.0 396.0Q44 437 44 503Q44 601 115.0 656.5Q186 712 300 712Q416 712 487.0 656.5Q558 601 563 502H378Q376 536 353.0 555.5Q330 575 294 575Q263 575 244.0 558.5Q225 542 225 511Q225 477 257.0 458.0Q289 439 357 417Q425 394 467.5 373.0Q510 352 541.0 312.0Q572 272 572 209Q572 149 541.5 100.0Q511 51 453.0 22.0Q395 -7 316 -7Q239 -7 178.0 18.0Q117 43 80.5 92.0Q44 141 42 210Z"/><path transform="translate(3289 0)" d="M233 565V423H462V291H233V137H492V0H62V702H492V565Z"/><rect x="-64.0" y="-150.0" width="128" height="300" rx="10" fill="#3B3DFF" transform="translate(1049.0 123) rotate(40)"/></g></svg></a>
+      <p>SEO, GEO en snelle WordPress-sites voor het mkb.</p>
+    </div>
+    <div>
+      <h3>Contact</h3>
+      <ul>
+        <li>Laan van Kronenburg 14</li>
+        <li>1183 AS Amstelveen</li>
+        <li><a href="tel:+31208932084">+31 20 893 20 84</a></li>
+        <li><a href="https://eqwise.nl/">eqwise.nl</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Dit rapport</h3>
+      <ul>
+        <li>Audit opruimbrigade.nl</li>
+        <li>18 oktober 2026</li>
+        <li>Opgesteld door Martin de Smit</li>
+      </ul>
+    </div>
+    <p class="klein">© EQwise 2026 · KvK 34191949</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var buttons = document.querySelectorAll('.chips button');
+  var items = document.querySelectorAll('#actions .act');
+  var count = document.getElementById('count');
+  function apply(filter) {
+    var n = 0;
+    items.forEach(function (li) {
+      var show = filter === 'all' || li.dataset.area.split(' ').indexOf(filter) !== -1;
+      li.hidden = !show;
+      if (show) n++;
+    });
+    count.textContent = n + (n === 1 ? ' actie' : ' acties');
+    buttons.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.filter === filter ? 'true' : 'false'); });
+    try { localStorage.setItem('audit-filter', filter); } catch (e) {}
+  }
+  buttons.forEach(function (b) { b.addEventListener('click', function () { apply(b.dataset.filter); }); });
+  var saved = 'all';
+  try { saved = localStorage.getItem('audit-filter') || 'all'; } catch (e) {}
+  if (!document.querySelector('.chips button[data-filter="' + saved + '"]')) saved = 'all';
+  apply(saved);
+
+  document.querySelectorAll('.copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var pre = document.getElementById(btn.dataset.target);
+      function selectIt() {
+        var r = document.createRange(); r.selectNodeContents(pre);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        btn.textContent = 'Geselecteerd, kopieer met Ctrl+C';
+      }
+      try {
+        navigator.clipboard.writeText(pre.textContent).then(function () {
+          btn.textContent = 'Gekopieerd';
+          setTimeout(function () { btn.textContent = 'Kopieer'; }, 1800);
+        }, selectIt);
+      } catch (e) { selectIt(); }
+    });
+  });
+
+  var links = document.querySelectorAll('.toc nav a');
+  if (links.length) {
+    var heads = [];
+    links.forEach(function (a) { var el = document.getElementById(a.getAttribute('href').slice(1)); if (el) heads.push([el, a]); });
+    var ticking = false;
+    function mark() {
+      ticking = false;
+      var line = window.innerHeight * 0.3, cur = null;
+      heads.forEach(function (h) { if (h[0].getBoundingClientRect().top <= line) cur = h[1]; });
+      links.forEach(function (a) { if (a === cur) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+    }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(mark); } }, { passive: true });
+    mark();
+  }
+})();
+</script>
+</body>
+</html>

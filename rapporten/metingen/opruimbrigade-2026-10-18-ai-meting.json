@@ -1,0 +1,365 @@
+{
+ "klant": "opruimbrigade.nl",
+ "datum": "2026-10-18",
+ "assistent": "Claude (sonnet) met webzoeken, elke vraag in een nieuwe sessie zonder voorkennis",
+ "methode": "8 klantvragen zonder merknaam, elk 2 keer gesteld; per antwoord geteld of het merk genoemd wordt, welke aanbieders en welke bronnen",
+ "merk_zoektermen": [
+  "opruimbrigade",
+  "irene brouwer"
+ ],
+ "resultaat": {
+  "antwoorden": 16,
+  "merk_genoemd": 0
+ },
+ "vragen": [
+  "Kun je een professional organizer in Amsterdam aanraden?",
+  "Wie kan mij helpen mijn huis op te ruimen in Amsterdam?",
+  "Ik zoek een opruimcoach in Amsterdam. Welke opties zijn goed?",
+  "Wie helpt bij het leegruimen en opruimen van een woning na overlijden in Amsterdam?",
+  "Ik ga verhuizen in Amsterdam en wil hulp bij opruimen en ontspullen. Wie kan ik inschakelen?",
+  "Wat kost een professional organizer in Amsterdam en welke aanbieders zijn er?",
+  "Kun je een opruimcoach in Haarlem aanbevelen?",
+  "Welk bedrijf helpt met het opruimen en organiseren van een kantoor of werkplek in Amsterdam?"
+ ],
+ "antwoorden": [
+  {
+   "vraag_nr": 1,
+   "vraag": "Kun je een professional organizer in Amsterdam aanraden?",
+   "run": 1,
+   "antwoord": "Ik kan geen persoonlijke garantie geven, maar dit zijn aanbieders in Amsterdam die ik via zoeken vond:\n\n- **Spaceful Professional Organizing** (Iris van der Ros): gevestigd in Amsterdam, werkt door heel Nederland en werkte mee aan het SBS6-programma \"Je huis op orde\".\n- **Haus & Orde**: home management in Amsterdam (opruimen, garderobe, verhuizen en uitpakken, huishoudelijke administratie), gericht op drukke professionals en gezinnen. Trustpilot: 4,0 van 5, maar op basis van weinig reviews.\n- **Zamarra**: opruimcoach, online en bij mensen thuis, woont in Amsterdam en is ambassadeur van de NBPO (beroepsvereniging voor professional organizers).\n\nTarieven lopen uiteen: ruwweg 40 tot 75 euro per uur voor een opruimcoach, zakelijk gemiddeld rond 95 euro per uur excl. btw.\n\nTip: plan een gratis kennismakingsgesprek, vraag een offerte en lees zelf recente reviews. De NBPO-ledenlijst is een goede plek om verder te vergelijken. Mijn bronnen zijn beperkt, dus controleer de actuele gegevens op de websites zelf.",
+   "genoemde_aanbieders": [
+    "Spaceful Professional Organizing (Iris van der Ros)",
+    "Haus & Orde",
+    "Zamarra",
+    "NBPO"
+   ],
+   "bronnen": [
+    "https://nl.trustpilot.com/review/www.hausandorde.com",
+    "https://poidata.io/report/professional-organizer/netherlands",
+    "https://sartorialistamsterdam.com/pages/ruimtevol",
+    "https://www.bol.com/nl/nl/p/aan-de-slag-met-de-huishoudcoach/9200000000037186/"
+   ]
+  },
+  {
+   "vraag_nr": 1,
+   "vraag": "Kun je een professional organizer in Amsterdam aanraden?",
+   "run": 2,
+   "antwoord": "Ja, een paar namen uit mijn zoekresultaten (niet persoonlijk getest, ik ken de kwaliteit dus niet):\n\n- **Spaceful Professional Organizing (Iris van der Ros)**: gevestigd in Amsterdam, werkt door heel Nederland en werkte mee aan het SBS6-programma \"Je huis op orde\".\n- **Haus & Orde**: Amsterdamse huishoudservice voor drukke professionals, gezinnen en internationale huishoudens. Ze doen opruimen, kledingkast uitdunnen, verhuizen/uitpakken en huishoudadministratie. Trustpilot: 4 van 5, maar op slechts 3 reviews.\n- **Zamarra**: opruimcoach die woont in Amsterdam en zowel online als bij mensen thuis werkt.\n- **De HuishoudCoach (Els Jacobs)**: leidt organizers op en coacht particulieren; handig als je een opgeleide organizer zoekt.\n\nTarieven (grove indicatie, uit één of twee bronnen): ongeveer 40 tot 75 euro per uur voor een opruimcoach, en gemiddeld zo'n 95 euro per uur excl. btw bij een professional organizer.\n\nTip: vraag vooraf om referenties of reviews en een vrijblijvend kennismakingsgesprek, en controleer actuele prijzen en beschikbaarheid op hun eigen website. Het hangt ook af van wat je zoekt (spullen uitdunnen, verhuizing, kantoor of administratie). Vertel gerust wat je nodig hebt, dan kan ik gerichter zoeken.",
+   "genoemde_aanbieders": [
+    "Spaceful Professional Organizing (Iris van der Ros)",
+    "Haus & Orde",
+    "Zamarra",
+    "De HuishoudCoach (Els Jacobs)"
+   ],
+   "bronnen": [
+    "https://sartorialistamsterdam.com/pages/ruimtevol",
+    "https://nl.trustpilot.com/review/www.hausandorde.com",
+    "https://poidata.io/report/professional-organizer/netherlands",
+    "https://www.bol.com/nl/nl/p/aan-de-slag-met-de-huishoudcoach/9200000000037186/"
+   ]
+  },
+  {
+   "vraag_nr": 2,
+   "vraag": "Wie kan mij helpen mijn huis op te ruimen in Amsterdam?",
+   "run": 1,
+   "antwoord": "Dat hangt ervan af wat je bedoelt met opruimen.\n\n**1. Spullen weghalen of het huis leegmaken (ontruimen)**\n- Woningontruiming Amsterdam: werkt met een vrijblijvende offerte vooraf en voert meubels en inboedel af.\n- ClearSpace: staat met advertenties op Marktplaats voor woningontruiming en het leegmaken van garages en schuren in Amsterdam. Je stuurt foto's via WhatsApp en krijgt een gratis offerte.\n- De Opruimdienst: staat ook op Marktplaats.\n- Prijs: een vergelijkingssite (Slimster) noemt landelijk gemiddeld ongeveer €1.500, met een spreiding van €125 tot €2.500. Een appartement met 3 kamers kost ongeveer €500-850. Dat zijn landelijke cijfers, niet specifiek voor Amsterdam.\n\n**2. Hulp bij ordenen en structuur (opruimcoach of organizer)**\n- Haus & Orde: biedt huishoudelijke ondersteuning en hulp bij het organiseren van je huis in Amsterdam. Trustpilot geeft 4,0 van 5.\n- Homeservice De Regenboog: een non-profit die hulp biedt bij opruimen en ordenen. De informatie die ik vond is uit 2012, dus bel eerst om te controleren of dit nog bestaat.\n- Zamarra: opruimcoach in Amsterdam, online en bij mensen thuis.\n- Prijs: een opruimcoach kost volgens een algemene informatiesite ongeveer €40-75 per uur. Dit is een grove indicatie.\n- Wil je een ruimere lijst, zoek dan in het register van de NBPO, de beroepsvereniging van professional organizers.\n\n**Tips**\n- Vraag minstens 2 of 3 offertes aan.\n- Controleer wat er in de prijs zit: afvoer, bezemschoon opleveren en eventuele vervuiling.\n- Lees reviews voordat je kiest.\n\nIk heb de bedrijven en prijzen niet onafhankelijk geverifieerd. Het is ook aan jou of je het zelf wilt doen met hulp van vrienden of familie, of dat je het uitbesteedt.\n\nZeg het gerust als je meer wilt vertellen, bijvoorbeeld hoe groot het huis is of of het om spullen weghalen of om ordenen gaat. Dan kan ik gerichter zoeken.",
+   "genoemde_aanbieders": [
+    "Woningontruiming Amsterdam",
+    "ClearSpace",
+    "De Opruimdienst",
+    "Haus & Orde",
+    "Homeservice De Regenboog",
+    "Zamarra",
+    "NBPO",
+    "Slimster"
+   ],
+   "bronnen": [
+    "https://slimster.nl/ontruiming/woningontruiming-kosten/",
+    "https://www.marktplaats.nl/v/diensten-en-vakmensen/overige-diensten/m2416386719-woning-garage-tuin-leegmaken-amsterdam",
+    "https://www.marktplaats.nl/q/opruimdienst/",
+    "https://www.trustpilot.com/review/www.hausandorde.com",
+    "https://www.deregenboog.org/sites/default/files/drg-homeservice-201210-5.pdf",
+    "https://fr-be.trustpilot.com/review/woningontruimingamsterdam.net"
+   ]
+  },
+  {
+   "vraag_nr": 2,
+   "vraag": "Wie kan mij helpen mijn huis op te ruimen in Amsterdam?",
+   "run": 2,
+   "antwoord": "Dat hangt af van wat je bedoelt met opruimen.\n\n**Spullen uitzoeken en organiseren (opruimcoach / professional organizer)**\n- Iris van der Ros (Spaceful Professional Organizing): werkt vanuit Amsterdam en door heel Nederland.\n- Zamarra: opruimcoach in Amsterdam, werkt bij mensen thuis en online. Ze is ambassadrice van de NBPO, de Nederlandse Beroepsvereniging voor Professional Organizers. Daar kun je ook andere organizers vinden.\n- Haus & Orde: huishoudelijke ondersteuning voor drukbezette gezinnen en professionals in Amsterdam. Op Trustpilot heeft het een score van 4 uit 5.\n- Een indicatie voor een opruimcoach is 40 tot 75 euro per uur. Die bron is niet officieel, dus vraag de prijs na bij de aanbieder.\n\n**Alles leegmaken of ontruimen (woning, garage, schuur)**\n- Woningontruiming Amsterdam: ontruimt de woning en levert hem bezemschoon op. Gevestigd aan de Transformatorweg.\n- ClearSpace: maakt woningen, garages en schuren leeg in Amsterdam en omgeving. Je krijgt een gratis offerte als je foto's via WhatsApp stuurt.\n\nDit zijn zelfpromotie-gegevens uit advertenties en bedrijfspagina's. Ik heb de kwaliteit niet onafhankelijk kunnen controleren. Vraag daarom bij een of twee van hen een offerte aan en lees onafhankelijke reviews.\n\nZeg het gerust als je me vertelt of het gaat om uitzoeken, schoonmaken of volledig leegruimen. Dan kan ik gerichter zoeken.\n\nBronnen:\n- [Marktplaats, ClearSpace](https://www.marktplaats.nl/v/diensten-en-vakmensen/overige-diensten/m2416386719-woning-garage-tuin-leegmaken-amsterdam)\n- [Trustpilot, Woningontruiming Amsterdam](https://fr-be.trustpilot.com/review/woningontruimingamsterdam.net)\n- [Trustpilot, Haus & Orde](https://www.trustpilot.com/review/www.hausandorde.com)",
+   "genoemde_aanbieders": [
+    "Iris van der Ros (Spaceful Professional Organizing)",
+    "Zamarra",
+    "Haus & Orde",
+    "Woningontruiming Amsterdam",
+    "ClearSpace",
+    "NBPO (Nederlandse Beroepsvereniging voor Professional Organizers)"
+   ],
+   "bronnen": [
+    "https://www.marktplaats.nl/v/diensten-en-vakmensen/overige-diensten/m2416386719-woning-garage-tuin-leegmaken-amsterdam",
+    "https://fr-be.trustpilot.com/review/woningontruimingamsterdam.net",
+    "https://www.trustpilot.com/review/www.hausandorde.com"
+   ]
+  },
+  {
+   "vraag_nr": 3,
+   "vraag": "Ik zoek een opruimcoach in Amsterdam. Welke opties zijn goed?",
+   "run": 1,
+   "antwoord": "Er zijn meerdere opruimcoaches (professional organizers) die in Amsterdam werken. Ik heb hun ledenstatus en reviews niet zelf gecontroleerd, dus dit is een startlijst:\n\n- **Ruimtevol**: professional organizer in Amsterdam, bekend van het tv-programma \"Je Huis op Orde\". (https://www.ruimtevol.nl/)\n- **Opgeruimd en geordend** (René Noordermeer): zegt NBPO-lid te zijn, heeft een eigen pagina voor Amsterdam-Amstelland en een HKZ-certificaat. (https://www.opgeruimd-en-geordend.nl/werkgebied/opruimcoach-amsterdam-amstelland)\n- **Structuurinhuis** (Gerty Dijkstra): opruimcoach die bij je thuis werkt in Amsterdam en omgeving. (https://www.structuurinhuis.nl/)\n- **De Heemsteedse Organizer**: noemt Amsterdam als werkgebied, o.a. voor woonkamer, kasten en zolder. (https://www.deheemsteedseorganizer.nl/amsterdam)\n- **Lapien Organizing**: werkt in heel Noord-Holland, ook in Amsterdam. Past goed als je ADHD, autisme of hoarding hebt, want zij bieden ook PGB-ondersteuning. (https://www.lapienorganizing.nl/opruimen-organiseren-particulieren/)\n\nTips bij het kiezen:\n- \"Opruimcoach\" is geen beschermde titel. Kijk of iemand lid is van de beroepsvereniging NBPO (nbpo.nl, ledenlijst).\n- Vraag om referenties of reviews en een vrijblijvend kennismakingsgesprek.\n- Vraag vooraf naar het uurtarief en het aantal uren dat je ongeveer nodig hebt. Tarieven vond ik niet in de zoekresultaten.\n\nWil je dat ik inzoom op een bepaalde aanpak, zoals thuis opruimen, digitaal of administratief, of hulp bij verhuizen of overlijden?",
+   "genoemde_aanbieders": [
+    "Ruimtevol",
+    "Opgeruimd en geordend",
+    "Structuurinhuis",
+    "De Heemsteedse Organizer",
+    "Lapien Organizing",
+    "NBPO"
+   ],
+   "bronnen": [
+    "https://www.ruimtevol.nl/",
+    "https://www.opgeruimd-en-geordend.nl/werkgebied/opruimcoach-amsterdam-amstelland",
+    "https://www.structuurinhuis.nl/",
+    "https://www.deheemsteedseorganizer.nl/amsterdam",
+    "https://www.lapienorganizing.nl/opruimen-organiseren-particulieren/"
+   ]
+  },
+  {
+   "vraag_nr": 3,
+   "vraag": "Ik zoek een opruimcoach in Amsterdam. Welke opties zijn goed?",
+   "run": 2,
+   "antwoord": "Mijn zoekresultaten waren beperkt: ik vond geen betrouwbare, complete lijst met opruimcoaches in Amsterdam en ik heb prijzen en beschikbaarheid niet kunnen controleren. Dit zijn aanknopingspunten, geen vaste aanbevelingen.\n\n- **Haus & Orde**: huishoud- en lifestyleservice in Amsterdam voor drukke professionals, gezinnen en internationale huishoudens. Op Trustpilot staat het als professional organizer met 4 van 5. Die profieltekst is door het bedrijf zelf geschreven, dus weeg dat mee.\n- **Hilde Verdijk**: professional organizer sinds 2005 en sinds 2013 bij de NBPO geregistreerd als MRPO®. Ze is gespecialiseerd in chronische wanorde en verzamelwoede en werkt ook als Wmo-zorgaanbieder. Ik weet niet of ze in Amsterdam werkt, dus vraag dat na.\n- **OpruimcoachGeske**: zit in Rotterdam, niet in Amsterdam. Trustpilot geeft 4,1 op basis van 5 reviews. Alleen interessant als reizen naar Rotterdam geen bezwaar is.\n\nTips voor het kiezen:\n- Zoek in het ledenregister van de NBPO (de Nederlandse beroepsvereniging voor professional organizers) naar coaches in Amsterdam. Een geregistreerd lid heeft aantoonbare opleiding en ervaring.\n- \"Lifestylecoach\" is een vrij beroep, dus iedereen mag zich opruimcoach noemen. Het aantal lifestylecoaches in Amsterdam is volgens NH Nieuws in vijf jaar met 208 procent gestegen, naar 366.\n- Vraag om een kennismakingsgesprek, een offerte vooraf en referenties. Kijk ook naar reviews op Google Maps en Trustpilot.\n- Zeg erbij als het om stress, burn-out, verzamelen of ADHD gaat. Dan heb je een coach met die specialisatie nodig.\n\nWil je dat ik verder zoek op een specifieke situatie of wijk?",
+   "genoemde_aanbieders": [
+    "Haus & Orde",
+    "Hilde Verdijk",
+    "OpruimcoachGeske",
+    "NBPO"
+   ],
+   "bronnen": [
+    "https://www.trustpilot.com/review/www.hausandorde.com",
+    "https://boom.nl/auteur/110-22300_Verdijk",
+    "https://nl-be.trustpilot.com/review/opruimcoachgeske.nl",
+    "https://www.nhnieuws.nl/nieuws/314154/afgelopen-vijf-jaar-steeg-aantal-lifestylecoaches-in-de-stad-met-208-procent",
+    "https://village.ai/company/nbpo"
+   ]
+  },
+  {
+   "vraag_nr": 4,
+   "vraag": "Wie helpt bij het leegruimen en opruimen van een woning na overlijden in Amsterdam?",
+   "run": 1,
+   "antwoord": "Mijn gecondoleerd. Hier is wat ik vond, kort samengevat.\n\n**Wie kan helpen in Amsterdam**\n- Woningontruiming Amsterdam (Transformatorweg 38) ruimt woningen leeg na overlijden, verhuur of verkoop. Het bedrijf voert de inboedel af, levert de woning bezemschoon op en stuurt vooraf een vrijblijvende offerte. Dit zijn de eigen claims van het bedrijf. Er is weinig onafhankelijke beoordeling, en de Trustpilot-pagina meldt dat klanten niet om een review zijn gevraagd.\n- Andere ontruimers (Ruttenberg in Soest en Woningontruiming Leiden) bieden ook ontruiming na overlijden aan, maar zitten niet in Amsterdam. Ze werken mogelijk wel in jouw regio. Dat heb ik niet gecontroleerd.\n- Een tussenoplossing is zelf de woning leegmaken en een afvalcontainer huren, bijvoorbeeld via Afzetbak.\n\n**Wat het ongeveer kost**\nVolgens het offerteplatform Slimster is het gemiddeld circa €1.500. Een kleine seniorenwoning kost ongeveer €125 tot €600 en een vrijstaand huis of herenhuis €1.200 tot €2.500. Een sterk vervuilde woning is duurder. Dit zijn indicaties van één bron.\n\n**Tips**\n- Vraag minstens twee of drie offertes aan en laat de prijs schriftelijk vastleggen, inclusief afvoer, schoonmaak en de bezemschone oplevering.\n- Vraag hoe het bedrijf omgaat met persoonlijke spullen en papieren. Zoek zelf eerst waardevolle spullen, foto's en documenten uit.\n- Overleg met de notaris, executeur of andere erfgenamen voordat je iets weggeeft of weggooit. Dat geldt zeker als je de nalatenschap misschien niet wilt aanvaarden. Hierover vond ik niets in de zoekresultaten, dus dit is algemeen advies.\n\nIk vond geen officieel register van erkende ontruimers en geen informatie van de gemeente Amsterdam. Controleer reviews en inschrijving bij de KvK dus zelf.",
+   "genoemde_aanbieders": [
+    "Woningontruiming Amsterdam",
+    "Ruttenberg (Soest)",
+    "Woningontruiming Leiden",
+    "Afzetbak",
+    "Slimster"
+   ],
+   "bronnen": [
+    "https://fr-be.trustpilot.com/review/woningontruimingamsterdam.net",
+    "https://slimster.nl/ontruiming/huis-leeghalen-na-overlijden-kosten/",
+    "https://www.afzetbak.nl/huis-ontruimen-na-overlijden",
+    "https://trustoo.nl/utrecht/soest/verhuisbedrijf/erkende-woningontruiming-ruttenberg-soest/",
+    "https://at.trustpilot.com/review/woningontruimingleiden.net"
+   ]
+  },
+  {
+   "vraag_nr": 4,
+   "vraag": "Wie helpt bij het leegruimen en opruimen van een woning na overlijden in Amsterdam?",
+   "run": 2,
+   "antwoord": "Voor het leegruimen van een woning na overlijden in Amsterdam kun je een ontruimingsbedrijf inschakelen. Dit kwam uit mijn zoekopdracht:\n\n- **Spullenbaas** (Haarlemmermeerstraat, Amsterdam) richt zich op nalatenschappen. Het bedrijf zegt foto's en documenten apart te houden, zodat jij niet alles zelf hoeft door te zoeken. Op Slimster staat een 9,0 op basis van maar 3 reviews, dus dat is een beperkte basis.\n- **Woningontruiming Amsterdam** (Transformatorweg 38) doet het hele traject, van leegruimen tot bezemschoon opleveren, met vooraf een vrijblijvende offerte. Let op: op Trustpilot staat dat dit bedrijf geen klanten heeft uitgenodigd om te beoordelen, dus die reviews zeggen weinig.\n\nPraktische tips:\n- Vraag altijd een schriftelijke offerte met alle kosten, en laat persoonlijke spullen en papieren apart zetten.\n- Als vuistregel geldt ongeveer €800 tot €2.000 voor een gemiddelde eengezinswoning. Dat komt van een algemene website en niet specifiek uit Amsterdam.\n- Erfgenamen zijn in principe verantwoordelijk voor het leegruimen. Wie dat niet wil, kan de nalatenschap verwerpen of beneficiair aanvaarden. Een notaris of juridisch loket kan je daarover adviseren.\n- Bij een huurwoning moet je de woning netjes opleveren aan de verhuurder.\n- Blijft een koopwoning langer dan zes maanden leeg, dan geldt in Amsterdam een meldplicht voor leegstand.\n\nIk heb de bedrijven niet onderling kunnen vergelijken en de prijzen niet kunnen controleren. Vraag daarom bij meerdere bedrijven een offerte aan.",
+   "genoemde_aanbieders": [
+    "Spullenbaas",
+    "Woningontruiming Amsterdam"
+   ],
+   "bronnen": [
+    "https://fr-be.trustpilot.com/review/woningontruimingamsterdam.net",
+    "https://slimster.nl/bedrijf/spullenbaas/",
+    "https://webwoordenboek.nl/kenniscentrum/wie-ruimt-mijn-huis-op",
+    "https://lokaleregelgeving.overheid.nl/CVDR684070/1"
+   ]
+  },
+  {
+   "vraag_nr": 5,
+   "vraag": "Ik ga verhuizen in Amsterdam en wil hulp bij opruimen en ontspullen. Wie kan ik inschakelen?",
+   "run": 1,
+   "antwoord": "Voor opruimen en ontspullen rond een verhuizing in Amsterdam heb je een paar soorten hulp:\n\n1. **Opruimcoach of professional organizer.** Die helpt je beslissen wat mee gaat en wat weg kan. In mijn zoekresultaten kwam geen specifieke Amsterdamse aanbieder naar voren. Zoek op \"opruimcoach Amsterdam\" of \"professional organizer Amsterdam\" en vergelijk reviews en tarieven.\n2. **Ontruimers.** [Woningontruiming Amsterdam](https://fr-be.trustpilot.com/review/woningontruimingamsterdam.net) ruimt woningen leeg, voert meubels en inboedel af en levert bezemschoon op. Ze noemen verhuizing als situatie en bieden een vrijblijvende offerte. Dit is ontruimen, geen coaching.\n3. **Verhuisbedrijven.** Deze regelen inpakken, transport en opslag, en vaak ook demontage en montage van meubels. Genoemd in de zoekresultaten:\n   - Amsterdam Verhuisbedrijf, met inpakservice, meubelmontage en opslag.\n   - Vlaming, een Amsterdams familiebedrijf uit 1885.\n   - Oomen Verhuizers, met tijdelijke opslag, verhuislift en verhuismaterialen.\n   - We Move It uit Zaandam, in reviews geprezen om stiptheid en zorgvuldigheid.\n   - XXL Movers Amsterdam.\n4. **Opruimbegeleiding via het Leger des Heils (Opruimzorg).** Dit is bedoeld voor mensen met onveilig verzamelgedrag, dus waarschijnlijk niet passend voor een gewone verhuizing. Of het in Amsterdam beschikbaar is, is niet duidelijk.\n\nTips:\n- Vraag bij een verhuisbedrijf of ze ook ontruimen of afvoeren aanbieden. Dat staat niet altijd op de site.\n- Vraag meerdere offertes aan.\n- Spullen die nog goed zijn kun je verkopen of doneren, bijvoorbeeld via Marktplaats of een kringloopwinkel.\n\nDe informatie komt grotendeels uit bedrijfsprofielen en reviewsites, dus controleer prijzen en reviews zelf.",
+   "genoemde_aanbieders": [
+    "Woningontruiming Amsterdam",
+    "Amsterdam Verhuisbedrijf",
+    "Vlaming",
+    "Oomen Verhuizers",
+    "We Move It",
+    "XXL Movers Amsterdam",
+    "Leger des Heils (Opruimzorg)"
+   ],
+   "bronnen": [
+    "https://fr-be.trustpilot.com/review/woningontruimingamsterdam.net",
+    "https://www.legerdesheils.nl/files/Opruimzorg-2.pdf",
+    "https://de.trustpilot.com/review/amsterdamverhuisbedrijf.com",
+    "https://www.vlaming.com/en/home/",
+    "https://oomenverhuizers.nl/moving-company-amsterdam/?lang=en",
+    "https://sirelo.nl/verhuisbedrijf/zaandam/we-move-it-moving-service",
+    "https://trustoo.nl/noord-holland/amsterdam/verhuisbedrijf/verhuisbedrijf-xxl-movers-amsterdam/"
+   ]
+  },
+  {
+   "vraag_nr": 5,
+   "vraag": "Ik ga verhuizen in Amsterdam en wil hulp bij opruimen en ontspullen. Wie kan ik inschakelen?",
+   "run": 2,
+   "antwoord": "Voor opruimen en ontspullen rond je verhuizing kun je een opruimcoach of professional organizer inschakelen. Zij helpen je beslissen wat mee gaat en wat weg kan, vaak in een paar sessies. Dit zijn opties in en rond Amsterdam die ik via zoeken vond:\n\n- **Organized by Eva** (Eva Kolk): KonMari-consultant, met begeleiding één-op-één of een online cursus.\n- **Sjaan Pakt Aan**: een \"mastersessie\" van 2,5 uur kost volgens hun site €220 incl. btw (inclusief 20 km reiskosten).\n- **IKorganiseer**: werkt in Amsterdam en Utrecht, ook voor verhuisvoorbereiding.\n- **Ruimtevol**: professional organizer in Amsterdam, ook na een verhuizing of bij het leegruimen van een huis.\n- **OrganizeNow** (Amstelveen): gratis intake.\n- **De Heemsteedse Organizer**, **Tijd Rust en Ruimte**, **Rustig naar Ruimte** en **Sasja Pakt Op** (Jordaan) zijn ook actief in de regio.\n\nIs er veel te verwerken of moet er veel weg? Dan kan een verhuisbedrijf met inpakservice en tijdelijke opslag helpen, bijvoorbeeld **Oomen Verhuizers** of **Amsterdam Verhuisbedrijf**. Grofvuil breng je naar een afvalpunt of meld je aan bij de gemeente, niet naast de containers zetten.\n\nLet op: prijzen en beschikbaarheid kunnen veranderen, en ik vond geen onafhankelijke reviews. Vraag dus een kennismaking of offerte aan en lees reviews voordat je boekt.",
+   "genoemde_aanbieders": [
+    "Organized by Eva",
+    "Sjaan Pakt Aan",
+    "IKorganiseer",
+    "Ruimtevol",
+    "OrganizeNow",
+    "De Heemsteedse Organizer",
+    "Tijd Rust en Ruimte",
+    "Rustig naar Ruimte",
+    "Sasja Pakt Op",
+    "Oomen Verhuizers",
+    "Amsterdam Verhuisbedrijf"
+   ],
+   "bronnen": [
+    "https://organizenow.nl/opruimcoachamsterdam/",
+    "https://organizedbyeva.nl/de-opruimcoach-in-regio-amsterdam/",
+    "https://www.deheemsteedseorganizer.nl/amsterdam",
+    "https://www.sjaanpaktaan.nl/",
+    "https://ikorganiseer.nl/opruimcoach-amsterdam-utrecht/",
+    "https://tijdrustenruimte.nl/",
+    "https://www.ruimtevol.nl/",
+    "https://www.sasjaruimtop.nl/wie-ben-ik",
+    "https://www.rustignaarruimte.nl/",
+    "https://oomen.com/en/moving-company-amsterdam/"
+   ]
+  },
+  {
+   "vraag_nr": 6,
+   "vraag": "Wat kost een professional organizer in Amsterdam en welke aanbieders zijn er?",
+   "run": 1,
+   "antwoord": "Een professional organizer (opruimcoach) in Amsterdam kost meestal ongeveer 55 tot 70 euro per uur, vaak inclusief 21% btw. Dat zijn tarieven die de aanbieders zelf op hun site noemen. Sommige pagina's zijn al oud en niet overal staat of de btw erbij zit, dus vraag het actuele tarief na.\n\nAanbieders die ik vond:\n- Amsterdam Professional Organizer: 70 euro per uur, inclusief btw.\n- Mijn Opruimcoach: 65 euro per uur, inclusief btw.\n- Miek ruimt op: 60 euro per uur inclusief btw, werkgebied Amsterdam en omgeving.\n- Schoomm: 60 euro per uur inclusief btw voor particulieren.\n- Opruimcoach Amsterdam (gevestigd in Edam, werkt ook in Amsterdam): geen vast uurtarief genoemd, wel strippenkaarten. Vier uur kost 240 euro (60 per uur) en acht uur 440 euro (55 per uur).\n- Ook de moeite van het bekijken waard: Meer Balans Opruimcoach, Nienke ruimt op, OLIV Organized Living en de ledenlijst van de beroepsvereniging NBPO. Ik heb van hen de tarieven niet kunnen controleren.\n\nTips: veel coaches rekenen een minimum aantal uren per afspraak, en voorrijkosten kunnen erbij komen. Vraag daarom altijd naar de totale prijs voor jouw situatie. Een kennismakingsgesprek is vaak gratis of goedkoop.",
+   "genoemde_aanbieders": [
+    "Amsterdam Professional Organizer",
+    "Mijn Opruimcoach",
+    "Miek ruimt op",
+    "Schoomm",
+    "Opruimcoach Amsterdam",
+    "Meer Balans Opruimcoach",
+    "Nienke ruimt op",
+    "OLIV Organized Living",
+    "NBPO"
+   ],
+   "bronnen": [
+    "https://www.amsterdamprofessionalorganizer.nl/services-1",
+    "https://www.opruimcoachamsterdam.nl/",
+    "http://www.mijnopruimcoach.nl/hoe/tarieven/",
+    "https://www.meerbalans-opruimcoach.nl/tarieven",
+    "https://miekruimtop.nl/tarief/",
+    "https://schoomm.nl/werkwijze/tarieven/",
+    "https://www.nienkeruimtop.nl/informatie/",
+    "https://nl.trustpilot.com/categories/professional_organizer"
+   ]
+  },
+  {
+   "vraag_nr": 6,
+   "vraag": "Wat kost een professional organizer in Amsterdam en welke aanbieders zijn er?",
+   "run": 2,
+   "antwoord": "Een professional organizer kost in Nederland meestal ongeveer €50 tot €75 per uur voor particulieren (exclusief 21% btw, dus rond €60 tot €91 inclusief). Voor bedrijven ligt het hoger, vaak €75 tot €170 per uur exclusief btw. Ik vond geen aparte Amsterdamse tarieven, dus dit zijn landelijke richtprijzen. Reken op een extra minimumafname per klus.\n\nVoorbeelden van aanbieders en hun tarieven (de meeste zijn niet in Amsterdam gevestigd, maar werken vaak ruimer):\n- Annemieke Belgraver: €59 per uur voor particulieren, €75 voor bedrijven.\n- Bezemer Organizing: €60 per uur, zonder btw (kleineondernemersregeling).\n- Martine Verlaan: €75 per uur inclusief btw.\n- Ruimtevol: €65 per uur voor particulieren en €85 voor zakelijk, beide exclusief btw. Ze werken samen met Kringloop West in Amsterdam.\n- Manita (utime): €100 per uur voor zakelijk organizen.\n- OLIV organized living en homeworktime professional organizing staan op Trustpilot, maar daar vond ik geen prijzen.\n\nTips: de titel is niet beschermd, dus kijk of iemand lid is van de beroepsvereniging NBPO en lees reviews. Vraag naar een gratis kennismaking en een inschatting van het aantal uren, want de totaalprijs hangt af van het aantal ruimtes en de hoeveelheid spullen. Check de actuele prijzen op de sites zelf, want ik kon die niet allemaal controleren.",
+   "genoemde_aanbieders": [
+    "Annemieke Belgraver Professional Organizer",
+    "Bezemer Organizing",
+    "Martine Verlaan Professional Organizer",
+    "Ruimtevol",
+    "Manita (utime)",
+    "OLIV organized living",
+    "homeworktime professional organizing",
+    "NBPO"
+   ],
+   "bronnen": [
+    "https://dehuishoudcoach.nl/professional-organizer-kennisbank/inkomsten-en-uitgaven-van-professional-organizers/wat-zijn-de-tarieven-van-professional-organizers/",
+    "https://www.annemiekebelgraver.nl/praktisch/tarieven",
+    "https://bezemer-organizing.nl/tarieven/",
+    "https://martineverlaan.nl/tarieven/",
+    "https://www.ruimtevol.nl/wat-kost-een-professional-organizer",
+    "https://utime.nl/voor-verwijzers/",
+    "https://nl.trustpilot.com/categories/professional_organizer"
+   ]
+  },
+  {
+   "vraag_nr": 7,
+   "vraag": "Kun je een opruimcoach in Haarlem aanbevelen?",
+   "run": 1,
+   "antwoord": "Ik kan er geen persoonlijk oordeel over geven, want ik vond geen onafhankelijke reviews. Wel zijn er meerdere opruimcoaches (professional organizers) in en rond Haarlem. Dit zijn de aanbieders die ik via zoeken vond, op basis van hun eigen websites:\n\n- Refresh Organizing (Mireille van Mourik): werkt in Haarlem en omgeving en heeft een KIWA-keurmerk. Ze begeleidt ook bij ASS, ADD of ADHD, en dat kan volgens de site vaak via WMO/PGB. Het genoemde uurtarief is gemiddeld 50 tot 70 euro, maar die informatie is ruim een jaar oud.\n- De Heemsteedse Organizer (Birgit): werkt thuis bij mensen in Haarlem en Heemstede. Ze helpt met ontspullen, kasten en zolder inrichten, en een huis voorbereiden op verkoop.\n- Opruimen met Gwen: begint met een intake en maakt een plan op maat. Ze helpt ook bij ontruimen en verhuizen, en regelt desgewenst grofvuil en kringloop.\n- Panoramica Organizing: biedt een gratis kennismakingsgesprek aan, voor thuis en werk.\n- Ruimtevol: helpt in alle ruimtes en begint met een vrijblijvend kennismakingsgesprek.\n- Mijn Huis Op Orde (Irma Spaans): gevestigd aan de Dillestraat in Haarlem.\n- De Opruimcoach Haarlem: een team van organizers, ook voor ontruimingen. Die bron is ongeveer vier jaar oud, dus controleer of ze nog actief zijn.\n\nTips: plan een kennismakingsgesprek met twee of drie van hen en vergelijk tarief, aanpak en klik. Vraag naar referenties of kijk op Google Reviews. Controleer tarieven en beschikbaarheid altijd bij de aanbieder zelf.",
+   "genoemde_aanbieders": [
+    "Refresh Organizing (Mireille van Mourik)",
+    "De Heemsteedse Organizer (Birgit)",
+    "Opruimen met Gwen",
+    "Panoramica Organizing",
+    "Ruimtevol",
+    "Mijn Huis Op Orde (Irma Spaans)",
+    "De Opruimcoach Haarlem"
+   ],
+   "bronnen": [
+    "https://refreshorganizing.nl/",
+    "https://refreshorganizing.nl/faq-refresh-organizing-haarlem/",
+    "https://www.deheemsteedseorganizer.nl/haarlem",
+    "https://opruimenmetgwen.nl/",
+    "https://www.panoramica-organizing.nl/",
+    "https://www.ruimtevol.nl/professional-organizer-haarlem",
+    "https://www.bewusthaarlem.nl/professional/professional-organizer/1774-hulp-nodig-bij-het-organiseren-van-je-spullen-als-professional-organizer-help-ik-je-op-weg",
+    "https://deopruimcoachhaarlem.nl/"
+   ]
+  },
+  {
+   "vraag_nr": 7,
+   "vraag": "Kun je een opruimcoach in Haarlem aanbevelen?",
+   "run": 2,
+   "antwoord": "Ik kan niet met zekerheid één opruimcoach in Haarlem aanbevelen. Mijn zoekopdrachten gaven geen betrouwbare lokale treffers en ik heb geen reviews van een coach in Haarlem gevonden.\n\nDit kwam wel naar boven:\n- Opruimcoach Geske zit in Rotterdam, dus niet in Haarlem. Ze heeft 4,1 op Trustpilot, maar dat zijn maar 5 reviews.\n- Hartzaken Coaching in Haarlem is een algemeen coachbureau (8,3 op 8 reviews) en richt zich niet op opruimen. Het is dus geen opruimcoach.\n- Gort Coaching heeft een pagina over opruimcoaching. Ik weet niet of ze in Haarlem werken, dus dat moet je zelf navragen.\n\nZo vind je er wel een:\n1. Zoek op Google Maps naar \"professional organizer Haarlem\" of \"opruimhulp Haarlem\" en lees de reviews.\n2. Kijk in de ledenlijst van de NBPO, de Nederlandse beroepsvereniging voor professional organizers. Veel organizers werken ook aan huis in de regio, dus Amsterdam en omgeving is ook de moeite waard.\n3. Vraag in een kennismakingsgesprek naar ervaring, tarief per uur en hun aanpak, bijvoorbeeld bij overvolle huizen, verhuizingen of ADHD.\n\nZal ik de zoekopdracht verbreden naar Kennemerland of Amsterdam?",
+   "genoemde_aanbieders": [
+    "Opruimcoach Geske",
+    "Hartzaken Coaching",
+    "Gort Coaching",
+    "NBPO"
+   ],
+   "bronnen": [
+    "https://nl-be.trustpilot.com/review/opruimcoachgeske.nl",
+    "https://trustoo.nl/noord-holland/haarlem/loopbaancoach/hartzaken-coaching-haarlem/",
+    "https://gortcoaching.nl/opruim-coach",
+    "https://nl.trustpilot.com/categories/professional_organizer"
+   ]
+  },
+  {
+   "vraag_nr": 8,
+   "vraag": "Welk bedrijf helpt met het opruimen en organiseren van een kantoor of werkplek in Amsterdam?",
+   "run": 1,
+   "antwoord": "Ik kon via zoeken geen duidelijke, geverifieerde lijst van bedrijven in Amsterdam vinden die zich specifiek op het opruimen en organiseren van kantoren richten. Wel dit:\n\n- **Professional organizer:** zo iemand helpt je kiezen wat je bewaart en wat weg kan, en zet een opbergsysteem op. De beroepsvereniging NBPO (nbpo.nl) heeft een ledenlijst, ook voor Amsterdam. Veel organizers zijn zzp'er. Vraag dus altijd of iemand zakelijke opdrachten (kantoor/werkplek) doet.\n- **Ontruimen van een kantoor:** zoek op \"kantoorontruiming\" of \"bedrijfsontruiming Amsterdam\" en vraag een offerte. Woningontruiming Amsterdam ontruimt woningen. Of ze ook bedrijfspanden doen, staat niet vermeld, dus vraag dat na.\n- **Schoonmaak na afloop:** Schoonpand is een Amsterdams kantoorschoonmaakbedrijf, geschikt voor de eindschoonmaak. Het is geen opruim- of organizebedrijf.\n\nMijn advies: vraag 2 of 3 organizers of ontruimers om een vrijblijvende offerte. Check of ze ervaring met kantoren hebben en of ze afvoer van meubels, IT en vertrouwelijke papieren regelen.\n\nKun je me zeggen of het gaat om organiseren (inrichting en systemen) of om ontruimen? Dan kan ik gerichter zoeken.",
+   "genoemde_aanbieders": [
+    "NBPO (Nederlandse Beroepsvereniging voor Professional Organizers)",
+    "Woningontruiming Amsterdam",
+    "Schoonpand"
+   ],
+   "bronnen": [
+    "https://village.ai/company/nbpo",
+    "https://www.nationaleberoepengids.nl/interview/interview-met-een-professioneel-organizer",
+    "https://fr-be.trustpilot.com/review/woningontruimingamsterdam.net",
+    "https://www.behance.net/schoonpand/info",
+    "https://mtsprout.nl/persbericht/kantoor-opruimen-we-geven-je-een-aantal-handige-tips"
+   ]
+  },
+  {
+   "vraag_nr": 8,
+   "vraag": "Welk bedrijf helpt met het opruimen en organiseren van een kantoor of werkplek in Amsterdam?",
+   "run": 2,
+   "antwoord": "Ik vond geen aanbieder in Amsterdam die zich specifiek op kantoren richt. Wel zijn er twee aanknopingspunten:\n\n- **Haus & Orde**: een Amsterdams bedrijf voor home organisation, decluttering en wardrobe edits. Het richt zich vooral op particulieren en internationale huishoudens. Of het ook werkplekken doet, staat niet in de bron. Op Trustpilot heeft het 4 van 5 sterren, maar dat zijn maar drie beoordelingen.\n- **homeworktime professional organizing** en **OLIV organized living**: Nederlandse professional organizers die op Trustpilot onder \"professional organizer\" staan. Ik kon niet zien waar ze werken. Controleer dus of ze in of rond Amsterdam komen.\n\nMijn advies is om bij deze aanbieders te vragen of ze ervaring hebben met zakelijke kantoren en of ze ter plekke in Amsterdam werken. Zoek daarnaast op Google of Trustpilot op \"kantoor opruimen Amsterdam\" of \"professional organizer zakelijk\". Een artikel van MT Sprout raadt aan om na het opruimen een vast systeem in te richten, bijvoorbeeld met een vaste plek voor post en documenten.",
+   "genoemde_aanbieders": [
+    "Haus & Orde",
+    "homeworktime professional organizing",
+    "OLIV organized living"
+   ],
+   "bronnen": [
+    "https://nl.trustpilot.com/review/www.hausandorde.com",
+    "https://nl.trustpilot.com/categories/professional_organizer",
+    "https://mtsprout.nl/persbericht/kantoor-opruimen-we-geven-je-een-aantal-handige-tips"
+   ]
+  }
+ ]
+}
