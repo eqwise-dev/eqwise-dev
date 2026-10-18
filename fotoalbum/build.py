@@ -88,6 +88,7 @@ class Album:
         self.dpi_min = d.get("dpi_min", 200)
         self.dpi_doel = d.get("dpi_doel", 300)
         self.waarschuwingen = []
+        self.te_verbeteren = {}  # bestand -> laagste dpi over alle plaatsingen
         self.paginas = self._bouw_paginas()
         self.correcties = self._bereken_harmonisatie()
 
@@ -110,7 +111,7 @@ class Album:
         if not instelling["aan"]:
             return {}
         fotos = self.alle_fotos()
-        metingen = {naam: harmonisatie.meet(open_foto(self.fotomap / naam)) for naam in fotos}
+        metingen = {naam: harmonisatie.meet(open_foto(self.bronpad(naam))) for naam in fotos}
         referenties = [naam for naam, foto in fotos.items() if self.is_bewerkt(foto)]
         doel = harmonisatie.bepaal_doel(metingen, referenties)
         correcties = {}
@@ -123,15 +124,20 @@ class Album:
                 self.waarschuwingen.append(f"KLEUR    {naam}: {harmonisatie.omschrijf(corr)}")
         return correcties
 
+    def bronpad(self, naam):
+        """Verbeterde versie uit ON1 (fotos/verbeterd/<naam>.*) gaat voor op het origineel."""
+        verbeterd = sorted((self.fotomap / "verbeterd").glob(Path(naam).stem + ".*"))
+        return verbeterd[0] if verbeterd else self.fotomap / naam
+
     def laad(self, foto):
-        return harmonisatie.pas_toe(open_foto(self.fotomap / foto["bestand"]), self.correcties.get(foto["bestand"]))
+        return harmonisatie.pas_toe(open_foto(self.bronpad(foto["bestand"])), self.correcties.get(foto["bestand"]))
 
     def maak_contactvel(self, pad):
         paren = []
         for naam, corr in self.correcties.items():
             if harmonisatie.omschrijf(corr) == "nauwelijks":
                 continue
-            voor = open_foto(self.fotomap / naam)
+            voor = open_foto(self.bronpad(naam))
             voor.thumbnail((800, 800))
             paren.append((voor, harmonisatie.pas_toe(voor, corr)))
         harmonisatie.contactvel(paren, pad)
@@ -202,6 +208,10 @@ class Album:
                         f"--print-to-pdf={pdf}", bron.as_uri()],
                        check=True, capture_output=True)
         self._controleer_pdf(pdf)
+        # Werklijst voor on1_brug.py: alleen foto's die ergens onder de doelresolutie zitten.
+        (self.uit / "te-verbeteren.json").write_text(json.dumps(
+            [{"bestand": b, "dpi": d, "factor": round(self.dpi_doel / d, 2)} for b, d in sorted(self.te_verbeteren.items())],
+            ensure_ascii=False, indent=2), encoding="utf-8")
         if proef:
             self._maak_proef(doel)
             self.maak_contactvel(doel / "harmonisatie.jpg")
@@ -236,6 +246,8 @@ class Album:
                                        "Kies een kleiner vak of een andere foto.")
         elif dpi < self.dpi_doel * 0.8:
             self.waarschuwingen.append(f"MATIG    {label} haalt {dpi:.0f} dpi; acceptabel, niet ideaal.")
+        if dpi < self.dpi_doel * 0.8:
+            self.te_verbeteren[foto["bestand"]] = min(round(dpi), self.te_verbeteren.get(foto["bestand"], 10_000))
         # Schalen naar doelresolutie voor het vak (cover), nooit opschalen.
         schaal = min(1.0, max(vak_b * self.dpi_doel / img.width, vak_h * self.dpi_doel / img.height))
         if schaal < 1:

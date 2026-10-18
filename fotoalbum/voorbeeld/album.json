@@ -137,5 +137,10 @@
   "harmoniseren": {
     "aan": true,
     "sterkte": 0.6
+  },
+  "on1": {
+    "in": "on1/in",
+    "uit": "on1/uit",
+    "preset": "Album: NoNoise + Resize 2x"
   }
 }
