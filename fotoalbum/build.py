@@ -22,6 +22,7 @@ from pathlib import Path
 from PIL import Image, ImageCms, ImageEnhance, ImageOps
 
 import harmonisatie
+import iconen
 import kaart
 import plaatsen
 
@@ -178,6 +179,8 @@ class Album:
                 "korte_naam": hoofdstuk.get("plek") or info.get("gebied") or info.get("plaats") or "",
                 "park": {"naam": info.get("gebied"), "contour": contour} if contour else None,
                 "periode": hoofdstuk.get("periode") or plaatsen.periode(plaatsen.opnametijd(b) for b in bestanden),
+                "icoon": hoofdstuk.get("icoon") or iconen.kies(hoofdstuk["titel"], hoofdstuk.get("intro"), regel,
+                                                               hoofdstuk.get("thema")),
             })
         return uit
 
@@ -299,13 +302,14 @@ class Album:
         kant = "rechts" if nr % 2 else "links"
         delen = []
         if pagina["type"] == "albumtitel":
-            delen.append(f'<div class="albumtitel"><h1>{html.escape(self.data["titel"])}</h1>'
+            delen.append(f'<div class="albumtitel">{iconen.svg("veer", "icoon titelicoon")}<h1>{html.escape(self.data["titel"])}</h1>'
                          f'<p class="ondertitel">{html.escape(self.data.get("ondertitel", ""))}</p>'
                          f'<p class="maker">{html.escape(self.data.get("maker", ""))}</p></div>')
         elif pagina["type"] == "overzicht":
             svg = self.overzicht_svg()
             if svg:
-                lijst = "".join(f'<li><span>{n + 1:02d}</span>{html.escape(h["titel"])}'
+                lijst = "".join(f'<li><span>{n + 1:02d}</span>{iconen.svg(self.locaties[n]["icoon"], "icoon lijsticoon")}'
+                                f'{html.escape(h["titel"])}'
                                 f'<em>{html.escape(self.locaties[n]["korte_naam"])}</em></li>'
                                 for n, h in enumerate(self.data["hoofdstukken"]))
                 delen.append(f'<div class="overzicht"><p class="kicker">Waar deze foto\'s zijn gemaakt</p>'
@@ -317,7 +321,8 @@ class Album:
             if svg:
                 coord = kaart.coordinaten(*loc["midden"]) if loc["midden"] else ""
                 delen.append(f'<div class="hoofdstukkaart"><div class="grotekaart">{svg}</div>'
-                             f'<p class="plek">{html.escape(loc["plekregel"])}</p><p class="coord">{coord}</p></div>')
+                             f'<p class="plek">{html.escape(loc["plekregel"])}</p>'
+                             f'<p class="coord">{iconen.svg("kompas", "icoon regelicoon")}{coord}</p></div>')
         elif pagina["type"] == "titel":
             h, n = pagina["hoofdstuk"], pagina["h_idx"]
             loc = self.locaties[n]
@@ -326,10 +331,12 @@ class Album:
             klein = "" if vorige.get("type") == "hoofdstukkaart" else self.kaart_svg(n)
             coord = kaart.coordinaten(*loc["midden"]) if loc["midden"] else ""
             meta = " — ".join(x for x in (coord, loc["periode"]) if x)
-            delen.append(f'<div class="opening"><p class="kicker">Hoofdstuk {n + 1:02d}</p>'
+            delen.append(f'<div class="opening">{iconen.svg(loc["icoon"], "icoon openingsicoon")}'
+                         f'<p class="kicker">Hoofdstuk {n + 1:02d}</p>'
                          f'<h2>{html.escape(h["titel"])}</h2><hr>'
                          + (f'<p class="plek">{html.escape(loc["plekregel"])}</p>' if loc["plekregel"] else "")
-                         + (f'<p class="coord">{meta}</p>' if meta else "")
+                         + (f'<p class="coord">{iconen.svg("kompas", "icoon regelicoon") if coord else ""}{meta}</p>'
+                            if meta else "")
                          + f'<p class="intro">{html.escape(h.get("intro", ""))}</p></div>'
                          + (f'<div class="kleinekaart">{klein}</div>' if klein else ""))
         elif pagina["type"] in ("fotos", "panorama"):
@@ -437,10 +444,12 @@ class Album:
             meta = " — ".join(x for x in (coord, loc["periode"]) if x)
             svg = self.kaart_svg(h_idx)
             secties.append(f'<section class="hoofdstuk" id="h{h_idx + 1}"><header class="opening">'
-                           f'<div class="tekst"><p class="nummer">Hoofdstuk {h_idx + 1:02d}</p>'
+                           f'<div class="tekst">{iconen.svg(loc["icoon"], "icoon openingsicoon")}'
+                           f'<p class="nummer">Hoofdstuk {h_idx + 1:02d}</p>'
                            f'<h2>{html.escape(hoofdstuk["titel"])}</h2><hr>'
                            + (f'<p class="plek">{html.escape(loc["plekregel"])}</p>' if loc["plekregel"] else "")
-                           + (f'<p class="coord">{meta}</p>' if meta else "")
+                           + (f'<p class="coord">{iconen.svg("kompas", "icoon regelicoon") if coord else ""}{meta}</p>'
+                              if meta else "")
                            + f'<p class="intro">{html.escape(hoofdstuk.get("intro", ""))}</p></div>'
                            + (f'<div class="kaartje">{svg}</div>' if svg else "")
                            + f'</header>{"".join(figuren)}</section>')
@@ -530,6 +539,11 @@ body {{ -webkit-print-color-adjust: exact; print-color-adjust: exact; }}
 .overzicht ol {{ list-style: none; columns: 2; column-gap: .5in; margin-top: .25in; }}
 .overzicht li {{ font: 400 12pt/1.9 {koppen}; break-inside: avoid; }}
 .overzicht li span {{ font: 600 8pt/1 {schreefloos}; letter-spacing: .15em; color: {accent}; margin-right: .14in; }}
+.icoon {{ display: inline-block; color: {accent}; vertical-align: middle; }}
+.titelicoon {{ width: .55in; height: .55in; margin-bottom: .35in; }}
+.openingsicoon {{ display: block; width: .46in; height: .46in; margin-bottom: .28in; }}
+.regelicoon {{ width: 11pt; height: 11pt; margin: -2pt 5pt 0 0; opacity: .8; }}
+.lijsticoon {{ width: 12pt; height: 12pt; margin: -2pt 7pt 0 0; }}
 .overzicht .bron {{ font: 400 7pt/1 {schreefloos}; opacity: .5; margin-top: .2in; }}
 .overzicht li em {{ opacity: .6; margin-left: .1in; font-size: 10.5pt; }}
 """
@@ -591,6 +605,9 @@ WEB_CSS = """
 .fotoalbum .plek { font-weight: 600; font-size: .72rem; letter-spacing: .22em; text-transform: uppercase; margin: 0; }
 .fotoalbum .coord { font: italic 400 1.05rem/1.5 "Cormorant Garamond", Georgia, serif; color: var(--zacht); margin: .2rem 0 0; }
 .fotoalbum .opening .intro { font: 400 1.2rem/1.6 "Cormorant Garamond", Georgia, serif; color: var(--tekst); }
+.fotoalbum .icoon { display: inline-block; color: var(--accent); vertical-align: middle; }
+.fotoalbum .openingsicoon { display: block; width: 2.25rem; height: 2.25rem; margin-bottom: 1.1rem; }
+.fotoalbum .regelicoon { width: .95rem; height: .95rem; margin: -.15rem .4rem 0 0; opacity: .8; }
 .fotoalbum .kaartje { max-width: 22rem; width: 100%; }
 .fotoalbum .kaart { display: block; width: 100%; height: auto; }
 .fotoalbum .kaartlabel { font-family: Inter, system-ui, sans-serif; text-transform: uppercase; }

@@ -91,7 +91,7 @@ Regels:
 - Zet "focus" zo dat kop en oog binnen beeld blijven bij bijsnijden; bij een panorama nooit kop of oog op het midden (de rug van het boek).
 - Neem soorten met soort_status "ONEENS" niet op in bijschriften als zeker; laat bijschrift en alt leeg, de tekstschrijver vult ze.
 - Totaal 40-80 pagina's, even aantal. Titelpagina, overzichtskaart en hoofdstukkaarten voegt build.py zelf toe.
-- Ontwerp als een prijswinnend natuurfotoboek: veel wit, één sterke foto per spread waar dat kan, rust na drukte, kaartjes als decoratie die vertellen waar je bent. Zet "maker" (naam fotograaf) en per hoofdstuk zo nodig "plek" (bijvoorbeeld de naam van een wildpark als OSM die niet kent), "gps" ([lat, lon] als foto's geen GPS hebben) of "periode".
+- Ontwerp als een prijswinnend natuurfotoboek: veel wit, één sterke foto per spread waar dat kan, rust na drukte, kaartjes als decoratie die vertellen waar je bent. Zet "maker" (naam fotograaf) en per hoofdstuk zo nodig "plek" (bijvoorbeeld de naam van een wildpark als OSM die niet kent), "gps" ([lat, lon] als foto's geen GPS hebben) of "periode". Kies per hoofdstuk "icoon" (kust, duin, water, heide, bos, berg, savanne, ijs, veer of geen) als de automatische keuze op trefwoorden niet past.
 Geef het plan terug: hoofdstukken met thema en moment_ids, in volgorde.`,
   { label: 'art director', schema: PLAN })
 if (!plan) throw new Error('Art director gaf geen plan.')

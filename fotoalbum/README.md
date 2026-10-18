@@ -97,3 +97,14 @@ Of Resize AI in een Folder Action meegaat, hangt af van je ON1-versie; dat test 
 - **Lettertypen:** Cormorant Garamond (SIL Open Font License, zie `fonts/OFL-CormorantGaramond.txt`) voor koppen en tekst, Inter voor kleine labels. Voor het web wordt het lettertype automatisch verkleind tot WOFF2 met alleen de Latijnse tekens (`pip install fonttools brotli`).
 - **Bronvermelding:** "Natural Earth, © OpenStreetMap-bijdragers" staat op de overzichtspagina en onder de webpagina. De ODbL-licentie van OpenStreetMap vraagt dat.
 - **Basiskaart:** Natural Earth 1:50m (`kaartdata/landen.geojson`, publiek domein). Ingezoomd op een klein park is de kustlijn daarvan grof; de parkcontour zelf komt uit OpenStreetMap en is wel precies.
+
+## Lijniconen
+
+Een kleine set dunne lijniconen (`fotoalbum/iconen.py`, vector, in de accentkleur) begeleidt de tekst. Ze worden bewust spaarzaam ingezet:
+
+- **Titelpagina:** een veer boven de titel.
+- **Hoofdstukopening:** één leefgebied-icoon boven "Hoofdstuk 01". Het script kiest dat op trefwoorden in titel, intro en plek: kust, duin, water/riet, heide, bos, berg, savanne/wildpark, sneeuw/ijs, en anders een veer. Overschrijven doe je met `"icoon": "heide"`, uitzetten met `"icoon": "geen"`.
+- **Coördinatenregel:** een klein kompas.
+- **Overzichtspagina:** het leefgebied-icoon naast elk hoofdstuk.
+
+Bij de foto's zelf staan geen iconen, zodat het beeld rustig blijft.
