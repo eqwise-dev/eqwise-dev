@@ -206,8 +206,8 @@ class Album:
         return uit
 
     def credits_plek(self):
-        """'per_foto' (standaard), 'begin' (titelpagina), 'eind' (colofon) of 'begin_en_eind'."""
-        return self.data.get("fotocredits", "per_foto")
+        """'eind' (standaard, alleen in het colofon), 'begin' (titelpagina), 'begin_en_eind' of 'per_foto'."""
+        return self.data.get("fotocredits", "eind")
 
     def credit(self, pagina):
         """'Foto: Anne' voor foto's van een ander dan de maker van het album (de eigen foto's krijgen niets)."""

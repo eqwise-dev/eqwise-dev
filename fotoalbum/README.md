@@ -240,10 +240,10 @@ FOTOSELECTIE_PIPELINE=~/fotoselectie-pipeline python3 fotoalbum/soort_lokaal.py 
 Wat het album ermee doet:
 
 - **Bronvermelding**, in te stellen met `"fotocredits"`:
-  - `"eind"` (aanbevolen): één keer, in het **colofon** op de laatste pagina en onder de webpagina.
+  - `"eind"` (standaard): één keer, in het **colofon** op de laatste pagina en onder de webpagina. Bij de losse foto's staat dan geen naam.
   - `"begin"`: op de titelpagina ("Met foto's van …").
   - `"begin_en_eind"`: allebei.
-  - `"per_foto"`: "Foto: Anne" bij elk bijschrift.
+  - `"per_foto"`: "Foto: Anne" bij elk bijschrift. Alleen als je daar bewust voor kiest.
 
   Het colofon bevat verder de kaartbronnen, de Google-vermelding bij luchtbeelden, het lettertype en het copyright.
 - **Bijna-dubbelen:** maakten twee fotografen hetzelfde moment, dan kiest de art director alleen de beste, ongeacht van wie die is.
