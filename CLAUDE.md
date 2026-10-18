@@ -16,3 +16,4 @@
 - Lees eerst `rapporten/README.md` en begin met een kopie van `rapporten/voorbeeld/audit-opruimbrigade-2026-10-18.html`. Bouw geen eigen opmaak.
 - Gebruik het logo uit `rapporten/logo/`, inline als SVG.
 - Controleer voor oplevering met `rapporten/scripts/rapport-qa.js` en lever HTML en A4-PDF.
+- Loop vóór oplevering de "Lessen uit eerdere rapporten" en "Vaste woorden" in `rapporten/README.md` na. Krijg je feedback van Martin op een rapport, zet de les daar erbij.

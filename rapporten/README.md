@@ -70,10 +70,51 @@ Vervang het door het originele bestand zodra dat er is (staat op de Mac mini).
 - Wat niet gemeten is staat in "Wat niet gemeten kon worden", met de reden. Geen geschatte cijfers.
 - Nieuwe tekst die niet uit de meting komt (knoppen, band, noten) meld je aan Martin bij de oplevering.
 
+## Vaste woorden
+
+| Gebruik | Niet |
+| --- | --- |
+| Van wie is het bedrijf (onderdeel, filter, labels) | Wie is het bedrijf |
+| ... kunnen niet vaststellen van wie het bedrijf is | ... wie het bedrijf is |
+| het EQwise SEO-platform | WebCEO, Ahrefs, Majestic, GTmetrix of een andere leverancier |
+
+## Lessen uit eerdere rapporten
+
+Fouten die Martin eerder moest terugsturen. Loop ze na vóór elke oplevering; de meeste vangt
+`rapport-qa.js` automatisch af.
+
+1. **Altijd wit.** Een donkere modus maakte het begin donker op een apparaat met donkere
+   instelling. Geen `prefers-color-scheme: dark`, wel `color-scheme: light`.
+2. **Blauw spaarzaam.** Precies twee blauwe vlakken: boven de actielijst en de afsluitband.
+3. **Benaming.** "Van wie is het bedrijf", ook in de lopende tekst, niet alleen in kopjes en
+   knoppen. Zoek na een hernoeming in de hele tekst, ook in lagere en hogere hoofdletters.
+4. **Geen leveranciers.** "Ahrefs Brand Radar" en "Majestic" stonden in een eerste versie. In
+   het rapport heet elke bron "het EQwise SEO-platform" of wordt beschreven zonder naam.
+5. **Echt logo.** Geen wazige PNG en geen nagebootst woordmerk in gewone tekst. Inline SVG uit
+   `logo/`.
+6. **Tel uit de data.** Aantallen (acties, hoog/middel/laag) komen uit de lijst zelf, niet uit
+   een losse telling. Een `grep -c` telde eerder ook CSS-regels mee.
+7. **Geen onbewezen zinnen.** Zinnen als "het meeste werk per euro" of "Vertrouwelijk" zonder
+   afspraak horen er niet in. Nieuwe tekst die niet uit de meting komt, noem je bij de oplevering.
+8. **Ontbrekende meting melden, niet invullen.** Is een bron niet bereikbaar (bijvoorbeeld
+   GTmetrix vanuit de cloudomgeving), zeg dat in "Wat niet gemeten kon worden" en aan Martin. Geen
+   geschatte cijfers. Test de bereikbaarheid aan het begin, niet aan het eind.
+9. **CSS die mobiel breekt.** Gebruik een klassenaam maar voor één ding (`.good` botste en gaf
+   horizontale scroll). Grids met `minmax(min(100%, Xpx), 1fr)` en `min-width: 0` op grid-kinderen.
+10. **Print.** Geen CSS-grid in de leeskolom bij print (gaf overlap op een paginaovergang) en
+    geen `break-inside: avoid` op grote vlakken (gaf halflege pagina's).
+11. **Nette HTML.** Eén `<!doctype>`, een echte `<head>` met `lang="nl"`, beschrijving en
+    `noindex`. Geen dubbel geplakt documentskelet.
+
 ## Oplevering
 
 1. Draai `node rapporten/scripts/rapport-qa.js <rapport.html> <uitmap>`. Elke regel moet `ok`
-   zijn op 320, 375, 390, 430, 768, 1024, 1280, 1440 en 1920. Het script draait elke breedte ook
-   met een donkere apparaatinstelling; het rapport moet dan nog steeds wit zijn.
-2. Bekijk de schermafdrukken van 1440 en 390 en de PDF op overlap bij paginaovergangen.
-3. Lever de HTML en de A4-PDF op.
+   zijn: eerst de inhoudscontroles (leveranciers, donkere modus, benaming, blauwe vlakken, logo,
+   tellingen, placeholders), daarna 320, 375, 390, 430, 768, 1024, 1280, 1440 en 1920. Elke breedte
+   draait ook met een donkere apparaatinstelling; het rapport moet dan nog steeds wit zijn.
+2. Bekijk de schermafdrukken van 1440 en 390 en de PDF op overlap bij paginaovergangen. Schakel
+   bij eigen schermafdrukken `scroll-behavior` uit, anders staat de pagina halverwege een scroll.
+3. Lees de lopende tekst één keer helemaal door op de vaste woorden hierboven.
+4. Lever de HTML en de A4-PDF op en noem nieuwe tekst die niet uit de meting komt.
+5. Komt er een nieuwe fout uit Martins feedback, voeg hem toe aan "Lessen" en, als het kan, aan
+   `rapport-qa.js`.

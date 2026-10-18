@@ -22,9 +22,37 @@ const CHROMIUM = process.env.CHROMIUM_PATH || '/opt/pw-browsers/chromium-1194/ch
   fs.mkdirSync(uit, { recursive: true });
   const url = 'file://' + path.resolve(bron);
   const naam = path.basename(bron, '.html');
+  let fouten = 0;
+
+  // Inhoudscontroles: fouten die eerder in een rapport zijn geslopen (zie README, "Lessen").
+  const html = fs.readFileSync(bron, 'utf8');
+  const tekst = html.replace(/<style[\s\S]*?<\/style>|<script[\s\S]*?<\/script>/g, ' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+  const regels = [
+    ['geen leveranciersnaam', !/\b(WebCEO|Ahrefs|Majestic|GTmetrix|Firecrawl|PageSpeed Insights|Semrush|Moz)\b/i.test(tekst)],
+    ['geen donkere modus', !/prefers-color-scheme:\s*dark|data-theme="dark"/.test(html)],
+    ['color-scheme light', /color-scheme:\s*light/.test(html)],
+    ['"Van wie is het bedrijf", niet "Wie is het bedrijf"', !/(^|[^n] )[Ww]ie is het bedrijf/.test(tekst) && !/vaststellen wie het bedrijf/.test(tekst)],
+    ['precies twee blauwe vlakken', (html.match(/class="blauwblok"/g) || []).length === 1 && (html.match(/class="band"/g) || []).length === 1],
+    ['logo is inline SVG, geen PNG', /class="logo"[^>]*>\s*<svg/.test(html) && !/data:image\/png/.test(html)],
+    ['geen open placeholders {{...}}', !/\{\{\w+\}\}/.test(html)],
+    ['één doctype en één <body>', (html.match(/<!doctype/gi) || []).length === 1 && (html.match(/<body/gi) || []).length === 1],
+  ];
+  const acties = (html.match(/<li class="act"/g) || []).length;
+  const teller = html.match(/id="count"[^>]*>(\d+) acties/);
+  regels.push(['actieteller klopt met de lijst', !teller || Number(teller[1]) === acties]);
+  const blok = html.match(/class="verdeling">([\s\S]*?)<\/div>\s*<\/div>/);
+  if (blok) {
+    const cijfers = [...blok[1].matchAll(/class="n">(\d+)/g)].map((m) => Number(m[1]));
+    const echt = ['hoog', 'middel', 'laag'].map((s) => (html.match(new RegExp(`<li class="act" data-sev="${s}"`, 'g')) || []).length);
+    regels.push(['verdeling hoog/middel/laag klopt met de lijst', JSON.stringify(cijfers) === JSON.stringify(echt)]);
+  }
+  for (const [naamRegel, goed] of regels) {
+    if (!goed) fouten++;
+    console.log(`${goed ? 'ok  ' : 'FOUT'} inhoud: ${naamRegel}`);
+  }
+
   const opties = fs.existsSync(CHROMIUM) ? { executablePath: CHROMIUM } : {};
   const browser = await chromium.launch(opties);
-  let fouten = 0;
 
   for (const breedte of BREEDTES) {
     for (const schema of ['light', 'dark']) {
