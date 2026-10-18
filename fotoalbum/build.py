@@ -11,6 +11,7 @@ Foto's staan in de map "fotos" naast album.json (instelbaar met "fotomap").
 """
 
 import argparse
+from datetime import timedelta
 import html
 import io
 import json
@@ -163,15 +164,32 @@ class Album:
         instelling = {"online": True, **self.data.get("plaatsen", {})}
         register = plaatsen.Plaatsen(self.pad.parent / "plaatsen-cache.json", online=instelling["online"])
         uit = []
+        # Camera's zonder GPS: plekken lenen van telefoonfoto's uit dezelfde tijd (map fotos/telefoon/).
+        # Staat de cameraklok niet op lokale tijd (bijv. nog op Nederlandse tijd in Tanzania), zet dan
+        # "camera_tijdverschil_min" (minuten die bij de cameratijd opgeteld moeten worden).
+        telefoon = [(t, g) for t, g in ((plaatsen.opnametijd(p), plaatsen.gps(p))
+                                        for p in sorted((self.fotomap / "telefoon").glob("*"))
+                                        if p.suffix.lower() in (".jpg", ".jpeg", ".heic", ".png")) if t and g]
+        verschil = timedelta(minutes=instelling.get("camera_tijdverschil_min", 0))
         for hoofdstuk in self.data["hoofdstukken"]:
             bestanden = [self.fotomap / f["bestand"] for p in hoofdstuk["paginas"] for f in p["fotos"]]
             punten = [g for g in (plaatsen.gps(b) for b in bestanden) if g]
+            if not punten and telefoon:
+                tijden = [t + verschil for t in (plaatsen.opnametijd(b) for b in bestanden) if t]
+                if tijden:
+                    van, tot = min(tijden) - timedelta(hours=1), max(tijden) + timedelta(hours=1)
+                    punten = [g for t, g in telefoon if van <= t <= tot]
             if hoofdstuk.get("gps"):  # handmatig: [lat, lon]
                 punten = [(hoofdstuk["gps"][1], hoofdstuk["gps"][0])]
             info = register.zoek(*punten[0]) if punten else {}
             contour = register.contour(info.get("gebied_id")) if info.get("gebied_id") else []
+            # Land: OpenStreetMap, anders handmatig, anders de kaart zelf (werkt ook offline).
+            land = info.get("land") or hoofdstuk.get("land") or self.data.get("land")
+            if not land and punten:
+                gevonden, _ = kaart.land_van(*punten[0])
+                land = gevonden["properties"]["naam"] if gevonden else None
             onderdelen = [hoofdstuk.get("plek") or info.get("gebied") or info.get("plaats"),
-                          info.get("regio") if not hoofdstuk.get("plek") else None, info.get("land")]
+                          info.get("regio") if not hoofdstuk.get("plek") else None, land]
             regel = " · ".join(dict.fromkeys(o for o in onderdelen if o))
             uit.append({
                 "punten": punten,

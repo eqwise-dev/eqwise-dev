@@ -133,3 +133,11 @@ Bij de foto's zelf staan geen iconen, zodat het beeld rustig blijft.
 - **Rug:** de titel en je naam als één gedraaide regel.
 
 **De maten zijn een schatting** totdat je de waarden uit Blurbs Specification Calculator invult. De rugdikte hangt af van het aantal pagina's en het papier. Zolang `maat_gecontroleerd` niet `true` is, geeft de build een duidelijke waarschuwing.
+
+## Reizen en safari (bijvoorbeeld Tanzania)
+
+- **Meren op de kaart:** Natural Earth-meren (`kaartdata/meren.geojson`), zodat het Victoria-, Tanganyika- en Malawimeer als water te zien zijn en niet als land.
+- **Parken en leefgebieden** worden herkend voor het icoon: Serengeti, Ngorongoro, Tarangire, Manyara, Ruaha, Nyerere/Selous en Mikumi worden savanne; Kilimanjaro en Meru worden berg; Zanzibar en Pemba worden kust; Natron en Eyasi worden water.
+- **Camera zonder GPS:** zet telefoonfoto's van dezelfde reis in `fotos/telefoon/`. Een hoofdstuk zonder GPS leent dan de locaties van telefoonfoto's die binnen een uur van de eigen opnames zijn gemaakt. Staat de cameraklok niet op lokale tijd, zet dan `"plaatsen": {"camera_tijdverschil_min": 60}` (minuten die bij de cameratijd worden opgeteld; Nederlandse zomertijd naar Tanzania is +60).
+- **Land:** komt uit OpenStreetMap, anders uit `"land"` in `album.json`, en anders uit de kaart zelf.
+- **Soorten:** de selectie-swarm determineert vogels én zoogdieren, met Nederlandse en wetenschappelijke naam. De twee determinaties gelden als eens als een van beide namen overeenkomt.

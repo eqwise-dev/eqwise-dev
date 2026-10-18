@@ -12,12 +12,18 @@ from functools import lru_cache
 from pathlib import Path
 
 LANDEN = Path(__file__).parent / "kaartdata" / "landen.geojson"
+MEREN = Path(__file__).parent / "kaartdata" / "meren.geojson"  # Natural Earth 1:50m, o.a. Victoria- en Tanganyikameer
 _TELLER = itertools.count(1)
 
 
 @lru_cache(maxsize=1)
 def landen():
     return json.loads(LANDEN.read_text(encoding="utf-8"))["features"]
+
+
+@lru_cache(maxsize=1)
+def meren():
+    return json.loads(MEREN.read_text(encoding="utf-8"))["features"] if MEREN.exists() else []
 
 
 def _ringen(geometrie):
@@ -63,6 +69,7 @@ def locator_svg(punten, park=None, breedte=360, hoogte=300, kleuren=None, label=
     nummers: optioneel een label per punt (overzichtskaart met hoofdstuknummers).
     """
     k = {"land": "#e7e1d6", "buren": "#f1ede6", "rand": "#b9ae9c", "park": "#8a9a5b", "punt": "#b4532a",
+         "water": "#dbe3e1",
          "tekst": "#5c564c", **(kleuren or {})}
     if not punten:
         return ""
@@ -119,6 +126,11 @@ def locator_svg(punten, park=None, breedte=360, hoogte=300, kleuren=None, label=
     for land in eigen_landen:
         ringen = [poly[0] for poly in _ringen(land["geometry"]) if zichtbaar(poly[0])]
         lagen.append(f'<path d="{pad(ringen)}" fill="{k["land"]}" stroke="{k["rand"]}" stroke-width=".8"/>')
+    # Meren bovenop de landen: landsgrenzen lopen in Natural Earth dwars door meren heen.
+    for meer in meren():
+        ringen = [poly[0] for poly in _ringen(meer["geometry"]) if zichtbaar(poly[0])]
+        if ringen:
+            lagen.append(f'<path d="{pad(ringen)}" fill="{k["water"]}" stroke="{k["rand"]}" stroke-width=".4"/>')
     if park and park.get("contour"):
         lagen.append(f'<path d="{pad(park["contour"])}" fill="{k["park"]}" fill-opacity=".35" '
                      f'stroke="{k["park"]}" stroke-width="1"/>')

@@ -25,7 +25,13 @@ PADEN = {
 
 # Trefwoorden (in kleine letters) per leefgebied; de eerste treffer wint.
 TREFWOORDEN = [
-    ("savanne", ["savanne", "savanna", "wildpark", "game reserve", "safari", "serengeti", "kruger", "masai", "okavango"]),
+    # Oost-Afrika eerst: parknamen zijn specifieker dan algemene woorden als "meer" of "berg".
+    ("berg", ["kilimanjaro", "meru", "usambara", "uluguru", "udzungwa"]),
+    ("kust", ["zanzibar", "pemba", "mafia", "indische oceaan"]),
+    ("water", ["natron", "eyasi", "victoriameer", "tanganyika", "momella", "rufiji"]),
+    ("savanne", ["savanne", "savanna", "wildpark", "game reserve", "safari", "serengeti", "ngorongoro", "tarangire",
+                 "manyara", "ruaha", "selous", "nyerere", "mikumi", "katavi", "ndutu", "kruger", "masai", "maasai",
+                 "okavango", "mara"]),
     ("berg", ["berg", "gebergte", "alpen", "pyreneeën", "mountain", "hooggebergte", "fjell"]),
     # Niet "ijs": dan wordt elke ijsvogel een sneeuwvlok.
     ("ijs", ["sneeuw", "gletsjer", "arctisch", "poolgebied", "spitsbergen", "svalbard", "toendra"]),

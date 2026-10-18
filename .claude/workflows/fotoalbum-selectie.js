@@ -49,12 +49,13 @@ const CURATIE = {
           keuze_gewijzigd: { type: 'boolean' },
           albumwaardig: { type: 'boolean' },
           kwaliteit: { type: 'integer', minimum: 1, maximum: 5 },
-          soort: { type: 'string', description: 'Nederlandse vogelnaam, of "geen vogel"' },
+          soort: { type: 'string', description: 'Nederlandse naam van de vogel of het andere dier; "geen dier" bij landschap of mensen' },
+          wetenschappelijke_naam: { type: 'string', description: 'Latijnse naam, leeg als onbekend' },
           soort_zekerheid: { type: 'string', enum: ['hoog', 'middel', 'laag'] },
           beschrijving: { type: 'string', description: 'één zin: wat gebeurt er, licht, omgeving' },
           opmerking: { type: 'string', description: 'probleem of reden voor wijziging, leeg als niets' },
         },
-        required: ['id', 'keuze', 'keuze_gewijzigd', 'albumwaardig', 'kwaliteit', 'soort', 'soort_zekerheid', 'beschrijving', 'opmerking'],
+        required: ['id', 'keuze', 'keuze_gewijzigd', 'albumwaardig', 'kwaliteit', 'soort', 'wetenschappelijke_naam', 'soort_zekerheid', 'beschrijving', 'opmerking'],
       },
     },
   },
@@ -71,10 +72,11 @@ const SOORT = {
         properties: {
           id: { type: 'integer' },
           soort: { type: 'string' },
+          wetenschappelijke_naam: { type: 'string' },
           zekerheid: { type: 'string', enum: ['hoog', 'middel', 'laag'] },
           kenmerken: { type: 'string', description: 'zichtbare kenmerken waarop het oordeel rust' },
         },
-        required: ['id', 'soort', 'zekerheid', 'kenmerken'],
+        required: ['id', 'soort', 'wetenschappelijke_naam', 'zekerheid', 'kenmerken'],
       },
     },
   },
@@ -99,14 +101,14 @@ for (let i = 0; i < inv.groepen.length; i += grootte) batches.push(inv.groepen.s
 const resultaten = await pipeline(
   batches,
   (batch, _, n) => agent(
-    `Je bent curator van een fotoalbum met vooral vogelfoto's (veel burst-JPG's).
+    `Je bent curator van een fotoalbum met vooral vogel- en wildfoto's (veel burst-JPG's), bijvoorbeeld van een safari in Oost-Afrika.
 Bekijk met Read elk contactvel hieronder. Links staan alle opnames van één moment met hun scherptescore, groen = automatische keuze; rechts een 100%-uitsnede van de keuze.
 
 Beoordeel per moment:
 - Is de keuze goed? Het OOG van de vogel moet scherp zijn; vogel niet afgesneden (vleugelpunten, staart, poten); geen storende tak voor kop of oog; licht en houding. Scherptescores meten het hele beeld en kunnen misleiden (scherpe takken, onscherpe vogel). Wijzig de keuze als een andere opname duidelijk beter is; geef dan het relatieve bestandspad uit de groep. Kies alleen een tweede opname als die echt iets anders laat zien (andere houding, actie).
 - Bevat de reden "LET OP: ... veel scherper"? Vergelijk de bewerkte versie met het scherpere frame en meld in opmerking wat beter is; wijzig de keuze niet zelf, de fotograaf beslist.
 - albumwaardig: zou een kritische natuurfotograaf deze opname in een groot fotoboek willen? Bijna-dubbelen van een ander moment in deze batch: alleen de beste albumwaardig.
-- soort: Nederlandse naam, met eerlijke zekerheid. Twijfel = middel of laag.
+- soort: Nederlandse naam van de vogel of het zoogdier (ook olifant, leeuw, gnoe), plus de wetenschappelijke naam. Veel Oost-Afrikaanse soorten lijken sterk op elkaar (scharrelaars, glansspreeuwen, wevers, gieren, gazellen): eerlijke zekerheid, twijfel = middel of laag. Let op de regio uit de map- of bestandsnaam en EXIF.
 - beschrijving: één feitelijke zin.
 
 Momenten (id, contactvel, huidige keuze, reden):
@@ -115,10 +117,10 @@ ${batch.map(g => `- ${g.id}: ${g.contactvel} | keuze ${g.keuze.join(', ')} | ${g
   (cur, batch, n) => {
     if (!cur) return null
     // Blinde tweede determinatie: de controleur ziet het eerste oordeel niet.
-    const vogels = cur.momenten.filter(m => m.albumwaardig && m.soort !== 'geen vogel')
+    const vogels = cur.momenten.filter(m => m.albumwaardig && !/^geen /.test(m.soort))
     if (!vogels.length) return { cur, soort: { oordelen: [] } }
     return agent(
-      `Determineer onafhankelijk de vogelsoort op deze foto's. Open elke foto met Read (paden relatief aan ${FOTOMAP}).
+      `Determineer onafhankelijk de diersoort (vogel of zoogdier) op deze foto's, met Nederlandse en wetenschappelijke naam. Houd rekening met de regio waar de foto's zijn gemaakt (bijvoorbeeld Tanzania). Open elke foto met Read (paden relatief aan ${FOTOMAP}).
 Noem de zichtbare kenmerken waarop je oordeel rust (snavel, oogring, vleugelstrepen, poten, verenkleed, formaat t.o.v. omgeving).
 Wees streng: geslacht of familie is beter dan een verkeerde soort; dan zekerheid laag.
 
@@ -134,7 +136,9 @@ for (const r of resultaten.filter(Boolean)) {
   const tweede = new Map((r.soort ? r.soort.oordelen : []).map(o => [o.id, o]))
   for (const m of r.cur.momenten) {
     const o = tweede.get(m.id)
-    const eens = !o || o.soort.toLowerCase() === m.soort.toLowerCase()
+    // Eens als de Nederlandse of de wetenschappelijke naam overeenkomt (Nederlandse namen variëren).
+    const gelijk = (a, b) => a && b && a.trim().toLowerCase() === b.trim().toLowerCase()
+    const eens = !o || gelijk(o.soort, m.soort) || gelijk(o.wetenschappelijke_naam, m.wetenschappelijke_naam)
     momenten.push({
       ...m,
       soort_controle: o ? o.soort : null,
