@@ -214,3 +214,15 @@ voer workflow fotoalbum-bouw uit met album …/album.json, curatie …/uitvoer/s
 
 - **Hoofdstukken:** de art director bouwt ze op de reis in de tijd, per plek, en vult `plek` en `land` per hoofdstuk zelf in. Dat is nodig omdat maar een kwart van de foto's GPS heeft.
 - **Bijschriften:** de tekstschrijvers schrijven in jouw eigen stem uit de stijlgids, zonder iets te verzinnen dat niet op de foto of in de gegevens staat.
+
+### BioCLIP als soortherkenner (aanbevolen)
+
+Voor dieren is **BioCLIP** uit de fotoselectie-pipeline de beste keuze: het gebruikt de regionale checklist (geen Mexicaanse kolibrie in Tanzania), knipt de foto in tegels zodat kleine vogels gevonden worden, en kiest alleen uit dieren. `soort_lokaal.py --bioclip` draait de nieuwste `pijplijn/2_classify-v*.py` op losse foto's:
+
+```bash
+FOTOSELECTIE_PIPELINE=~/fotoselectie-pipeline python3 fotoalbum/soort_lokaal.py herken foto.jpg --bioclip
+```
+
+- **Zekerheid:** volgt de drempels van de pipeline (≥ 0,40 hoog, ≥ 0,30 middel).
+- **BioCLIP vinden:** de Python met BioCLIP staat standaard in `~/bioclip/venv/bin/python`, anders zet je `BIOCLIP_PYTHON`.
+- **In de selectie-swarm:** `lokaal "bioclip"`. Voor foto's die al door de pipeline gingen is dat niet nodig; gebruik dan `importeer_keuzebak.py`.

@@ -1,7 +1,7 @@
 export const meta = {
   name: 'fotoalbum-selectie',
   description: 'Fotoalbum stap 1: bursts groeperen, per moment de beste opname kiezen, curatie en vogelsoort met onafhankelijke controle',
-  whenToUse: 'Start van een nieuw fotoalbum, zodra de foto\'s in fotos/origineel/ en fotos/bewerkt/ staan. Args: {fotomap: "<pad>", lokaal?: true | "mlx" | "mlx:<model>" | "<modelnaam>", regio?: "Tanzania"}',
+  whenToUse: 'Start van een nieuw fotoalbum, zodra de foto\'s in fotos/origineel/ en fotos/bewerkt/ staan. Args: {fotomap: "<pad>", lokaal?: "bioclip" | true | "mlx" | "mlx:<model>" | "<modelnaam>", regio?: "Tanzania"}',
   phases: [
     { title: 'Inventaris', detail: 'selectie.py: bursts, scherpte, contactvellen' },
     { title: 'Curatie', detail: 'per batch momenten beoordelen en soort bepalen' },
@@ -16,8 +16,9 @@ const FOTOMAP = args.fotomap
 // args.lokaal: true (automatische modelkeuze) of een modelnaam; args.regio: bijv. "Tanzania".
 const LOKAAL = args.lokaal || false
 const REGIO = args.regio || ''
+// "bioclip" = BioCLIP uit de fotoselectie-pipeline (aanbevolen voor dieren);
 // "mlx" of "mlx:<model>" = direct via mlx-vlm (qwen_local op de Mac mini); andere tekst = modelnaam op een server.
-const LOKAAL_OPTIE = LOKAAL === true ? '' : String(LOKAAL).startsWith('mlx')
+const LOKAAL_OPTIE = LOKAAL === true ? '' : LOKAAL === 'bioclip' ? '--bioclip ' : String(LOKAAL).startsWith('mlx')
   ? `--mlx ${String(LOKAAL).includes(':') ? `"${String(LOKAAL).slice(4)}" ` : ''}` : `--model "${LOKAAL}" `
 const MAX_BATCHES = 4
 

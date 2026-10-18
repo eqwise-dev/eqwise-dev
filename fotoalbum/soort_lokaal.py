@@ -12,6 +12,12 @@ Zonder --model kiest het script zelf: eerst een model met "qwen" en "vl" in de n
 een ander beeldmodel (llava, gemma3, minicpm-v, pixtral). Uitvoer: JSON per foto met
 soort, wetenschappelijke_naam, zekerheid en kenmerken.
 
+Met BioCLIP uit de fotoselectie-pipeline (aanbevolen voor dieren: regionale checklist,
+tegels voor kleine onderwerpen, EXIF-oriëntatie hersteld):
+  python3 fotoalbum/soort_lokaal.py herken foto.jpg --bioclip [--soorten checklist.csv]
+Zoekt de pipeline in $FOTOSELECTIE_PIPELINE of ~/fotoselectie-pipeline, en de Python met
+BioCLIP in $BIOCLIP_PYTHON of ~/bioclip/venv/bin/python.
+
 Zonder server, direct via MLX (zoals qwen_local/setup.sh op de Mac mini):
   python3 fotoalbum/soort_lokaal.py herken foto.jpg --mlx [modelnaam]
 Dat draait mlx-vlm in de virtualenv van qwen_local (of $QWEN_VENV) en laadt het model één
@@ -21,6 +27,7 @@ beeldinvoer, dan meldt het script dat en kies je een Qwen-VL-model voor MLX.
 
 import argparse
 import base64
+import re
 import subprocess
 import tempfile
 from pathlib import Path
@@ -175,15 +182,70 @@ def herken_mlx(paden, model_id, regio=None):
     return resultaten
 
 
+def _pipeline():
+    for kandidaat in (os.environ.get("FOTOSELECTIE_PIPELINE"), Path.home() / "fotoselectie-pipeline",
+                      Path(__file__).parent.parent.parent / "fotoselectie-pipeline"):
+        if kandidaat and sorted(Path(kandidaat).glob("pijplijn/2_classify-v*.py")):
+            return Path(kandidaat)
+    sys.exit("fotoselectie-pipeline niet gevonden. Zet FOTOSELECTIE_PIPELINE naar de map van de repository.")
+
+
+def herken_bioclip(paden, soorten=None):
+    """Draait stap 2 van de pipeline (BioCLIP) op losse foto's en vertaalt labels.csv."""
+    import csv
+    pijp = _pipeline()
+    # Hoogste versie van het script; versienummers sorteren als getallen, niet als tekst.
+    script = max(pijp.glob("pijplijn/2_classify-v*.py"),
+                 key=lambda p: tuple(int(x) for x in re.findall(r"\d+", p.stem.split("-v")[-1])))
+    python = os.environ.get("BIOCLIP_PYTHON") or str(Path.home() / "bioclip" / "venv" / "bin" / "python")
+    if not Path(python).exists():
+        sys.exit(f"Python met BioCLIP niet gevonden: {python}. Zet BIOCLIP_PYTHON.")
+    soorten = soorten or next(iter(sorted(pijp.glob("data/soorten_*.csv"))), None)
+    with tempfile.TemporaryDirectory() as tmp:
+        keepers, labels = Path(tmp) / "keepers.csv", Path(tmp) / "labels.csv"
+        with open(keepers, "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f)
+            w.writerow(["key"])
+            for p in paden:
+                w.writerow([str(Path(p).resolve())])
+        opdracht = [python, str(script), "--keepers", str(keepers), "--output", str(labels)]
+        if soorten:
+            opdracht += ["--soorten", str(soorten)]
+        proces = subprocess.run(opdracht, capture_output=True, text=True, cwd=script.parent)
+        if not labels.exists():
+            sys.exit(f"BioCLIP faalde:\n{proces.stderr[-1500:]}")
+        rijen = {r["key"]: r for r in csv.DictReader(open(labels, encoding="utf-8"))}
+    uit = []
+    for p in paden:
+        r = rijen.get(str(Path(p).resolve()), {})
+        try:
+            score = float(r.get("soort_score") or 0)
+        except ValueError:
+            score = 0.0
+        # Drempels van de pipeline zelf: >= 0,40 zeker wildlife, >= 0,30 'controleren'.
+        zekerheid = "hoog" if score >= 0.40 else "middel" if score >= 0.30 else "laag"
+        uit.append({"bestand": str(p), "model": f"BioCLIP ({script.name})",
+                    "soort": r.get("nederlands") or r.get("soort_common") or ("geen dier" if r.get("categorie") == "landschap" else "onbekend"),
+                    "wetenschappelijke_naam": r.get("soort", ""), "zekerheid": zekerheid,
+                    "kenmerken": f"score {score:.2f}, categorie {r.get('categorie', '?')}"
+                                 + (f", uitsnede {r['uitsnede']}" if r.get("uitsnede") else "")})
+    return uit
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("actie", choices=["modellen", "herken"])
     parser.add_argument("fotos", nargs="*")
     parser.add_argument("--model")
     parser.add_argument("--regio")
+    parser.add_argument("--bioclip", action="store_true", help="BioCLIP uit de fotoselectie-pipeline")
+    parser.add_argument("--soorten", help="regionale checklist (CSV) voor BioCLIP")
     parser.add_argument("--mlx", nargs="?", const=os.environ.get("LOKAAL_MLX_MODEL", MLX_STANDAARD),
                         help="direct via mlx-vlm, zonder server; optioneel met modelnaam")
     args = parser.parse_args()
+    if args.bioclip and args.actie == "herken":
+        print(json.dumps(herken_bioclip(args.fotos, args.soorten), ensure_ascii=False, indent=2))
+        return
     if args.mlx and args.actie == "herken":
         print(json.dumps(herken_mlx(args.fotos, args.mlx, args.regio), ensure_ascii=False, indent=2))
         return
