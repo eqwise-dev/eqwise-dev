@@ -83,3 +83,17 @@ ON1 Photo RAW heeft geen API of opdrachtregel. De brug loopt via **Folder Action
 3. Laat ON1 open staan tijdens `fotoalbum-bouw`. `on1_brug.py haal` wacht tot 30 minuten en zet de resultaten in `fotos/verbeterd/`. `build.py` gebruikt die automatisch.
 
 Of Resize AI in een Folder Action meegaat, hangt af van je ON1-versie; dat test je met 3 tot 4 foto's.
+
+## Kaartjes, plaatsnamen en typografie
+
+- **GPS uit EXIF:** per hoofdstuk worden de opnamepunten verzameld. Via OpenStreetMap komen daar plaats, provincie, land en het **natuurgebied** bij (nationaal park, beschermd gebied of natuurreservaat), met de contour van het park. Alles wordt bewaard in `plaatsen-cache.json` naast `album.json`, zodat elk punt maar één keer wordt opgevraagd. Zonder GPS of internet zet je per hoofdstuk zelf `"plek"`, `"gps": [lat, lon]` en/of `"periode"`. Met `"plaatsen": {"online": false}` vraagt het script niets op.
+- **Kaarten** zijn vectorgraphics (SVG), dus haarscherp in de PDF. Er zijn drie soorten:
+  - een overzichtskaart met genummerde hoofdstukken (pagina 2);
+  - een grote kaart links naast een hoofdstukopening die anders op een linkerpagina zou vallen;
+  - een klein kaartje op de opening zelf: ingezoomd op het park, met het land als inzetkaartje.
+
+  De randen lopen zacht weg in het papier.
+- **Hoofdstukopening:** een kicker ("Hoofdstuk 02"), de titel in Cormorant Garamond, een dunne lijn, de plek in spatieerde kapitalen, coördinaten en periode cursief, en daaronder de intro.
+- **Lettertypen:** Cormorant Garamond (SIL Open Font License, zie `fonts/OFL-CormorantGaramond.txt`) voor koppen en tekst, Inter voor kleine labels. Voor het web wordt het lettertype automatisch verkleind tot WOFF2 met alleen de Latijnse tekens (`pip install fonttools brotli`).
+- **Bronvermelding:** "Natural Earth, © OpenStreetMap-bijdragers" staat op de overzichtspagina en onder de webpagina. De ODbL-licentie van OpenStreetMap vraagt dat.
+- **Basiskaart:** Natural Earth 1:50m (`kaartdata/landen.geojson`, publiek domein). Ingezoomd op een klein park is de kustlijn daarvan grof; de parkcontour zelf komt uit OpenStreetMap en is wel precies.

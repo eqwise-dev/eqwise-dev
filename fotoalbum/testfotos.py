@@ -23,6 +23,33 @@ FOTOS = {
 }
 
 
+# Testlocaties (lat, lon) en opnamedatum per foto, zodat kaartjes en periodes iets te tonen hebben.
+LOCATIES = {
+    "strand": (53.0731, 4.7442), "duinen": (53.0911, 4.7606), "portret": (53.0611, 4.7310), "panorama": (53.1044, 4.7710),
+    "markt": (51.4988, 3.6110), "haven": (51.5067, 3.6201), "avond": (51.4931, 3.6052), "oud-telefoontje": (51.5000, 3.6000),
+    "reiger": (52.0745, 5.8142), "reiger-donker": (52.0601, 5.8320), "reiger-licht": (52.0912, 5.8011),
+}
+DATUM = {"strand": "2025:07:12", "markt": "2025:08:02", "reiger": "2026:04:18"}
+
+
+def exif_voor(naam):
+    stam = naam.split("/")[-1].rsplit(".", 1)[0]
+    exif = Image.Exif()
+    if stam in LOCATIES:
+        lat, lon = LOCATIES[stam]
+
+        def dms(v):
+            v = abs(v)
+            g, m = int(v), int((v - int(v)) * 60)
+            return (g, m, round(((v - g) * 60 - m) * 60, 2))
+        exif.get_ifd(0x8825).update({1: "N" if lat >= 0 else "S", 2: dms(lat), 3: "E" if lon >= 0 else "W", 4: dms(lon)})
+    groep = next((k for k in DATUM if stam.startswith(k)), None) or \
+        ("strand" if stam in ("duinen", "portret", "panorama") else "markt" if stam in ("haven", "avond", "oud-telefoontje") else None)
+    if groep:
+        exif.get_ifd(0x8769)[0x9003] = DATUM[groep] + " 09:30:00"
+    return exif
+
+
 def main():
     MAP.mkdir(parents=True, exist_ok=True)
     font = ImageFont.truetype("DejaVuSans-Bold.ttf", 160)
@@ -41,7 +68,7 @@ def main():
             teken.ellipse([b * 0.4, h * 0.25, b * 0.6, h * 0.25 + b * 0.2], fill="#ffffffaa", outline="#fff", width=12)
         teken.text((b / 2, h * 0.8), f"{naam}  {b}x{h}", font=font, fill="white", anchor="mm")
         (MAP / naam).parent.mkdir(parents=True, exist_ok=True)
-        img.save(MAP / naam, quality=90)
+        img.save(MAP / naam, quality=90, exif=exif_voor(naam))
     print(f"{len(FOTOS)} testbeelden in {MAP}")
 
 

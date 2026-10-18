@@ -90,7 +90,8 @@ Regels:
 - Layouts: vol, duo, drie, vier, passe-partout, panorama. Vol of panorama alleen voor de sterkste foto's (kwaliteit 4-5) met genoeg pixels: vol vraagt ongeveer 8,5 MP, panorama minstens 6300 px breed. Kleinere of sterk bijgesneden foto's in drie, vier of passe-partout.
 - Zet "focus" zo dat kop en oog binnen beeld blijven bij bijsnijden; bij een panorama nooit kop of oog op het midden (de rug van het boek).
 - Neem soorten met soort_status "ONEENS" niet op in bijschriften als zeker; laat bijschrift en alt leeg, de tekstschrijver vult ze.
-- Totaal 40-80 pagina's, even aantal.
+- Totaal 40-80 pagina's, even aantal. Titelpagina, overzichtskaart en hoofdstukkaarten voegt build.py zelf toe.
+- Ontwerp als een prijswinnend natuurfotoboek: veel wit, één sterke foto per spread waar dat kan, rust na drukte, kaartjes als decoratie die vertellen waar je bent. Zet "maker" (naam fotograaf) en per hoofdstuk zo nodig "plek" (bijvoorbeeld de naam van een wildpark als OSM die niet kent), "gps" ([lat, lon] als foto's geen GPS hebben) of "periode".
 Geef het plan terug: hoofdstukken met thema en moment_ids, in volgorde.`,
   { label: 'art director', schema: PLAN })
 if (!plan) throw new Error('Art director gaf geen plan.')

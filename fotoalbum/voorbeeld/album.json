@@ -1,5 +1,5 @@
 {
-  "titel": "Een zomer aan de kust",
+  "titel": "Kust, dorp en heide",
   "ondertitel": "Voorbeeldalbum met testbeelden: één bron voor het Blurb-boek en de webpagina.",
   "fotomap": "fotos",
   "uitvoermap": "uitvoer",
@@ -142,5 +142,9 @@
     "in": "on1/in",
     "uit": "on1/uit",
     "preset": "Album: NoNoise + Resize 2x"
-  }
+  },
+  "plaatsen": {
+    "online": false
+  },
+  "maker": "Voorbeeld · EQwise"
 }

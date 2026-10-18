@@ -22,6 +22,12 @@ from pathlib import Path
 from PIL import Image, ImageCms, ImageEnhance, ImageOps
 
 import harmonisatie
+import kaart
+import plaatsen
+
+FONTS = Path(__file__).parent / "fonts"
+# OpenStreetMap-gegevens (ODbL) vragen naamsvermelding; Natural Earth is publiek domein.
+KAARTBRON = "Kaartgegevens: Natural Earth, © OpenStreetMap-bijdragers"
 
 CHROME_KANDIDATEN = [
     "/opt/pw-browsers/chromium-1194/chrome-linux/chrome",
@@ -46,9 +52,34 @@ STANDAARD_STIJL = {
     "achtergrond": "#faf8f5",
     "tekst": "#1d1c1a",
     "accent": "#b4532a",
-    "koppen": "Caladea, 'Bitstream Charter', Georgia, serif",
+    "koppen": "'Cormorant Garamond', Caladea, Georgia, serif",
     "schreefloos": "Inter, 'Liberation Sans', sans-serif",
 }
+
+
+def kopieer_fonts(doel, web=False):
+    """Lettertypen naast de HTML zetten; voor het web als lichte WOFF2 met alleen Latijnse tekens."""
+    doel.mkdir(parents=True, exist_ok=True)
+    for bron in FONTS.glob("*.ttf"):
+        if not web:
+            shutil.copy2(bron, doel / bron.name)
+            continue
+        uit = doel / (bron.stem + ".woff2")
+        if uit.exists():
+            continue
+        try:
+            from fontTools import subset
+            opties = subset.Options()
+            opties.flavor = "woff2"
+            opties.layout_features = ["*"]
+            font = subset.load_font(str(bron), opties)
+            sub = subset.Subsetter(opties)
+            sub.populate(unicodes=list(range(0x20, 0x250)) + [0x2013, 0x2014, 0x2018, 0x2019, 0x201C, 0x201D,
+                                                               0x2026, 0x2032, 0x2033, 0x00B7, 0x00B0])
+            sub.subset(font)
+            subset.save_font(font, str(uit), opties)
+        except ImportError:
+            shutil.copy2(bron, doel / bron.name)
 
 
 def vind_chrome():
@@ -89,8 +120,9 @@ class Album:
         self.dpi_doel = d.get("dpi_doel", 300)
         self.waarschuwingen = []
         self.te_verbeteren = {}  # bestand -> laagste dpi over alle plaatsingen
-        self.paginas = self._bouw_paginas()
         self.correcties = self._bereken_harmonisatie()
+        self.locaties = self._bereken_locaties()
+        self.paginas = self._bouw_paginas()
 
     # ---------- foto's laden en in lijn brengen ----------
 
@@ -124,6 +156,46 @@ class Album:
                 self.waarschuwingen.append(f"KLEUR    {naam}: {harmonisatie.omschrijf(corr)}")
         return correcties
 
+    def _bereken_locaties(self):
+        """Per hoofdstuk: GPS-punten, plaats/regio/land/natuurgebied, parkcontour en periode."""
+        instelling = {"online": True, **self.data.get("plaatsen", {})}
+        register = plaatsen.Plaatsen(self.pad.parent / "plaatsen-cache.json", online=instelling["online"])
+        uit = []
+        for hoofdstuk in self.data["hoofdstukken"]:
+            bestanden = [self.fotomap / f["bestand"] for p in hoofdstuk["paginas"] for f in p["fotos"]]
+            punten = [g for g in (plaatsen.gps(b) for b in bestanden) if g]
+            if hoofdstuk.get("gps"):  # handmatig: [lat, lon]
+                punten = [(hoofdstuk["gps"][1], hoofdstuk["gps"][0])]
+            info = register.zoek(*punten[0]) if punten else {}
+            contour = register.contour(info.get("gebied_id")) if info.get("gebied_id") else []
+            onderdelen = [hoofdstuk.get("plek") or info.get("gebied") or info.get("plaats"),
+                          info.get("regio") if not hoofdstuk.get("plek") else None, info.get("land")]
+            regel = " · ".join(dict.fromkeys(o for o in onderdelen if o))
+            uit.append({
+                "punten": punten,
+                "midden": (sum(p[0] for p in punten) / len(punten), sum(p[1] for p in punten) / len(punten)) if punten else None,
+                "plekregel": regel,
+                "korte_naam": hoofdstuk.get("plek") or info.get("gebied") or info.get("plaats") or "",
+                "park": {"naam": info.get("gebied"), "contour": contour} if contour else None,
+                "periode": hoofdstuk.get("periode") or plaatsen.periode(plaatsen.opnametijd(b) for b in bestanden),
+            })
+        return uit
+
+    def kaart_svg(self, h_idx, breedte=360, hoogte=300, label=False):
+        """Klein kaartje zonder label (de plek staat al in de tekst); groot kaartje met label."""
+        loc = self.locaties[h_idx]
+        if not loc["punten"]:
+            return ""
+        return kaart.locator_svg(loc["punten"], park=loc["park"], breedte=breedte, hoogte=hoogte,
+                                 label=html.escape(loc["korte_naam"]) if label and loc["korte_naam"] else None)
+
+    def overzicht_svg(self, breedte=720, hoogte=520):
+        punten = [(l["midden"], n + 1) for n, l in enumerate(self.locaties) if l["midden"]]
+        if not punten:
+            return ""
+        return kaart.locator_svg([p for p, _ in punten], breedte=breedte, hoogte=hoogte,
+                                 nummers=[f"{n}" for _, n in punten])
+
     def bronpad(self, naam):
         """Verbeterde versie uit ON1 (fotos/verbeterd/<naam>.*) gaat voor op het origineel."""
         verbeterd = sorted((self.fotomap / "verbeterd").glob(Path(naam).stem + ".*"))
@@ -145,8 +217,13 @@ class Album:
     # ---------- inhoud naar pagina's ----------
 
     def _bouw_paginas(self):
-        paginas = []
+        # Pagina 1 (rechts): albumtitel. Pagina 2 (links): overzichtskaart of leeg.
+        paginas = [{"type": "albumtitel"}, {"type": "overzicht"}]
         for h_idx, hoofdstuk in enumerate(self.data["hoofdstukken"]):
+            # Een opening staat bij voorkeur rechts. Valt hij links, dan wordt de
+            # linkerpagina een grote kaart van het hoofdstuk: geen lege pagina's.
+            if (len(paginas) + 1) % 2 == 0 and self.locaties[h_idx]["punten"]:
+                paginas.append({"type": "hoofdstukkaart", "h_idx": h_idx})
             paginas.append({"type": "titel", "hoofdstuk": hoofdstuk, "h_idx": h_idx})
             for pagina in hoofdstuk["paginas"]:
                 if pagina["layout"] == "panorama":
@@ -197,8 +274,9 @@ class Album:
         pagina_html = []
         for nr, pagina in enumerate(self.paginas, start=1):
             pagina_html.append(self._print_pagina(nr, pagina, imgmap, helderder))
+        kopieer_fonts(doel / "fonts")
         stijl = {**STANDAARD_STIJL, **self.data.get("stijl", {})}
-        css = PRINT_CSS.format(b=self.pag_b, h=self.pag_h, afloop=self.afloop, veilig=self.afloop + self.veilig, **stijl)
+        css = FONT_CSS.format(ext="ttf", fmt="truetype") + PRINT_CSS.format(b=self.pag_b, h=self.pag_h, afloop=self.afloop, veilig=self.afloop + self.veilig, **stijl)
         bron = doel / "album-print.html"
         bron.write_text(HTML_SKELET.format(titel=html.escape(self.data["titel"]), css=css,
                                            body="\n".join(pagina_html)), encoding="utf-8")
@@ -220,11 +298,40 @@ class Album:
     def _print_pagina(self, nr, pagina, imgmap, helderder):
         kant = "rechts" if nr % 2 else "links"
         delen = []
-        if pagina["type"] == "titel":
-            h = pagina["hoofdstuk"]
-            delen.append(f'<div class="titelblok"><p class="nummer">{pagina["h_idx"] + 1:02d}</p>'
-                         f'<h2>{html.escape(h["titel"])}</h2>'
-                         f'<p class="intro">{html.escape(h.get("intro", ""))}</p></div>')
+        if pagina["type"] == "albumtitel":
+            delen.append(f'<div class="albumtitel"><h1>{html.escape(self.data["titel"])}</h1>'
+                         f'<p class="ondertitel">{html.escape(self.data.get("ondertitel", ""))}</p>'
+                         f'<p class="maker">{html.escape(self.data.get("maker", ""))}</p></div>')
+        elif pagina["type"] == "overzicht":
+            svg = self.overzicht_svg()
+            if svg:
+                lijst = "".join(f'<li><span>{n + 1:02d}</span>{html.escape(h["titel"])}'
+                                f'<em>{html.escape(self.locaties[n]["korte_naam"])}</em></li>'
+                                for n, h in enumerate(self.data["hoofdstukken"]))
+                delen.append(f'<div class="overzicht"><p class="kicker">Waar deze foto\'s zijn gemaakt</p>'
+                             f'<div class="grotekaart">{svg}</div><ol>{lijst}</ol>'
+                             f'<p class="bron">{KAARTBRON}</p></div>')
+        elif pagina["type"] == "hoofdstukkaart":
+            loc = self.locaties[pagina["h_idx"]]
+            svg = self.kaart_svg(pagina["h_idx"], 720, 560, label=True)
+            if svg:
+                coord = kaart.coordinaten(*loc["midden"]) if loc["midden"] else ""
+                delen.append(f'<div class="hoofdstukkaart"><div class="grotekaart">{svg}</div>'
+                             f'<p class="plek">{html.escape(loc["plekregel"])}</p><p class="coord">{coord}</p></div>')
+        elif pagina["type"] == "titel":
+            h, n = pagina["hoofdstuk"], pagina["h_idx"]
+            loc = self.locaties[n]
+            # Staat links al de grote kaart, dan hier geen klein kaartje.
+            vorige = self.paginas[nr - 2] if nr >= 2 else {}
+            klein = "" if vorige.get("type") == "hoofdstukkaart" else self.kaart_svg(n)
+            coord = kaart.coordinaten(*loc["midden"]) if loc["midden"] else ""
+            meta = " — ".join(x for x in (coord, loc["periode"]) if x)
+            delen.append(f'<div class="opening"><p class="kicker">Hoofdstuk {n + 1:02d}</p>'
+                         f'<h2>{html.escape(h["titel"])}</h2><hr>'
+                         + (f'<p class="plek">{html.escape(loc["plekregel"])}</p>' if loc["plekregel"] else "")
+                         + (f'<p class="coord">{meta}</p>' if meta else "")
+                         + f'<p class="intro">{html.escape(h.get("intro", ""))}</p></div>'
+                         + (f'<div class="kleinekaart">{klein}</div>' if klein else ""))
         elif pagina["type"] in ("fotos", "panorama"):
             for (x, y, b, h), foto in self.vakken(pagina):
                 naam = self._print_foto(foto, b, h, imgmap, helderder, nr)
@@ -300,7 +407,8 @@ class Album:
         w = self.data.get("web", {})
         breedtes = w.get("breedtes", [640, 1280, 1920])
         basis_url = w.get("basis_url", "").rstrip("/")
-        secties, schema_fotos = [], []
+        secties, schema_fotos, schema_plaatsen = [], [], []
+        kopieer_fonts(doel / "fonts", web=True)
         for h_idx, hoofdstuk in enumerate(self.data["hoofdstukken"]):
             figuren = []
             for pagina in hoofdstuk["paginas"]:
@@ -324,18 +432,34 @@ class Album:
                 figuren.append(f'<figure class="{vorm}"><div class="beelden">{"".join(items)}</div>'
                                + (f"<figcaption>{html.escape(onderschrift)}</figcaption>" if onderschrift else "")
                                + "</figure>")
-            secties.append(f'<section class="hoofdstuk" id="h{h_idx + 1}"><header><p class="nummer">'
-                           f'{h_idx + 1:02d}</p><h2>{html.escape(hoofdstuk["titel"])}</h2>'
-                           f'<p class="intro">{html.escape(hoofdstuk.get("intro", ""))}</p></header>'
-                           f'{"".join(figuren)}</section>')
+            loc = self.locaties[h_idx]
+            coord = kaart.coordinaten(*loc["midden"]) if loc["midden"] else ""
+            meta = " — ".join(x for x in (coord, loc["periode"]) if x)
+            svg = self.kaart_svg(h_idx)
+            secties.append(f'<section class="hoofdstuk" id="h{h_idx + 1}"><header class="opening">'
+                           f'<div class="tekst"><p class="nummer">Hoofdstuk {h_idx + 1:02d}</p>'
+                           f'<h2>{html.escape(hoofdstuk["titel"])}</h2><hr>'
+                           + (f'<p class="plek">{html.escape(loc["plekregel"])}</p>' if loc["plekregel"] else "")
+                           + (f'<p class="coord">{meta}</p>' if meta else "")
+                           + f'<p class="intro">{html.escape(hoofdstuk.get("intro", ""))}</p></div>'
+                           + (f'<div class="kaartje">{svg}</div>' if svg else "")
+                           + f'</header>{"".join(figuren)}</section>')
+            if loc["midden"]:
+                schema_plaatsen.append({"@type": "Place", "name": loc["korte_naam"] or loc["plekregel"],
+                                        "geo": {"@type": "GeoCoordinates", "latitude": round(loc["midden"][1], 4),
+                                                "longitude": round(loc["midden"][0], 4)}})
         schema = {"@context": "https://schema.org", "@type": "ImageGallery", "name": self.data["titel"],
                   "description": self.data.get("ondertitel", ""), "image": schema_fotos}
+        if schema_plaatsen:
+            schema["contentLocation"] = schema_plaatsen
         inhoud = (f'<article class="fotoalbum"><header class="album-kop"><h1>{html.escape(self.data["titel"])}</h1>'
-                  f'<p>{html.escape(self.data.get("ondertitel", ""))}</p></header>{"".join(secties)}</article>'
+                  f'<p>{html.escape(self.data.get("ondertitel", ""))}</p></header>{"".join(secties)}'
+                  + (f'<footer class="bron">{KAARTBRON}</footer>' if schema_plaatsen else "") + '</article>'
                   f'<script type="application/ld+json">{json.dumps(schema, ensure_ascii=False)}</script>')
         # Los fragment voor plaatsing op de website, plus een volledige preview.
-        (doel / "album-fragment.html").write_text(f"<style>{WEB_CSS}</style>\n{inhoud}", encoding="utf-8")
-        (doel / "index.html").write_text(HTML_SKELET.format(titel=html.escape(self.data["titel"]), css=WEB_CSS,
+        web_css = FONT_CSS.format(ext="woff2", fmt="woff2") + WEB_CSS
+        (doel / "album-fragment.html").write_text(f"<style>{web_css}</style>\n{inhoud}", encoding="utf-8")
+        (doel / "index.html").write_text(HTML_SKELET.format(titel=html.escape(self.data["titel"]), css=web_css,
                                                             body=inhoud), encoding="utf-8")
         return doel / "index.html"
 
@@ -361,6 +485,13 @@ HTML_SKELET = """<!doctype html>
 </body></html>
 """
 
+FONT_CSS = """
+@font-face {{ font-family: "Cormorant Garamond"; src: url("fonts/CormorantGaramond.{ext}") format("{fmt}");
+  font-weight: 300 700; font-style: normal; }}
+@font-face {{ font-family: "Cormorant Garamond"; src: url("fonts/CormorantGaramond-Italic.{ext}") format("{fmt}");
+  font-weight: 300 700; font-style: italic; }}
+"""
+
 PRINT_CSS = """
 @page {{ size: {b}in {h}in; margin: 0; }}
 * {{ box-sizing: border-box; margin: 0; padding: 0; }}
@@ -376,6 +507,31 @@ body {{ -webkit-print-color-adjust: exact; print-color-adjust: exact; }}
 .bijschrift {{ position: absolute; left: {veilig}in; bottom: {veilig}in; max-width: 6in; padding: .08in .14in;
   font: 400 9.5pt/1.4 {schreefloos}; background: rgba(255,255,255,.88); color: #222; }}
 .pagina.links .bijschrift {{ left: auto; right: {veilig}in; }}
+.kicker {{ font: 600 8.5pt/1 {schreefloos}; letter-spacing: .32em; text-transform: uppercase; color: {accent}; }}
+.albumtitel {{ position: absolute; left: calc({veilig}in + 0.6in); right: {veilig}in; top: 38%; }}
+.albumtitel h1 {{ font: 300 66pt/1 {koppen}; letter-spacing: -.01em; }}
+.albumtitel .ondertitel {{ font: italic 400 18pt/1.4 {koppen}; margin-top: .25in; opacity: .8; max-width: 7in; }}
+.albumtitel .maker {{ font: 500 9pt/1 {schreefloos}; letter-spacing: .3em; text-transform: uppercase; margin-top: .6in; opacity: .7; }}
+.opening {{ position: absolute; left: calc({veilig}in + 0.5in); top: calc({veilig}in + 1.1in); width: 6.2in; }}
+.opening .kicker {{ margin-bottom: .32in; }}
+.opening h2 {{ font: 300 50pt/1.02 {koppen}; letter-spacing: -.005em; }}
+.opening hr {{ border: 0; border-top: .6pt solid {accent}; width: .9in; margin: .32in 0 .26in; }}
+.plek {{ font: 600 8.5pt/1.5 {schreefloos}; letter-spacing: .22em; text-transform: uppercase; }}
+.coord {{ font: italic 400 12pt/1.5 {koppen}; opacity: .7; margin-top: .06in; }}
+.opening .intro {{ font: 400 17pt/1.5 {koppen}; margin-top: .36in; max-width: 5.4in; opacity: .9; }}
+.kleinekaart {{ position: absolute; right: calc({veilig}in + 0.3in); bottom: calc({veilig}in + 0.3in); width: 4.4in; }}
+.kaart {{ display: block; width: 100%; height: auto; }}
+.kaartlabel, .kaartnummer {{ font-family: {schreefloos}; text-transform: uppercase; }}
+.hoofdstukkaart, .overzicht {{ position: absolute; inset: calc({veilig}in + 0.4in); display: flex; flex-direction: column;
+  justify-content: center; }}
+.grotekaart {{ width: 100%; }}
+.hoofdstukkaart .plek {{ margin-top: .3in; }}
+.overzicht .kicker {{ margin-bottom: .25in; }}
+.overzicht ol {{ list-style: none; columns: 2; column-gap: .5in; margin-top: .25in; }}
+.overzicht li {{ font: 400 12pt/1.9 {koppen}; break-inside: avoid; }}
+.overzicht li span {{ font: 600 8pt/1 {schreefloos}; letter-spacing: .15em; color: {accent}; margin-right: .14in; }}
+.overzicht .bron {{ font: 400 7pt/1 {schreefloos}; opacity: .5; margin-top: .2in; }}
+.overzicht li em {{ opacity: .6; margin-left: .1in; font-size: 10.5pt; }}
 """
 
 PROEF_HTML = """<!doctype html><html lang="nl"><head><meta charset="utf-8"><style>
@@ -407,12 +563,12 @@ WEB_CSS = """
 @media (prefers-color-scheme: dark) { .fotoalbum { --tekst: #efece6; --zacht: #a9a49a; --accent: #e08a5f; --vlak: #161514; } }
 .fotoalbum * { box-sizing: border-box; }
 .fotoalbum .album-kop { max-width: 72rem; margin: 0 auto; padding: clamp(3rem, 8vw, 7rem) 1rem 2rem; }
-.fotoalbum h1 { font: 400 clamp(2.4rem, 6vw, 4.8rem)/1.02 Caladea, Charter, Georgia, serif; margin: 0; letter-spacing: -.01em; }
+.fotoalbum h1 { font: 300 clamp(2.6rem, 7vw, 5.4rem)/1.0 "Cormorant Garamond", Georgia, serif; margin: 0; letter-spacing: -.01em; }
 .fotoalbum .album-kop p { color: var(--zacht); max-width: 38rem; margin: 1rem 0 0; }
 .fotoalbum .hoofdstuk { max-width: 72rem; margin: 0 auto; padding: 3rem 1rem; }
 .fotoalbum .hoofdstuk header { max-width: 40rem; margin-bottom: 2rem; }
 .fotoalbum .nummer { font-weight: 600; font-size: .8rem; letter-spacing: .2em; color: var(--accent); margin: 0 0 .75rem; }
-.fotoalbum h2 { font: 400 clamp(1.8rem, 4vw, 3rem)/1.08 Caladea, Charter, Georgia, serif; margin: 0; }
+.fotoalbum h2 { font: 300 clamp(2.2rem, 5vw, 3.6rem)/1.02 "Cormorant Garamond", Georgia, serif; margin: 0; }
 .fotoalbum .intro { color: var(--zacht); margin: 1rem 0 0; }
 .fotoalbum figure { margin: 0 0 clamp(1.5rem, 4vw, 3rem); }
 .fotoalbum .beelden { display: grid; gap: .5rem; min-width: 0; }
@@ -428,6 +584,19 @@ WEB_CSS = """
   .fotoalbum .n4 .beelden { grid-template-columns: 1fr 1fr; }
   .fotoalbum .n4 img { aspect-ratio: 13 / 11; }
 }
+.fotoalbum .hoofdstuk header.opening { display: grid; gap: 1.5rem 3rem; align-items: end; max-width: none; }
+.fotoalbum .opening .tekst { max-width: 38rem; }
+.fotoalbum .opening .nummer { letter-spacing: .32em; text-transform: uppercase; font-size: .72rem; }
+.fotoalbum .opening hr { border: 0; border-top: 1px solid var(--accent); width: 4.5rem; margin: 1.4rem 0 1.1rem; }
+.fotoalbum .plek { font-weight: 600; font-size: .72rem; letter-spacing: .22em; text-transform: uppercase; margin: 0; }
+.fotoalbum .coord { font: italic 400 1.05rem/1.5 "Cormorant Garamond", Georgia, serif; color: var(--zacht); margin: .2rem 0 0; }
+.fotoalbum .opening .intro { font: 400 1.2rem/1.6 "Cormorant Garamond", Georgia, serif; color: var(--tekst); }
+.fotoalbum .kaartje { max-width: 22rem; width: 100%; }
+.fotoalbum .kaart { display: block; width: 100%; height: auto; }
+.fotoalbum .kaartlabel { font-family: Inter, system-ui, sans-serif; text-transform: uppercase; }
+@media (min-width: 900px) { .fotoalbum .hoofdstuk header.opening { grid-template-columns: minmax(0, 38rem) 22rem; justify-content: space-between; } }
+@media (prefers-color-scheme: dark) { .fotoalbum .kaart { filter: invert(.88) hue-rotate(180deg); } }
+.fotoalbum .bron { max-width: 72rem; margin: 0 auto; padding: 2rem 1rem 3rem; font-size: .75rem; color: var(--zacht); }
 .fotoalbum figcaption { color: var(--zacht); font-size: .9rem; margin-top: .6rem; max-width: 40rem; }
 """
 
