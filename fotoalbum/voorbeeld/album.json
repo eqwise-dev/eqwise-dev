@@ -1,0 +1,52 @@
+{
+  "titel": "Een zomer aan de kust",
+  "ondertitel": "Voorbeeldalbum met testbeelden: één bron voor het Blurb-boek en de webpagina.",
+  "fotomap": "fotos",
+  "uitvoermap": "uitvoer",
+  "drukker": {
+    "naam": "Blurb Large Landscape 13 x 11 inch (33 x 28 cm), ImageWrap hardcover",
+    "pagina_breedte_in": 13.25,
+    "pagina_hoogte_in": 11.25,
+    "afloop_in": 0.125,
+    "veilige_marge_in": 0.5,
+    "maat_gecontroleerd": false,
+    "min_paginas": 20,
+    "dpi_min": 200,
+    "dpi_doel": 300,
+    "print_helderheid": 1.04
+  },
+  "web": {
+    "basis_url": "https://www.voorbeeld.nl/fotoalbum",
+    "breedtes": [640, 1280, 1920],
+    "kwaliteit": 80
+  },
+  "hoofdstukken": [
+    {
+      "titel": "Aankomst",
+      "intro": "De eerste dagen: zand, wind en het licht van de late middag.",
+      "paginas": [
+        {"layout": "vol", "bijschrift": "Het strand bij laag water.",
+         "fotos": [{"bestand": "strand.jpg", "alt": "Leeg strand bij laag water in de middagzon"}]},
+        {"layout": "duo",
+         "fotos": [{"bestand": "portret.jpg", "alt": "Portret in de duinen", "alleen_print": true},
+                   {"bestand": "duinen.jpg", "alt": "Pad door de duinen", "focus": "30% 50%"}]},
+        {"layout": "panorama", "bijschrift": "Uitzicht over de baai.",
+         "fotos": [{"bestand": "panorama.jpg", "alt": "Panorama over de baai"}]}
+      ]
+    },
+    {
+      "titel": "Het dorp",
+      "intro": "Markt op zaterdag, vissersboten in de haven.",
+      "paginas": [
+        {"layout": "drie", "bijschrift": "Zaterdagmarkt en haven.",
+         "fotos": [{"bestand": "markt.jpg", "alt": "Kramen op de zaterdagmarkt"},
+                   {"bestand": "haven.jpg", "alt": "Vissersboten in de haven"},
+                   {"bestand": "avond.jpg", "alt": "Avondlucht boven het dorp"}]},
+        {"layout": "vol",
+         "fotos": [{"bestand": "oud-telefoontje.jpg", "alt": "Oude foto met lage resolutie"}]},
+        {"layout": "passe-partout", "bijschrift": "De laatste avond.",
+         "fotos": [{"bestand": "avond.jpg", "alt": "Zonsondergang boven zee"}]}
+      ]
+    }
+  ]
+}
