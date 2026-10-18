@@ -17,6 +17,7 @@ volledige stijlsysteem; verander tokens daar en nergens anders.
 | 2 | Kop | EQwise-logo (inline SVG), blauwe knop "Bespreek dit rapport" naar eqwise.nl/contact/ |
 | 3 | Opening | kantlijn: label, auteur, datum, leestijd. Leeskolom: H1 met het domein in blauw, lead van 2 tot 4 zinnen, feitenregel (platform, hosting, wat gecontroleerd is). Rechts: meetkaart met het belangrijkste cijfer en de bron |
 | 4 | Hoofdstukken | elk hoofdstuk is een `section.blok`: kantlijn met blauw streepje, label in hoofdletters en een korte noot; leeskolom met een H2 als vraag ("Hoe staat de site ervoor?") |
+| 4a | Blauw blok | direct boven de actielijst: label "Actielijst in het kort", het aantal acties met het aantal hoog vet, de verdeling hoog/middel/laag in grote cijfers, en één zin waar je begint (uit de volgende stappen) |
 | 5 | Zijkolom | sticky "In dit rapport" met actieve markering, daaronder het telefoonnummer. Verdwijnt onder 1100 px |
 | 6 | Opgesteld door | naam, rol, datum en bronnen van de meting |
 | 7 | Blauwe band | één zin in Poppins met het tweede deel vet, een korte toelichting, witte knop |
@@ -29,6 +30,8 @@ Sterk, Vervolg. Laat een hoofdstuk weg als er niets in staat; verzin geen vullin
 
 - **Figuurvlak** (`.figuur`): lichte achtergrond `--vlak`, radius 16, titel in Poppins 600. Voor
   cijfers, tegels en codeblokken. Een bijschrift zegt wat het cijfer betekent.
+- **Blauw blok** (`.blauwblok`): volle `#3B3DFF`, witte tekst, radius 16, over kantlijn en
+  leeskolom. Alleen boven de actielijst; de cijfers telt het bouwscript uit de acties.
 - **Antwoordblok** (`.antwoord`): blauwe lijn links. Voor "Wat niet gemeten kon worden" en voor
   de kern van een hoofdstuk.
 - **Tegels** (`.tegel`) met badge Goed, Matig of Zwak (`.b-ok`, `.b-mid`, `.b-hi`).
@@ -49,7 +52,8 @@ Kolom 1200 px, kantlijn 168 px, zijkolom 248 px. De printversie zit in de CSS.
 
 **Altijd wit, net als eqwise.nl.** Geen donkere modus: het rapport zet `color-scheme: light`, ook als
 het apparaat van de lezer op donker staat. De achtergrond is wit, met lichte vlakken (`--vlak`) voor
-figuren. Blauw alleen als accent: labels, links, knoppen, de Q-staart en één blauwe afsluitband.
+figuren. Blauw alleen als accent: labels, links, knoppen en de Q-staart, plus precies twee blauwe vlakken:
+het blok boven de actielijst en de afsluitband.
 Geen grote donkere of blauwe vlakken bovenaan.
 
 ## Logo

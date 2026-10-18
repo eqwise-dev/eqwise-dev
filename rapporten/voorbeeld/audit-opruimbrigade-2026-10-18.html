@@ -173,6 +173,17 @@ tr:last-child td { border-bottom: 0; }
 .twee { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: var(--s32); }
 .twee h3 { margin-bottom: var(--s12); }
 
+/* Blauw blok boven de actielijst, zelfde blauw als de band */
+.blauwblok { grid-column: 1 / -1; background: #3B3DFF; color: #fff; border-radius: var(--r16); padding: var(--s48); display: grid; gap: var(--s24); margin-bottom: var(--s64); }
+.blauwblok .label { color: #fff; }
+.blauwblok .groot { font-family: var(--f-kop); font-weight: 500; font-size: var(--t-h2); line-height: 1.2; color: #fff; max-width: 24ch; text-wrap: balance; }
+.blauwblok .groot b { color: #fff; font-weight: 700; }
+.blauwblok p { color: #fff; max-width: 60ch; }
+.verdeling { display: flex; flex-wrap: wrap; gap: var(--s16) var(--s48); padding-top: var(--s24); border-top: 1px solid rgba(255,255,255,.28); }
+.verdeling div { display: grid; gap: 2px; }
+.verdeling .n { font-family: var(--f-kop); font-weight: 700; font-size: var(--t-cijfer); line-height: 1; color: #fff; font-variant-numeric: tabular-nums; }
+.verdeling .l { font-family: var(--f-kop); font-size: var(--t-boven); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #D8E2FF; }
+
 /* Actielijst */
 .chips { display: flex; flex-wrap: wrap; gap: var(--s8); }
 .chips button { font: inherit; font-family: var(--f-kop); font-weight: 500; font-size: var(--t-bijschrift); min-height: 40px; padding: 6px 16px; border-radius: 999px; cursor: pointer; background: var(--grond); color: var(--inkt); border: 1px solid var(--grijsblauw); }
@@ -277,6 +288,7 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; overflow
   .voet .in { grid-template-columns: minmax(0, 1fr); gap: var(--s32); }
   .kop .knop { display: none; }
   .band { margin-top: var(--s64); }
+  .blauwblok { padding: var(--s32) var(--s24); margin-bottom: var(--s32); border-radius: var(--r12); }
   .band .in { padding-block: var(--s48); }
 }
 
@@ -298,7 +310,7 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; overflow
   .stand, .cijfers { break-inside: auto; }
   h2, h3 { break-after: avoid; }
   pre, pre code { max-height: none; overflow: visible; white-space: pre-wrap; overflow-wrap: anywhere; }
-  .band, .voet, .figuur, .badge, .pill, .pos, .tijdlijn li::before, .act::before { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .blauwblok, .band, .voet, .figuur, .badge, .pill, .pos, .tijdlijn li::before, .act::before { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .band { margin-top: 32px; }
   .voet .in { padding-block: 32px 16px; }
   a { text-decoration: none; }
@@ -321,7 +333,7 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; overflow
   <section class="blok opening" aria-labelledby="h-top">
     <div class="rail">
       <div class="label">SEO- en GEO-audit</div>
-      <div class="noot meta-lijst"><span>Door <b>Martin de Smit</b></span><span>18 oktober 2026</span><span>Leestijd 12 minuten</span></div>
+      <div class="noot meta-lijst"><span>Door <b>Martin de Smit</b></span><span>18 oktober 2026</span><span>Leestijd 13 minuten</span></div>
     </div>
     <div class="lees">
       <h1 id="h-top">Audit <span class="accent">opruimbrigade.nl</span></h1>
@@ -433,6 +445,16 @@ pre code { background: none; border: 0; padding: 0; font-size: inherit; overflow
   </section>
 
   <section class="blok" aria-labelledby="h-actions">
+    <div class="blauwblok" aria-label="Actielijst in het kort">
+      <div class="label">Actielijst in het kort</div>
+      <p class="groot">33 acties, <b>15 met prioriteit hoog</b></p>
+      <div class="verdeling">
+        <div><span class="n">15</span><span class="l">hoog</span></div>
+        <div><span class="n">12</span><span class="l">middel</span></div>
+        <div><span class="n">6</span><span class="l">laag</span></div>
+      </div>
+      <p>Begin met de bedrijfsgegevens, het ProfessionalService-schema en de snelheid: dat zijn de eerste twee volgende stappen.</p>
+    </div>
     <div class="rail"><div class="label label-streep">Acties</div><div class="noot desk">Gesorteerd op prioriteit. Filter op onderdeel.</div></div>
     <div class="lees">
       <h2 id="h-actions">Wat moet er gebeuren?</h2>
