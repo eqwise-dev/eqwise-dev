@@ -1,4 +1,4 @@
-<title>Persona-panel kennistoets</title>
+<title>Persona-panel onderzoek</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
@@ -79,6 +79,12 @@ a.tweede{font-family:var(--f-kop);font-weight:600;color:var(--blauw);text-decora
 .eigenaar th{font-family:var(--f-kop);font-weight:600;color:var(--inkt)}
 .tabelvak{overflow-x:auto}
 footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--lijn);font-size:.875rem;color:var(--mut)}
+.privacy{background:var(--vlak);border-radius:16px;padding:20px 24px;display:grid;gap:12px;font-size:.9375rem}
+.privacy p{margin:0}
+.privacy b{color:var(--inkt)}
+.vragen{display:grid;gap:16px}
+.optie.vaste{border-style:dashed}
+.optie input:disabled+span{color:var(--tekst)}
 @media (max-width:480px){.vraag{padding:16px}.schaal{gap:4px}.uitslag{padding:24px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -86,182 +92,215 @@ footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--lijn);font-si
 <div class="wrap">
   <header class="top">
     <a class="logo" href="https://eqwise.nl/" aria-label="EQwise"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 -720 3850 804" role="img" aria-label="EQwise"><g transform="scale(1 -1)" fill="currentColor"><path transform="translate(0 0)" d="M233 565V423H462V291H233V137H492V0H62V702H492V565Z"/><path transform="translate(541 0)" d="M33 353Q33 456 81.5 538.0Q130 620 212.5 666.0Q295 712 394 712Q493 712 575.5 666.0Q658 620 705.5 538.0Q753 456 753 353Q753 250 705.0 167.5Q657 85 575.0 39.0Q493 -7 394 -7Q295 -7 212.5 39.0Q130 85 81.5 167.5Q33 250 33 353ZM579 353Q579 446 528.5 501.5Q478 557 394 557Q309 557 258.5 502.0Q208 447 208 353Q208 260 258.5 204.5Q309 149 394 149Q478 149 528.5 205.0Q579 261 579 353Z"/><path transform="translate(1327 0)" d="M1028 702 845 0H638L526 462L410 0H203L25 702H208L309 191L434 702H622L742 191L844 702Z"/><path transform="translate(2379 0)" d="M233 702V0H62V702Z"/><path transform="translate(2674 0)" d="M42 210H224Q228 171 251.0 150.5Q274 130 311 130Q349 130 371.0 147.5Q393 165 393 196Q393 222 375.5 239.0Q358 256 332.5 267.0Q307 278 260 292Q192 313 149.0 334.0Q106 355 75.0 396.0Q44 437 44 503Q44 601 115.0 656.5Q186 712 300 712Q416 712 487.0 656.5Q558 601 563 502H378Q376 536 353.0 555.5Q330 575 294 575Q263 575 244.0 558.5Q225 542 225 511Q225 477 257.0 458.0Q289 439 357 417Q425 394 467.5 373.0Q510 352 541.0 312.0Q572 272 572 209Q572 149 541.5 100.0Q511 51 453.0 22.0Q395 -7 316 -7Q239 -7 178.0 18.0Q117 43 80.5 92.0Q44 141 42 210Z"/><path transform="translate(3289 0)" d="M233 565V423H462V291H233V137H492V0H62V702H492V565Z"/><rect x="-64.0" y="-150.0" width="128" height="300" rx="10" fill="#3B3DFF" transform="translate(1049.0 123) rotate(40)"/></g></svg></a>
-    <a href="https://eqwise.nl/persona-panel/">Lees over het persona-panel</a>
+    <a href="https://eqwise.nl/contact/">Vragen over dit onderzoek</a>
   </header>
 
   <div class="intro">
-    <div class="boven">Korte enquête · 5 minuten</div>
-    <h1>Wat weet jij van het <span>persona-panel</span>?</h1>
-    <p class="lead">Een persona-panel beoordeelt een pagina, tekst of ontwerp vóórdat die live gaat, door de ogen van jouw klanten. Met deze vragen ontdek je hoe het werkt en of het iets voor jouw bedrijf is. Na het invullen zie je meteen welke antwoorden kloppen, met uitleg.</p>
-    <p class="feiten">17 vragen in drie delen: over jou, een kennistoets van 8 vragen en jouw verwachting. Er zijn geen verplichte persoonsgegevens.</p>
+    <div class="boven">Onderzoek · ongeveer 10 minuten</div>
+    <h1>Onderzoek naar het <span>persona-panel</span></h1>
+    <p class="lead">EQwise wil weten hoe ondernemers en marketeers denken over het toetsen van webpagina's en teksten met een persona-panel. Er zijn geen goede of foute meningen. Alleen in het deel met kennisvragen zijn er juiste antwoorden; die zie je aan het einde, met uitleg.</p>
+    <div class="privacy">
+      <p><b>Over je deelname.</b> Meedoen is vrijwillig en je kunt op elk moment stoppen. Er wordt niet om je naam, e-mailadres of andere persoonsgegevens gevraagd. Je antwoorden worden anoniem verwerkt en alleen gebruikt om te onderzoeken hoe EQwise het persona-panel beter kan uitleggen. Ze worden niet gedeeld met anderen. Uitvoerder: EQwise, Laan van Kronenburg 14, 1183 AS Amstelveen, +31 20 893 20 84.</p>
+      <label class="optie toestemming" for="akkoord"><input type="checkbox" id="akkoord" name="akkoord"><span>Ik heb dit gelezen en doe vrijwillig mee.</span></label>
+    </div>
   </div>
 
-  <div class="voortgang" aria-live="polite"><span id="tel">0 van 17 beantwoord</span><div class="balk" aria-hidden="true"><i id="balk"></i></div></div>
+  <div class="voortgang" aria-live="polite"><span id="tel"></span><div class="balk" aria-hidden="true"><i id="balk"></i></div></div>
 
   <form id="enquete" novalidate>
     <section class="deel" aria-labelledby="d1">
-      <div class="deel-kop"><div class="boven">Deel 1</div><h2 id="d1">Over jou en je bedrijf</h2></div>
-      <div id="deel1"></div>
+      <div class="deel-kop"><div class="boven">Deel 1 van 4</div><h2 id="d1">Over jou en je bedrijf</h2></div>
+      <div class="vragen" id="deel1"></div>
     </section>
     <section class="deel" aria-labelledby="d2">
-      <div class="deel-kop"><div class="boven">Deel 2</div><h2 id="d2">Kennistoets: hoe werkt een persona-panel?</h2><p>Kies per vraag het antwoord dat volgens jou het beste klopt. Weet je het niet, gok dan gerust.</p></div>
-      <div id="deel2"></div>
+      <div class="deel-kop"><div class="boven">Deel 2 van 4</div><h2 id="d2">Wat je al weet</h2></div>
+      <div class="vragen" id="deel2"></div>
     </section>
     <section class="deel" aria-labelledby="d3">
-      <div class="deel-kop"><div class="boven">Deel 3</div><h2 id="d3">Wat zou het jouw bedrijf opleveren?</h2></div>
-      <div id="deel3"></div>
+      <div class="deel-kop"><div class="boven">Deel 3 van 4</div><h2 id="d3">Kennisvragen over het persona-panel</h2><p>Kies per vraag het antwoord dat volgens jou klopt. Weet je het niet, kies dan "Weet ik niet". Dat is net zo bruikbaar als een goed antwoord.</p></div>
+      <div class="vragen" id="deel3"></div>
+    </section>
+    <section class="deel" aria-labelledby="d4">
+      <div class="deel-kop"><div class="boven">Deel 4 van 4</div><h2 id="d4">Jouw mening</h2><p>Een persona-panel is een groep AI-persona's, elk met het vastgelegde profiel van een van je doelgroepen. Het panel beoordeelt een pagina, tekst of ontwerp voordat die live gaat en geeft per persona advies. Jij beslist wat je ermee doet.</p></div>
+      <div class="vragen" id="deel4"></div>
     </section>
     <div class="knoppen">
-      <button type="submit" class="hoofd" id="verstuur">Bekijk mijn uitslag</button>
+      <button type="submit" class="hoofd" id="verstuur">Antwoorden versturen</button>
       <p class="melding" id="melding" hidden></p>
     </div>
   </form>
 
   <div class="uitslag" id="uitslag" hidden tabindex="-1">
-    <div class="boven">Jouw uitslag</div>
+    <div class="boven">Bedankt voor je deelname</div>
     <div class="cijfer" id="score"></div>
     <h2 id="score-kop"></h2>
     <p id="score-tekst"></p>
     <p class="opslag" id="opslag"></p>
     <div class="knoppen">
-      <a class="hoofd" href="https://eqwise.nl/gratis-website-scan/">Laat je website analyseren</a>
-      <a class="tweede" href="https://eqwise.nl/contact/">Bespreek het met EQwise</a>
+      <a class="hoofd" href="https://eqwise.nl/persona-panel/">Lees hoe het persona-panel werkt</a>
+      <a class="tweede" href="https://eqwise.nl/gratis-website-scan/">Laat je website analyseren</a>
     </div>
   </div>
 
   <div class="eigenaar" id="eigenaar" hidden>
     <div class="boven">Alleen zichtbaar voor de eigenaar</div>
-    <h2>Ingevulde enquêtes</h2>
+    <h2>Resultaten tot nu toe</h2>
     <p id="eig-samen" style="margin:0"></p>
     <div class="tabelvak"><table id="eig-tabel"></table></div>
+    <div class="tabelvak"><table id="eig-houding"></table></div>
   </div>
 
-  <footer>EQwise · Laan van Kronenburg 14, 1183 AS Amstelveen · +31 20 893 20 84 · <a href="https://eqwise.nl/" style="color:var(--blauw)">eqwise.nl</a></footer>
+  <footer>Dit onderzoek volgt de gangbare regels voor marktonderzoek: neutrale vragen, vrijwillige en anonieme deelname, en antwoorden die alleen voor dit onderzoek worden gebruikt. · EQwise · <a href="https://eqwise.nl/" style="color:var(--blauw)">eqwise.nl</a></footer>
 </div>
 
 <script>
+// vast: true = optie blijft onderaan staan; alle andere opties van nominale vragen krijgen per respondent een eigen volgorde
+const WN = {t:"Weet ik niet", vast:true};
 const DEEL1 = [
-  {id:"rol", t:"Wat is jouw rol?", type:"keuze", o:["Eigenaar of directeur","Marketing of communicatie","Verkoop","Webbouwer of bureau","Anders"]},
-  {id:"bedrijf", t:"Wat voor bedrijf heb je?", type:"keuze", o:["Zakelijke dienstverlener (advies, juridisch, financieel)","Zorg of welzijn","Webshop","Lokaal bedrijf met klanten in de regio","Zzp'er","Anders"]},
-  {id:"kennis", t:"Werk je al met persona's, dus uitgewerkte beschrijvingen van je typische klanten?", type:"keuze", o:["Ja, en we gebruiken ze bij elke pagina of campagne","Ja, maar ze liggen in een la","Nee, maar ik weet wat het is","Nee, ik hoor het nu voor het eerst"]},
-  {id:"nu", t:"Hoe besluit je nu of een nieuwe pagina of tekst goed genoeg is om live te zetten?", type:"keuze", o:["Op gevoel, ik of mijn team beslist","We vragen een paar klanten of bekenden","We testen achteraf met cijfers (bijvoorbeeld A/B-test)","Het bureau of de webbouwer beslist","Daar hebben we geen vaste werkwijze voor"]}
+  {id:"rol", t:"Wat is je rol in het bedrijf?", type:"keuze", schud:true, o:["Eigenaar of directeur","Marketing of communicatie","Verkoop","Webbouwer of bureau",{t:"Anders",vast:true}]},
+  {id:"bedrijf", t:"In welke sector is je bedrijf vooral actief?", type:"keuze", schud:true, o:["Zakelijke dienstverlening (advies, juridisch, financieel)","Zorg of welzijn","Webwinkel","Lokale dienstverlening of detailhandel","Bouw, techniek of industrie",{t:"Anders",vast:true}]},
+  {id:"grootte", t:"Hoeveel mensen werken er in je bedrijf, jijzelf meegerekend?", type:"keuze", o:["1 (zzp)","2 tot 9","10 tot 49","50 tot 249","250 of meer"]},
+  {id:"belang", t:"Hoe belangrijk of onbelangrijk is je website voor het vinden van nieuwe klanten?", type:"keuze", o:["Zeer onbelangrijk","Onbelangrijk","Niet belangrijk, niet onbelangrijk","Belangrijk","Zeer belangrijk",WN]},
+  {id:"nu", t:"Hoe besluit je meestal of een nieuwe pagina of tekst klaar is om live te zetten?", type:"keuze", schud:true, o:["Ik of mijn team beslist op gevoel","We vragen een paar klanten of bekenden","We testen achteraf met cijfers, bijvoorbeeld een A/B-test","Het bureau of de webbouwer beslist",{t:"Daar is geen vaste werkwijze voor",vast:true},{t:"Anders",vast:true}]},
+  {id:"houding", t:"Welke omschrijving past het best bij hoe je bedrijf omgaat met nieuwe ontwikkelingen in marketing, zoals AI?", type:"keuze", o:["We proberen nieuwe ontwikkelingen meestal als een van de eersten uit","We stappen in zodra anderen er goede ervaringen mee hebben","We wachten tot een ontwikkeling zich ruim heeft bewezen","We laten nieuwe ontwikkelingen bewust links liggen; wat werkt, houden we zo",WN]},
+  {id:"houding_waarom", t:"Je laat nieuwe ontwikkelingen bewust links liggen. Wat zou je moeten zien of meemaken om een nieuwe ontwikkeling toch eens te proberen?", type:"open", alsVraag:"houding", alsWaarde:3, ph:"Bijvoorbeeld: een concurrent die er aantoonbaar klanten mee wint"}
+];
+const DEEL2 = [
+  {id:"bekend", t:"Had je vóór vandaag al gehoord van een persona-panel?", type:"keuze", o:["Ja, en ik weet ongeveer wat het is","Ja, maar ik weet niet goed wat het is","Nee",WN]},
+  {id:"persona", t:"Werkt je bedrijf met persona's, dus uitgewerkte beschrijvingen van je typische klanten?", type:"keuze", o:["Ja, en we gebruiken ze bij pagina's of campagnes","Ja, maar we gebruiken ze weinig","Nee",WN]},
+  {id:"gelezen", t:"Heb je de pagina over het persona-panel op eqwise.nl gelezen?", type:"keuze", o:["Ja, helemaal","Ja, een deel","Nee"]}
 ];
 const TOETS = [
-  {id:"k1", t:"Wat is een persona in het panel?", o:["Een echte klant die tegen betaling meeleest","Een AI-model met een vastgelegd profiel van een doelgroep","Een collega die de rol van klant speelt","Een statistiek uit Google Analytics"], g:1,
+  {id:"k1", t:"Wat is een persona in een persona-panel?", o:["Een echte klant die tegen betaling meeleest","Een AI-model met een vastgelegd profiel van een doelgroep","Een collega die de rol van klant speelt","Een cijfer uit Google Analytics"], g:1,
    u:"Elke persona is een AI-model met een vastgelegd profiel van een echte doelgroep: wensen, vragen en twijfels. Een panel telt meestal vier persona's."},
-  {id:"k2", t:"Wanneer zet je het panel vooral in?", o:["Nadat de pagina een maand live staat","Vóór de lancering, als je nog kunt bijsturen","Alleen bij een volledig nieuwe website","Pas als de bezoekersaantallen dalen"], g:1,
-   u:"Het panel toetst vóór de lancering of een pagina, tekst of ontwerpkeuze werkt. Je ziet dan al welke vragen onbeantwoord blijven, voordat een echte klant afhaakt."},
-  {id:"k3", t:"Waarom is een persona soms strenger dan je eigen team?", o:["Een persona is geprogrammeerd om altijd kritiek te geven","Een persona leest alleen wat er staat en weet niet wat je bedoelt","Een persona kijkt alleen naar de vormgeving","Een persona vergelijkt je met concurrenten"], g:1,
+  {id:"k2", t:"Op welk moment zet je een persona-panel vooral in?", o:["Nadat een pagina een maand live staat","Voor de lancering, als je nog kunt bijsturen","Alleen bij een volledig nieuwe website","Pas als de bezoekersaantallen dalen"], g:1,
+   u:"Het panel toetst voor de lancering of een pagina, tekst of ontwerpkeuze werkt, zodat je kunt bijsturen voordat een echte klant afhaakt."},
+  {id:"k3", t:"Wat doet een persona anders dan iemand uit je eigen team?", o:["Een persona geeft altijd kritiek","Een persona leest alleen wat er staat, zonder voorkennis van je dienst","Een persona kijkt alleen naar de vormgeving","Een persona vergelijkt je met concurrenten"], g:1,
    u:"Je team kent de dienst en leest vanzelf mee. Een persona leest alleen wat er staat en haakt af bij de eerste vraag die onbeantwoord blijft, net als een nieuwe bezoeker."},
-  {id:"k4", t:"Drie persona's vinden een pagina duidelijk, één niet. Wat doet het panel met die stemmen?", o:["Het middelt ze: de pagina scoort ruim voldoende","De meerderheid beslist, dus de pagina is goed","Het middelt niet: die ene afhaker is juist het belangrijkste signaal","De afwijkende stem wordt weggelaten"], g:2,
-   u:"Stemmen worden niet gemiddeld. Een gemiddelde verbergt precies wat je wilt weten: waar één type bezoeker afhaakt."},
-  {id:"k5", t:"Welke variant wint als het panel kiest tussen vier ontwerpen?", o:["De variant met de meeste eerste plaatsen","De variant die bij niemand onderaan eindigt","De variant die de ontwerper het mooist vindt","De variant met de hoogste gemiddelde score"], g:1,
-   u:"Waar één persona afhaakt, weegt zwaarder dan wat twee anderen net iets mooier vinden. Bij een arbeidsrechtkantoor won zo de kleur petrol: die was bij niemand de laatste keuze."},
-  {id:"k6", t:"Waarom krijgt elke persona de varianten in een eigen volgorde te zien?", o:["Zodat de plek van een variant minder meeweegt in het oordeel","Om het proces sneller te maken","Omdat elke persona een ander apparaat gebruikt","Dat is toeval, de volgorde maakt niet uit"], g:0,
+  {id:"k4", t:"Drie persona's vinden een pagina duidelijk, één niet. Wat doet het panel met die oordelen?", o:["Het neemt het gemiddelde","De meerderheid beslist","Het middelt niet: de ene afwijkende persona wordt een belangrijk signaal","Het laat de afwijkende persona weg"], g:2,
+   u:"Oordelen worden niet gemiddeld. Een gemiddelde verbergt waar één type bezoeker afhaakt, en dat is precies wat je wilt weten."},
+  {id:"k5", t:"Welke variant wint als het panel kiest tussen vier ontwerpen?", o:["De variant met de meeste eerste plaatsen","De variant die bij geen enkele persona onderaan eindigt","De variant die de ontwerper kiest","De variant met de hoogste gemiddelde score"], g:1,
+   u:"Waar één persona afhaakt, weegt zwaarder dan wat twee anderen net iets mooier vinden. Bij een arbeidsrechtkantoor werd zo de kleur petrol gekozen: die was bij niemand de laatste keuze."},
+  {id:"k6", t:"Waarom krijgt elke persona de varianten in een eigen volgorde te zien?", o:["Zodat de plek van een variant minder meeweegt in het oordeel","Om het proces te versnellen","Omdat elke persona een ander apparaat gebruikt","De volgorde is toeval en maakt niet uit"], g:0,
    u:"Varianten komen in een wisselende, vastgelegde volgorde. Zo telt de inhoud en niet of een variant toevallig als eerste of laatste voorbijkwam."},
-  {id:"k7", t:"Wat laat je níet aan het panel over, maar meet je?", o:["Of een kop vertrouwen wekt","In welke volgorde informatie op een pagina staat","De laadtijd van een pagina en het contrast van tekst","Welke van twee teksten duidelijker is"], g:2,
+  {id:"k7", t:"Welke van deze punten wordt gemeten in plaats van door het panel beoordeeld?", o:["Of een kop vertrouwen wekt","In welke volgorde informatie op een pagina staat","De laadtijd van een pagina en het contrast van tekst","Welke van twee teksten duidelijker is"], g:2,
    u:"Het panel beoordeelt wat een mening is: begrijpelijkheid, vertrouwen, volgorde en toon. Laadtijd, contrast, knopgrootte op een telefoon en werkende links worden gemeten."},
-  {id:"k8", t:"Vervangt het panel gesprekken met echte klanten?", o:["Ja, daarvoor is het juist bedoeld","Nee, het toetst keuzes die je anders op gevoel maakt en gaat vooraf aan gesprekken en metingen","Ja, maar alleen voor kleine bedrijven","Nee, het panel is alleen voor grote bedrijven met een marketingafdeling"], g:1,
-   u:"Het panel vervangt geen klantonderzoek. Het helpt je betere keuzes te maken vóórdat je echte klanten spreekt en gaat meten. Het panel adviseert, jij beslist."}
+  {id:"k8", t:"Wat is de verhouding tussen een persona-panel en gesprekken met echte klanten?", o:["Het panel vervangt die gesprekken","Het panel gaat vooraf aan gesprekken en metingen, en vervangt ze niet","Het panel is alleen bedoeld voor bedrijven zonder klanten","Het panel en klantgesprekken hebben niets met elkaar te maken"], g:1,
+   u:"Het panel vervangt geen klantonderzoek. Het helpt je keuzes te maken die je anders op gevoel maakt, voordat je klanten spreekt en gaat meten. Het panel adviseert, jij beslist."}
+].map(v=>({...v, type:"toets", schud:true, o:[...v.o, WN]}));
+const DEEL4 = [
+  {id:"nut", t:"Hoe nuttig of onnuttig lijkt een persona-panel je voor de marketing van je bedrijf?", type:"keuze", o:["Zeer onnuttig","Onnuttig","Niet nuttig, niet onnuttig","Nuttig","Zeer nuttig",WN]},
+  {id:"helder", t:"Hoe duidelijk of onduidelijk is het je nu wat een persona-panel voor je bedrijf kan doen?", type:"keuze", o:["Zeer onduidelijk","Onduidelijk","Niet duidelijk, niet onduidelijk","Duidelijk","Zeer duidelijk"]},
+  {id:"inzet", t:"Waarvoor zou je een persona-panel kunnen inzetten? Je kunt meer antwoorden kiezen.", type:"meer", schud:true, o:["Een nieuwe dienstpagina toetsen voordat hij live gaat","Kiezen tussen varianten van een kop, tekst of ontwerp","Bepalen welke vragen een pagina moet beantwoorden","Advertenties en landingspagina's op dezelfde klanten laten aansluiten","Een huisstijl of kleur kiezen",{t:"Waarvoor anders",vast:true},{t:"Ik zie geen toepassing",vast:true,alleen:true}]},
+  {id:"twijfel", t:"Wat is voor jou de grootste twijfel bij een persona-panel?", type:"keuze", schud:true, o:["Of een AI-model echt kan denken als mijn klant","Wat het kost en wat het oplevert","Of het ingewikkeld is om mee te werken","Of mijn eigen team het niet beter weet",{t:"Iets anders",vast:true},{t:"Ik heb geen twijfel",vast:true}]},
+  {id:"kans", t:"Hoe waarschijnlijk of onwaarschijnlijk is het dat je bedrijf in de komende 12 maanden een persona-panel gebruikt?", type:"keuze", o:["Zeer onwaarschijnlijk","Onwaarschijnlijk","Niet waarschijnlijk, niet onwaarschijnlijk","Waarschijnlijk","Zeer waarschijnlijk",WN]},
+  {id:"open", t:"Heb je nog een opmerking of vraag over het persona-panel? (niet verplicht)", type:"open", ph:"Typ hier je opmerking"}
 ];
-const DEEL3 = [
-  {id:"nut", t:"Hoe nuttig lijkt een persona-panel je voor jouw marketing?", type:"schaal", l:["Niet nuttig","Zeer nuttig"]},
-  {id:"helder", t:"Hoe goed begrijp je nu wat een persona-panel voor je bedrijf kan doen?", type:"schaal", l:["Nog onduidelijk","Helemaal helder"]},
-  {id:"inzet", t:"Waarvoor zou je een panel inzetten? Kies alles wat past.", type:"meer", o:["Een nieuwe dienstpagina toetsen vóór hij live gaat","Kies tussen varianten van een kop, tekst of ontwerp","Bepalen welke vragen een pagina moet beantwoorden, en in welke volgorde","Advertenties en landingspagina's op dezelfde klanten laten aansluiten","Een huisstijl of kleur kiezen","Ik zie geen toepassing"]},
-  {id:"twijfel", t:"Wat is je grootste twijfel over een persona-panel?", type:"keuze", o:["Kan een AI-model echt denken als mijn klant?","Ik weet niet wat het kost of oplevert","Het klinkt ingewikkeld","Mijn eigen team weet het beter","Ik heb geen twijfel"]},
-  {id:"open", t:"Wat zou je eerst door een panel laten beoordelen? (mag leeg blijven)", type:"open"}
-];
-const ALLE = [...DEEL1, ...TOETS.map(v=>({...v,type:"toets"})), ...DEEL3];
-const TELBAAR = ALLE.filter(v=>v.type!=="open").length + 1; // open vraag telt mee als hij is ingevuld
+const DELEN = [["deel1",DEEL1],["deel2",DEEL2],["deel3",TOETS],["deel4",DEEL4]];
+const ALLE = DELEN.flatMap(d=>d[1]);
 
-const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const tekst = o => typeof o==="string" ? o : o.t;
+function schud(a){ for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const volgorde = {}; // per vraag de getoonde volgorde (originele indexen), wordt meebewaard
 let nr = 0;
 function bouw(v){
   nr++;
+  let idx = v.o ? v.o.map((_,i)=>i) : [];
+  if (v.schud){ const los = idx.filter(i=>!v.o[i].vast), vast = idx.filter(i=>v.o[i].vast); idx = [...schud(los), ...vast]; }
+  volgorde[v.id] = idx;
   const leg = `<legend><span class="nr">${nr}.</span>${esc(v.t)}</legend>`;
-  let inner = "";
-  if (v.type==="keuze"||v.type==="toets"||v.type==="meer"){
-    const t = v.type==="meer" ? "checkbox" : "radio";
-    inner = `<div class="opties">` + v.o.map((o,i)=>`<label class="optie" id="${v.id}-l${i}"><input type="${t}" name="${v.id}" id="${v.id}-${i}" value="${i}"><span>${esc(o)}</span></label>`).join("") + `</div>`;
-    if (v.type==="toets") inner += `<div class="uitleg" id="${v.id}-uitleg" hidden></div>`;
-  } else if (v.type==="schaal"){
-    inner = `<div class="schaal">` + [1,2,3,4,5].map(n=>`<label for="${v.id}-${n}"><input type="radio" name="${v.id}" id="${v.id}-${n}" value="${n}">${n}</label>`).join("") + `</div><div class="schaal-uiteinden"><span>1 · ${esc(v.l[0])}</span><span>5 · ${esc(v.l[1])}</span></div>`;
+  let inner;
+  if (v.type==="open"){
+    inner = `<textarea id="${v.id}" name="${v.id}" maxlength="600" placeholder="${esc(v.ph||"")}"></textarea>`;
   } else {
-    inner = `<textarea id="${v.id}" name="${v.id}" maxlength="600" placeholder="Bijvoorbeeld de pagina waar de meeste bezoekers afhaken"></textarea>`;
+    const t = v.type==="meer" ? "checkbox" : "radio";
+    inner = `<div class="opties">` + idx.map(i=>`<label class="optie${v.o[i]===WN||v.o[i].vast?" vaste":""}" id="${v.id}-l${i}"><input type="${t}" name="${v.id}" id="${v.id}-${i}" value="${i}"><span>${esc(tekst(v.o[i]))}</span></label>`).join("") + `</div>`;
+    if (v.type==="toets") inner += `<div class="uitleg" id="${v.id}-uitleg" hidden></div>`;
   }
-  return `<div class="vraag"><fieldset>${leg}${inner}</fieldset></div>`;
+  return `<div class="vraag" id="v-${v.id}"${v.alsVraag?" hidden":""}><fieldset>${leg}${inner}</fieldset></div>`;
 }
-document.getElementById("deel1").innerHTML = DEEL1.map(bouw).join("");
-document.getElementById("deel2").innerHTML = TOETS.map(v=>bouw({...v,type:"toets"})).join("");
-document.getElementById("deel3").innerHTML = DEEL3.map(bouw).join("");
-for (const id of ["deel1","deel2","deel3"]) document.getElementById(id).style.cssText="display:grid;gap:16px";
+for (const [el, lijst] of DELEN) document.getElementById(el).innerHTML = lijst.map(bouw).join("");
 
 const form = document.getElementById("enquete");
+const start = Date.now();
 function waarde(v){
   if (v.type==="meer") return [...form.querySelectorAll(`input[name="${v.id}"]:checked`)].map(i=>+i.value);
   if (v.type==="open") return form.querySelector(`#${v.id}`).value.trim();
   const c = form.querySelector(`input[name="${v.id}"]:checked`); return c ? +c.value : null;
 }
-function beantwoord(v){ const w = waarde(v); return Array.isArray(w) ? w.length>0 : (w!==null && w!==""); }
-function voortgang(){
-  const n = ALLE.filter(v=>v.type!=="open").filter(beantwoord).length;
-  const tot = ALLE.filter(v=>v.type!=="open").length;
-  document.getElementById("tel").textContent = `${n} van ${tot} beantwoord`;
-  document.getElementById("balk").style.width = (n/tot*100)+"%";
+const zichtbaar = v => !v.alsVraag || waarde(ALLE.find(x=>x.id===v.alsVraag))===v.alsWaarde;
+const beantwoord = v => { const w = waarde(v); return Array.isArray(w) ? w.length>0 : (w!==null && w!==""); };
+function bij(){
+  for (const v of ALLE) if (v.alsVraag) document.getElementById("v-"+v.id).hidden = !zichtbaar(v);
+  const tel = ALLE.filter(v=>v.type!=="open" && zichtbaar(v));
+  const n = tel.filter(beantwoord).length;
+  document.getElementById("tel").textContent = `${n} van ${tel.length} vragen beantwoord`;
+  document.getElementById("balk").style.width = (n/tel.length*100)+"%";
 }
-form.addEventListener("change", voortgang);
-voortgang();
+form.addEventListener("change", e=>{
+  // "Ik zie geen toepassing" sluit de andere antwoorden uit
+  const v = ALLE.find(x=>x.id===e.target.name);
+  if (v && v.type==="meer" && e.target.checked){
+    const alleen = v.o.findIndex(o=>o.alleen);
+    form.querySelectorAll(`input[name="${v.id}"]`).forEach(i=>{ if (+e.target.value===alleen ? +i.value!==alleen : +i.value===alleen) i.checked=false; });
+  }
+  bij();
+});
+bij();
 
 let ingeleverd = false;
 form.addEventListener("submit", async e=>{
   e.preventDefault();
   if (ingeleverd) return;
-  const missend = TOETS.filter(v=>!beantwoord({...v,type:"toets"}));
   const m = document.getElementById("melding");
-  if (missend.length){
-    m.textContent = `Beantwoord eerst alle ${TOETS.length} vragen van de kennistoets. Er ${missend.length===1?"staat er nog 1":"staan er nog "+missend.length} open.`;
-    m.hidden = false;
-    form.querySelector(`input[name="${missend[0].id}"]`).focus();
-    return;
+  if (!document.getElementById("akkoord").checked){
+    m.textContent = "Geef bovenaan aan dat je vrijwillig meedoet. Daarna kun je je antwoorden versturen.";
+    m.hidden = false; document.getElementById("akkoord").focus(); return;
   }
-  m.hidden = true;
-  ingeleverd = true;
-  let goed = 0;
+  const missend = TOETS.filter(v=>!beantwoord(v));
+  if (missend.length){
+    m.textContent = `Beantwoord eerst alle kennisvragen in deel 3. Er ${missend.length===1?"staat er nog 1":"staan er nog "+missend.length} open. "Weet ik niet" is ook een antwoord.`;
+    m.hidden = false; form.querySelector(`input[name="${missend[0].id}"]`).focus(); return;
+  }
+  m.hidden = true; ingeleverd = true;
+  let goed = 0, weetniet = 0;
   for (const v of TOETS){
-    const w = waarde({...v,type:"toets"});
-    const ok = w===v.g; if (ok) goed++;
+    const w = waarde(v), wn = v.o.length-1;
+    if (w===v.g) goed++; if (w===wn) weetniet++;
     document.getElementById(`${v.id}-l${v.g}`).classList.add("goed");
-    if (!ok) document.getElementById(`${v.id}-l${w}`).classList.add("fout");
+    if (w!==v.g && w!==wn) document.getElementById(`${v.id}-l${w}`).classList.add("fout");
     const u = document.getElementById(`${v.id}-uitleg`);
-    u.innerHTML = `<b>${ok?"Goed.":"Het juiste antwoord: "+esc(v.o[v.g])+"."}</b> ${esc(v.u)}`;
+    u.innerHTML = `<b>${w===v.g?"Goed.":"Het juiste antwoord: "+esc(tekst(v.o[v.g]))+"."}</b> ${esc(v.u)}`;
     u.hidden = false;
   }
   form.querySelectorAll("input,textarea").forEach(i=>i.disabled=true);
+  document.getElementById("akkoord").disabled = true;
   document.getElementById("verstuur").hidden = true;
-  document.getElementById("score").textContent = `${goed} van ${TOETS.length} goed`;
-  const [kop, tekst] = goed>=7
-    ? ["Je weet goed hoe een persona-panel werkt.","Je ziet waarom een panel niet middelt en waarom één afhaker zwaar weegt. De volgende stap is kijken welke pagina's van jouw site als eerste een panel verdienen."]
+  document.getElementById("score").textContent = `${goed} van ${TOETS.length} kennisvragen goed`;
+  const [kop, txt] = goed>=7
+    ? ["Je hebt een goed beeld van hoe een persona-panel werkt.","Bij de kennisvragen hierboven staat per vraag de uitleg."]
     : goed>=4
-    ? ["Je hebt een goed beeld, met een paar verrassingen.","Bekijk de uitleg bij de vragen hierboven. Vooral het idee dat de variant wint die bij niemand onderaan eindigt, maakt het verschil met een gewone enquête of een teamoverleg."]
-    : ["Het persona-panel werkt anders dan je misschien dacht.","Lees de uitleg bij elke vraag hierboven. Kort gezegd: een panel van AI-persona's leest je pagina zoals jouw klanten dat doen, vóórdat hij live gaat, en laat zien waar één type klant afhaakt."];
+    ? ["Je hebt een redelijk beeld, met een paar verrassingen.","Bij de kennisvragen hierboven staat per vraag het juiste antwoord met uitleg."]
+    : ["Het persona-panel werkt misschien anders dan je dacht.","Bij de kennisvragen hierboven staat per vraag het juiste antwoord met uitleg."];
   document.getElementById("score-kop").textContent = kop;
-  document.getElementById("score-tekst").textContent = tekst;
+  document.getElementById("score-tekst").textContent = txt;
   const box = document.getElementById("uitslag"); box.hidden = false; box.focus({preventScroll:true});
   box.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block:"start"});
-  await bewaar(goed);
+  await bewaar(goed, weetniet);
 });
 
-async function bewaar(goed){
+async function bewaar(goed, weetniet){
   const op = document.getElementById("opslag");
   try{
     const db = await claude.use("db"); const user = await claude.use("user");
     const id = user ? await user.id() : null;
-    if (!db || !id){ op.textContent = "Je antwoorden zijn niet opgeslagen. Je uitslag hierboven blijft gewoon zichtbaar."; return; }
-    const ant = {}; for (const v of ALLE) ant[v.id] = waarde(v);
-    await db.doc("antwoorden/"+id).set({score:goed, antwoorden:ant, ingevuld:new Date().toISOString()});
-    op.textContent = "Dank je wel. Je antwoorden zijn anoniem opgeslagen voor EQwise.";
+    if (!db || !id){ op.textContent = "Je antwoorden zijn op dit apparaat niet opgeslagen. Je uitslag blijft hierboven zichtbaar."; return; }
+    const ant = {}; for (const v of ALLE) if (zichtbaar(v)) ant[v.id] = waarde(v);
+    await db.doc("antwoorden/"+id).set({versie:2, score:goed, weetniet, antwoorden:ant, volgorde, duur_sec:Math.round((Date.now()-start)/1000), ingevuld:new Date().toISOString()});
+    op.textContent = "Je antwoorden zijn anoniem opgeslagen. Dank je wel.";
     toonEigenaar();
-  }catch(err){ op.textContent = "Je antwoorden konden niet worden opgeslagen. Je uitslag hierboven blijft gewoon zichtbaar."; }
+  }catch(err){ op.textContent = "Je antwoorden konden niet worden opgeslagen. Je uitslag blijft hierboven zichtbaar."; }
 }
 
 async function toonEigenaar(){
@@ -269,15 +308,18 @@ async function toonEigenaar(){
     const user = await claude.use("user"); if (!user || !(await user.isOwner())) return;
     const db = await claude.use("db"); if (!db) return;
     const snap = await db.collection("antwoorden").get();
-    const rijen = (snap.docs || snap).map(d => typeof d.data === "function" ? d.data() : d.data || d);
-    const doos = document.getElementById("eigenaar"); doos.hidden = false;
-    if (!rijen.length){ document.getElementById("eig-samen").textContent = "Nog geen ingevulde enquêtes. Zodra iemand de toets afrondt, verschijnt die hier."; return; }
-    const gem = rijen.reduce((s,r)=>s+(r.score||0),0)/rijen.length;
-    const nut = rijen.map(r=>r.antwoorden?.nut).filter(Boolean);
-    document.getElementById("eig-samen").textContent = `${rijen.length} ingevuld · gemiddeld ${gem.toFixed(1).replace(".",",")} van 8 goed` + (nut.length?` · nut gemiddeld ${(nut.reduce((a,b)=>a+b,0)/nut.length).toFixed(1).replace(".",",")} van 5`:"");
-    const head = `<tr><th>Vraag</th><th>Goed beantwoord</th></tr>`;
-    const body = TOETS.map(v=>{ const n = rijen.filter(r=>r.antwoorden?.[v.id]===v.g).length; return `<tr><td>${esc(v.t)}</td><td>${n} van ${rijen.length}</td></tr>`; }).join("");
-    document.getElementById("eig-tabel").innerHTML = head + body;
+    const rijen = snap.docs.map(d=>d.data()||{}).filter(r=>r.versie===2);
+    document.getElementById("eigenaar").hidden = false;
+    if (!rijen.length){ document.getElementById("eig-samen").textContent = "Nog geen ingevulde enquêtes. Zodra iemand de enquête verstuurt, verschijnt die hier."; return; }
+    const n = rijen.length, f = x => x.toFixed(1).replace(".",",");
+    const duren = rijen.map(r=>r.duur_sec||0).sort((a,b)=>a-b), med = duren[Math.floor((n-1)/2)];
+    const snel = duren.filter(d=>d<180).length;
+    document.getElementById("eig-samen").textContent = `${n} ingevuld · gemiddeld ${f(rijen.reduce((s,r)=>s+r.score,0)/n)} van 8 goed · mediane invultijd ${Math.round(med/60)} min` + (snel?` · ${snel} invuller${snel>1?"s":""} onder 3 minuten (controleer op haastwerk)`:"");
+    document.getElementById("eig-tabel").innerHTML = `<tr><th>Kennisvraag</th><th>Goed</th><th>Weet ik niet</th></tr>` +
+      TOETS.map(v=>`<tr><td>${esc(v.t)}</td><td>${rijen.filter(r=>r.antwoorden?.[v.id]===v.g).length} van ${n}</td><td>${rijen.filter(r=>r.antwoorden?.[v.id]===v.o.length-1).length}</td></tr>`).join("");
+    const h = DEEL1.find(v=>v.id==="houding");
+    document.getElementById("eig-houding").innerHTML = `<tr><th>${esc(h.t)}</th><th>Aantal</th></tr>` +
+      h.o.map((o,i)=>`<tr><td>${esc(tekst(o))}</td><td>${rijen.filter(r=>r.antwoorden?.houding===i).length}</td></tr>`).join("");
   }catch(e){}
 }
 setTimeout(toonEigenaar, 0);
